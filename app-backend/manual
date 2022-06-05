@@ -1,0 +1,12 @@
+#relate to php.ini
+
+var_dump(php_ini_loaded_file());
+/*ini_set('memory_limit', '4G');
+ini_set('post_max_size', '500M');
+ini_set('upload_max_filesize', '2048M');
+ini_set('max_input_time', 36000); // 10 hours
+set_time_limit(36000);*/
+
+//echo phpinfo();
+/*echo ini_get('post_max_size');
+die;*/

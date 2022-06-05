@@ -1,0 +1,8 @@
+.docker/mysql/db-data
+tests
+temp
+.env.example
+docker-command
+manual
+docker-compose.yml
+Dockerfile
