@@ -1,0 +1,235 @@
+@font-face {
+    font-family: 'Nazanin';
+    src: local('B Nazanin'),
+    local('BNazanin'),
+    url('fonts/BNazanin.woff2') format('woff2'),
+    url('fonts/BNazanin.woff') format('woff'),
+    url('fonts/BNazanin.ttf') format('truetype');
+    font-weight: 400;
+    font-stretch: normal;
+    /*fonts-style: normal;*/
+}
+
+@font-face {
+    font-family: 'BNazanin';
+    src: local('B Nazanin Bold'),
+    local('BNazanin-Bold'),
+    url('fonts/BNaznnBd.woff2') format('woff2'),
+    url('fonts/BNaznnBd.woff') format('woff'),
+    url('fonts/BNaznnBd.ttf') format('truetype');
+    font-weight: 700;
+    font-stretch: normal;
+    /*fonts-style: normal;*/
+}
+
+@font-face {
+    font-family: 'RTNassim';
+    src: url('fonts/RTNassim.eot');
+    src: url('fonts/RTNassim.eot?#') format('eot'),
+    url('fonts/RTNassim.woff') format('woff'),
+    url('fonts/RTNassim.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'nassim-bold';
+    src: url('fonts/nassim-bold.eot');
+    src: url('fonts/nassim-bold.eot?#') format('eot'),
+    url('fonts/nassim-bold.woff') format('woff'),
+    url('fonts/nassim-bold.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'shabnam-bold';
+    src: url('fonts/Shabnam-Bold-FD.eot');
+    src: url('fonts/Shabnam-Bold-FD.eot?#iefix') format('Shabnam-Bold-FD-opentype'),
+    url('fonts/Shabnam-Bold-FD.woff') format('woff'),
+    url('fonts/Shabnam-Bold-FD.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'shabnam-regular';
+    src: url('fonts/Shabnam-FD.eot');
+    src: url('fonts/Shabnam-FD.eot?#iefix') format('Shabnam-FD-opentype'),
+    url('fonts/Shabnam-FD.woff') format('woff'),
+    url('fonts/Shabnam-FD.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'shabnam-light';
+    src: url('fonts/Shabnam-Light-FD.eot');
+    src: url('fonts/Shabnam-Light-FD.eot?#iefix') format('Shabnam-Light-FD-opentype'),
+    url('fonts/Shabnam-Light-FD.woff') format('woff'),
+    url('fonts/Shabnam-Light-FD.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'parastoo-bold';
+    src: url('fonts/Parastoo-Bold-FD.eot');
+    src: url('fonts/Parastoo-Bold-FD.eot?#iefix') format('Parastoo-Bold-FD-opentype'),
+    url('fonts/Parastoo-Bold-FD.woff') format('woff'),
+    url('fonts/Parastoo-Bold-FD.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'parastoo-regular';
+    src: url('fonts/Parastoo-FD.eot');
+    src: url('fonts/Parastoo-FD.eot?#iefix') format('Parastoo-FD-opentype'),
+    url('fonts/Parastoo-FD.woff') format('woff'),
+    url('fonts/Parastoo-FD.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+h1, h2, h3, h4, h5, h6, ul {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.c-link:hover {
+    color: #fd7e14 !important;
+}
+
+body {
+    font-family: shabnam-regular, serif;
+    background-color: #cccccc3b;
+}
+
+.App {
+    text-align: center;
+}
+
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+.App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+.common-header {
+    padding: 5px 10px 8px 0;
+    margin: 0 0 15px 0;
+    border-right: 5px solid rgb(33, 37, 41);
+    border-bottom: 2px solid #0a58ca;
+    border-radius: 0 13px 0 0;
+    font-family: shabnam-bold, serif;
+}
+
+.input-required {
+    border-right: 2px solid #bb2d3b;
+}
+
+.input-required-ltr {
+    border-left: 2px solid #bb2d3b;
+}
+
+.input-invalidate {
+    box-shadow: 1px 1px 7px #bb2d3b;
+}
+
+.form-label {
+    font-family: shabnam-regular, serif;
+}
+
+.btn {
+    font-family: shabnam-regular, serif;
+}
+
+.hidden {
+    display: none;
+}
+
+.trd-2s {
+    transition-duration: 2s;
+    animation-duration: 2s;
+}
+
+.admin-form-header {
+    font-family: shabnam-bold, serif;
+    padding: 5px 15px;
+    border: 0 double #0a58ca;
+    margin-bottom: 15px;
+    border-top-width: 2px;
+    border-bottom-width: 2px;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.admin-form-header::before,
+.admin-form-header::after {
+    content: '';
+    width: 20px;
+    height: 20px;
+    display: block;
+    position: absolute;
+    border: 1px double #0a58ca;
+    border-radius: 50%;
+    box-shadow: -1px 0 24px #0a58ca;
+}
+
+.admin-form-header::before {
+    top: -8px;
+    right: 5px;
+}
+
+.admin-form-header::after {
+    top: 26px;
+    right: 22px;
+}
+
+.form-select {
+    padding: 0.375rem 2.25rem 0.375rem 0.75rem;
+}
+
+.breadcrumb-item + .breadcrumb-item {
+    padding-left: 0;
+    padding-right: .5rem;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    float: right;
+    padding-right: 0;
+    padding-left: .5rem;
+}

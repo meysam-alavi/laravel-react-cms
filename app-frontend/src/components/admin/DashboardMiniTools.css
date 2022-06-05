@@ -1,0 +1,50 @@
+
+.dashboard-mini-tools .toggle {
+    cursor: pointer;
+}
+
+.dashboard-mini-tools .close {
+    display: none;
+}
+
+.dashboard-mini-tools .avatar-cover {
+    width: 70px;
+    height: 70px;
+    display: block;
+    border-radius: 50%;
+    background-color: azure;
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-mini-tools .avatar-cover img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.dashboard-mini-tools .avatar-cover #change-avatar {
+    width: 100%;
+    height: 27px;
+    visibility: hidden;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.dashboard-mini-tools .avatar-cover:hover #change-avatar {
+    visibility: visible;
+    transition-duration: 2000ms;
+}
+
+.dashboard-mini-tools .avatar-cover #change-avatar i {
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.dashboard-mini-tools .avatar-cover #change-avatar i:hover {
+    color: #0a58ca;
+    box-shadow: 1px 1px 5px #0066ff;
+}

@@ -1,0 +1,49 @@
+
+/*
+var fileSystem = [
+    {
+        name: "MyFolder.jpg",
+        size: 1024,
+        dateModified: "2019/05/08",
+        thumbnail: "/thumbnails/images/jpeg.ico",
+        isDirectory: true,
+        items: [
+            // ...
+            // Nested data objects with the same structure
+            // ...
+        ]
+        // ...
+    }];*/
+
+/*[
+  {
+    "id": 1,
+    "name": "videos",
+    "isDirectory": true,
+    "items": [
+      {
+        "id": 2,
+        "name": "2 - Ajax Mathod.avi",
+        "isDirectory": false
+      },
+      {
+        "id": 3,
+        "name": "sport",
+        "isDirectory": true,
+        "items": [
+          {
+            "id": 5,
+            "name": "football",
+            "isDirectory": true
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "technology",
+        "isDirectory": true,
+        "items": []
+      }
+    ]
+  }
+]*/

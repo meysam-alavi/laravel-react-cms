@@ -1,0 +1,32 @@
+.change-avatar-cover {
+    padding: 10px 250px;
+}
+
+.avatar-preview-cover {
+    width: 70px;
+    height: 70px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 50%;
+    background-color: #cbd5e0;
+}
+
+.avatar-preview-cover img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/*
+.change-avatar-cover .avatar-org-cover {
+    max-width: 200px;
+    max-height: 200px;
+    display: block;
+    clear: both;
+}
+
+.change-avatar-cover .avatar-org-cover img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}*/

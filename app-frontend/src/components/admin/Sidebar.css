@@ -1,0 +1,51 @@
+.sidebar-cover {
+    font-family: shabnam-regular, serif;
+    background-color: #2d3748;
+}
+
+.sidebar-cover a {
+    text-decoration: none !important;
+    color: white !important;
+}
+
+.sidebar-cover .accordion-body a {
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.sidebar-cover .accordion-body a:hover {
+    background-color: #1e90ff85;
+}
+
+.sidebar-cover .accordion-item {
+    margin-bottom: 0.5rem;
+}
+
+.sidebar-cover .accordion-item,
+.sidebar-cover .accordion-button {
+    background-color: transparent !important;
+    color: white !important;
+}
+
+.sidebar-cover .accordion-button {
+    padding: 0;
+    box-shadow: none !important;
+}
+
+.accordion-button::after {
+    content: '\f107' !important;
+    font: normal normal normal 22px/16px FontAwesome;
+    text-align: center;
+    position: absolute;
+    top: 2px;
+    left: 0;
+    padding: 2px;
+    border-radius: 50%;
+    background-image: none !important;
+}
+
+@media (min-width: 768px) {
+    .sidebar-cover {
+        min-height: 450px;
+    }
+}
