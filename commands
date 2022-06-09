@@ -1,0 +1,14 @@
+
+docker-compose run backend /bin/bash
+
+find / -type f -name "php.ini"
+
+
+
+
+-
+ -
+  -
+ -
+ -
+  -
