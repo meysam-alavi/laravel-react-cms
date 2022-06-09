@@ -1,4 +1,25 @@
 
+// path: laravel-react-cms (enery run project)
+
+- docker-compose up -d
+
+
+// path: app-frontend (enery run project)
+
+- npm start
+
+
+// path: app-backend (only once)
+
+- composer update
+
+- php artisan storage:link
+
+
+
+
+
+
 docker-compose run backend /bin/bash
 
 find / -type f -name "php.ini"
