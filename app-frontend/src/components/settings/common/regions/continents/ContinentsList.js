@@ -26,6 +26,11 @@ class ContinentsList extends SettingsModule {
         this.dataTable = this.dataTable.bind(this);
     }
 
+    /**
+     * get list
+     *
+     * @param url
+     */
     getList(url) {
          axiosInstance.get(url, this.config).then(response => {
             const result = response.data;
@@ -42,9 +47,12 @@ class ContinentsList extends SettingsModule {
         });
     }
 
+    /**
+     * data table
+     *
+     * @returns {unknown[]}
+     */
     dataTable() {
-        console.log(this.state.continents);
-
         return this.state.continents.map((item, index) => {
             return (
                 <tr key={index}>

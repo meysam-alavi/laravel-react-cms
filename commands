@@ -1,5 +1,9 @@
+// path: laravel-react-cms (build and run docker images)
 
-// path: laravel-react-cms (enery run project)
+- docker-compose up -d --build
+
+
+// path: laravel-react-cms (every run project)
 
 - docker-compose up -d
 
