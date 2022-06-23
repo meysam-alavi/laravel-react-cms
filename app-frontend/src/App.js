@@ -1,29 +1,29 @@
 //import logo from './logo.svg';
 import React from "react";
-import {/*Nav,*/ Navbar, Container, Row, Col} from "react-bootstrap";
-import {BrowserRouter as Router, Routes, Route/*, Link*/} from "react-router-dom";
+import {Col, Container, Navbar, Row} from "react-bootstrap";
+import {Route, Routes} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
-import CreateExpenseComponent from "./components/expense/CreateExpenseComponent";
-import EditExpenseComponent from "./components/expense/EditExpenseComponent";
-import ExpensesListingComponent from "./components/expense/ExpensesListingComponent";
-import AuthenticateAble from "./components/user/AuthenticateAble";
-import UserRegistration from "./components/user/UserRegistration";
-import Sidebar from "./components/admin/Sidebar";
-import DashboardMiniTools from "./components/admin/DashboardMiniTools";
-import UserEdit from "./components/user/UserEdit";
-import ChangeAvatar from "./components/admin/ChangeAvatar";
-import VideosManagement from "./components/multimedia/VideosManagement";
-import ImagesManagement from "./components/multimedia/ImagesManagement";
-import SoundsManagement from "./components/multimedia/soundsManagement";
-import AddEducationalGrade from "./components/settings/common/educationalGrades/AddEducationalGrade";
-import ContinentsList from "./components/settings/common/regions/continents/ContinentsList";
-
+//import BaseRouteChecker from "./components/admin/BaseRouteChecker";
+import CreateExpenseComponent from "./components/admin/modules/expense/CreateExpenseComponent";
+import EditExpenseComponent from "./components/admin/modules/expense/EditExpenseComponent";
+import ExpensesListingComponent from "./components/admin/modules/expense/ExpensesListingComponent";
+import AuthenticateAble from "./components/admin/modules/user/AuthenticateAble";
+import Sidebar from "./components/admin/modules/dashboard/Sidebar";
+import DashboardMiniTools from "./components/admin/modules/dashboard/DashboardMiniTools";
+import UserEdit from "./components/admin/modules/user/UserEdit";
+import ChangeAvatar from "./components/admin/modules/user/ChangeAvatar";
+import VideosManagement from "./components/admin/modules/multimedia/VideosManagement";
+import ImagesManagement from "./components/admin/modules/multimedia/ImagesManagement";
+import SoundsManagement from "./components/admin/modules/multimedia/soundsManagement";
+import AddEducationalGrade from "./components/admin/modules/settings/common/educationalGrades/AddEducationalGrade";
+import ContinentsList from "./components/admin/modules/settings/common/regions/continents/ContinentsList";
+import BaseComponent from "./components/admin/BaseComponent";
 
 /**
  * App component
  */
-class App extends React.Component {
+class App extends BaseComponent {
     loggedIn: boolean = false;
     authenticateAbleObj: Object = null;
 
@@ -47,7 +47,6 @@ class App extends React.Component {
     render() {
         let header;
         let content;
-
 
         if (this.loggedIn) {
             header = (
@@ -94,10 +93,10 @@ class App extends React.Component {
                             <Route path="continents-list" element={<ContinentsList/>}/>
 
 
-
                             <Route path="/create-expense" element={<CreateExpenseComponent/>}/>
                             <Route path="/edit-expense/:id" element={<EditExpenseComponent/>}/>
-                            <Route path="/expenses-listing" element={<ExpensesListingComponent/>}/>
+                            <Route path="/:lang/admin/module/expenses-manager/expenses-listing"
+                                   element={<ExpensesListingComponent/>}/>
                             <Route path='/user-edit' element={<UserEdit/>}/>
                             <Route path="/change-avatar" element={<ChangeAvatar/>}/>
                             <Route path="/multimedia/videos-management" element={<VideosManagement/>}/>
@@ -112,8 +111,11 @@ class App extends React.Component {
                 <Row>
                     <Col lg={12}>
                         <Routes>
-                            <Route path="/login" element={<AuthenticateAble/>}/>
-                            <Route path="/register" element={<UserRegistration/>}/>
+                            <Route path="/:lang/admin/">
+                                <Route path="login" element={<AuthenticateAble/>}/>
+                            </Route>
+
+                            {/*<Route path="/:lang(fa|en)/admin/login" exact component={AuthenticateAble}/>*/}
                         </Routes>
                     </Col>
                 </Row>
@@ -122,7 +124,18 @@ class App extends React.Component {
 
 
         return (
-            <Router>
+            <div className="app">
+                <header className="app-header">
+                    <Navbar variant="success" className="bg-dark text-white">
+                        {header}
+                    </Navbar>
+                </header>
+
+                <Container fluid>
+                    {content}
+                </Container>
+            </div>
+            /*<Router>
                 <div className="app">
                     <header className="app-header">
                         <Navbar variant="success" className="bg-dark text-white">
@@ -134,8 +147,12 @@ class App extends React.Component {
                         {content}
                     </Container>
                 </div>
-            </Router>
+            </Router>*/
         );
+    }
+
+    componentDidMount() {
+        //BaseComponent();
     }
 }
 

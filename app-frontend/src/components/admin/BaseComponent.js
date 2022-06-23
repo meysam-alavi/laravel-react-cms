@@ -1,32 +1,43 @@
 import React from "react";
-import { useParams } from "react-router-dom";
 import languages from "../../data/languages.json";
 
-
-/*
-function withParams(Component) {
+/*function withParams(Component) {
     return props => <Component {...props} params={useParams()} />;
-}
+}*/
 
 class BaseComponent extends React.Component {
+    lang: string = 'fa';
+
     constructor(props) {
         super(props);
 
-        this.lang = this.props.params.lang;
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.checkLang = this.checkLang.bind(this);
+        this.getLang = this.getLang.bind(this);
+
+        this.checkLang();
     }
 
-    render():JSX.Element {
-        return ('');
-    }
+    checkLang() {
+        const pathName = window.location.pathname;
 
-    componentDidMount() {
-        const itemFound = languages.find(item => item === this.lang);
+        if (pathName !== '/404') {
+            const pathNameSlice = pathName.split('/');
+            this.lang = pathNameSlice[1];
 
-        if(itemFound === undefined) {
-            console.log('test');
-            return false;
+            if (!languages.includes(this.lang)) {
+                window.location = '/404';
+            }
         }
+    }
+
+    getLang() {
+        return this.lang;
+    }
+
+    render(): JSX.Element {
+        return ('');
     }
 }
 
-export default withParams(BaseComponent);*/
+export default BaseComponent;
