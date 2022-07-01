@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -10,8 +11,18 @@ use Illuminate\Http\Response;
 /**
  * expense controller class
  */
-class ExpenseController extends Controller
+class ExpenseController extends AdminController
 {
+    /**
+     * constructor
+     *
+     * @param Request $request
+     */
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -22,6 +33,7 @@ class ExpenseController extends Controller
         $expenses = Expense::query()
             ->orderBy('id', 'desc')
             ->paginate(2);
+
 
         return response()->json($expenses);
     }

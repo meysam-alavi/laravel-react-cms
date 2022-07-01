@@ -179,9 +179,9 @@ class EditExpenseComponent extends AuthenticateAble {
      * @returns {JSX.Element}
      */
     render() {
-        if (!this.checkLogin()) {
+        /*if (!this.checkLogin()) {
             this.logout();
-        }
+        }*/
 
         return (
             <Row>

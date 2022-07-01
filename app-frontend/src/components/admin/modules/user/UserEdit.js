@@ -34,9 +34,9 @@ class UserEdit extends AuthenticateAble {
      */
     render(): JSX.Element {
 
-        if (!this.checkLogin()) {
+        /*if (!this.checkLogin()) {
             this.logout();
-        }
+        }*/
 
         return (
             <Row>

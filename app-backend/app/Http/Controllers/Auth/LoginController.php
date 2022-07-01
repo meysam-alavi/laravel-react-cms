@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
+use App\Models\PersonalAccessToken;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Login controller class
  *
  * @mixin Model
  */
-class LoginController extends Controller
+class LoginController extends AdminController
 {
     /*
     |--------------------------------------------------------------------------
@@ -35,7 +38,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = null; //RouteServiceProvider::HOME;
 
     /**
      * Create a new controller instance.
@@ -44,8 +47,8 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
         parent::__construct();
+        $this->middleware('guest')->except('logout');
     }
 
     /**
@@ -61,7 +64,9 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $lang = $request->lang;
+
+        $user = User::query()->where('email', $request->email)->first();
 
         //$user->avatar = User::getAvatar($user->id);
 
@@ -75,13 +80,36 @@ class LoginController extends Controller
                 'avatar' => $user->avatar
             );
 
+            $token = $user->createToken($user->first_name)->plainTextToken;
+            $tokenSlices = explode('|', $token);
+            $tokenId = $tokenSlices[0];
+            $tokenCode = $tokenSlices[1];
+
+            $tokenObj = PersonalAccessToken::query()->find($tokenId);
+            $tokenObj->lang = $lang;
+            $tokenObj->save();
+
+            $cacheDir = "/cache/user/{$user->id}";
+
+            if (!Storage::exists($cacheDir)) {
+                Storage::makeDirectory($cacheDir);
+            }
+
+            $filePath = "{$cacheDir}/auth-{$lang}-info.data";
+            $authInfo[$tokenCode] = array(
+                'token_id' => $tokenId,
+                'user_id' => $user->id,
+                'lang' => $lang
+            );
+
+            Storage::put($filePath, json_encode($authInfo));
+
             $result['data'] = array(
                 'user' => json_encode($userInfo),
-                'token' => $user->createToken($user->first_name)->plainTextToken
+                'token' => $token
             );
             $result['success'] = true;
         }
-
 
         return response()->json($result);
     }

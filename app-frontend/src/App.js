@@ -4,7 +4,6 @@ import {Col, Container, Navbar, Row} from "react-bootstrap";
 import {Route, Routes} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
-//import BaseRouteChecker from "./components/admin/BaseRouteChecker";
 import CreateExpenseComponent from "./components/admin/modules/expense/CreateExpenseComponent";
 import EditExpenseComponent from "./components/admin/modules/expense/EditExpenseComponent";
 import ExpensesListingComponent from "./components/admin/modules/expense/ExpensesListingComponent";
@@ -24,7 +23,7 @@ import BaseComponent from "./components/admin/BaseComponent";
  * App component
  */
 class App extends BaseComponent {
-    loggedIn: boolean = false;
+    loggedIn: boolean = true;
     authenticateAbleObj: Object = null;
 
     /**
@@ -36,7 +35,25 @@ class App extends BaseComponent {
         super(props);
 
         this.authenticateAbleObj = new AuthenticateAble();
-        this.loggedIn = this.authenticateAbleObj.checkLogin();
+
+        this.state = {
+            shouldUpdate: true
+        };
+
+        this.setShouldUpdate = this.setShouldUpdate.bind(this);
+        this.componentWillMount = this.componentWillMount.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
+        this.shouldComponentUpdate = this.shouldComponentUpdate.bind(this);
+    }
+
+    /**
+     * set should update
+     *
+     * @param turn
+     * @param e
+     */
+    setShouldUpdate(turn, e) {
+        this.setState({shouldUpdate: turn});
     }
 
     /**
@@ -47,6 +64,8 @@ class App extends BaseComponent {
     render() {
         let header;
         let content;
+
+        console.log(this.loggedIn);
 
         if (this.loggedIn) {
             header = (
@@ -151,8 +170,45 @@ class App extends BaseComponent {
         );
     }
 
-    componentDidMount() {
-        //BaseComponent();
+    /**
+     * component will mount
+     */
+    componentWillMount() {
+
+    }
+
+    /**
+     * component did mount
+     *
+     * @returns {Promise<void>}
+     */
+    async componentDidMount() {
+        this.loggedIn = await this.authenticateAbleObj.checkLogin().then(result => {
+            return result;
+        });
+
+        this.setShouldUpdate(!this.loggedIn);
+    }
+
+    /**
+     * should component update
+     *
+     * @param nextProps
+     * @param nextState
+     * @param nextContext
+     * @returns {boolean}
+     */
+    shouldComponentUpdate(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean {
+        let shouldUpdate = this.state.shouldUpdate;
+
+        if (shouldUpdate) {
+            console.log('should update');
+            this.setShouldUpdate(false);
+        } else {
+            console.log('not require update');
+        }
+
+        return shouldUpdate;
     }
 }
 

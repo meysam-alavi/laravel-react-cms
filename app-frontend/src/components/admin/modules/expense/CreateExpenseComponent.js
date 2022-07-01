@@ -150,9 +150,9 @@ class CreateExpenseComponent extends AuthenticateAble {
      * @returns {JSX.Element|boolean}
      */
     render() {
-        if (!this.checkLogin()) {
+        /*if (!this.checkLogin()) {
             return this.logout();
-        }
+        }*/
 
         return (
             <Row>

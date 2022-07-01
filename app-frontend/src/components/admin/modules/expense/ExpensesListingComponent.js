@@ -32,7 +32,7 @@ class ExpensesListingComponent extends AuthenticateAble {
      */
     componentDidMount() {
         super.componentDidMount();
-        const url = '/api/user/expenses';
+        const url = `/api/${this.lang}/admin/user/expenses`;
         this.getList(url);
     }
 
@@ -158,9 +158,9 @@ class ExpensesListingComponent extends AuthenticateAble {
      * @returns {JSX.Element|boolean}
      */
     render(): JSX.Element | boolean {
-        if (!this.checkLogin()) {
+        /*if (!this.checkLogin()) {
             this.logout();
-        }
+        }*/
 
         return (
             <div className="table-wrapper">

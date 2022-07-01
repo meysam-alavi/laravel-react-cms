@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
+    use AuthenticatesUsers;
+
     public function __construct()
     {
         parent::__construct();
@@ -57,6 +58,30 @@ class UserController extends Controller
 
         // end image url for usage in client:
         // http://localhost:8000/storage/users/1/images/avatar/1_org.jpg
+
+        return response()->json($result);
+    }
+
+    public function checkLogin(Request $request)
+    {
+        $result = ['data' => null, 'messages' => null, 'success' => false];
+
+        $tokenObj = $request->user()->currentAccessToken();
+
+        if($tokenObj) {
+            //$requestToken = $request->bearerToken();
+            //$requestTokenSlice = explode('|', $requestToken);
+            //$requestTokenCode = $requestTokenSlice[1];
+
+            $requestLang = $request->lang;
+
+            $tokenLang = $tokenObj->lang;
+            //$tokenCode = $tokenObj->token;
+
+            if($requestLang === $tokenLang) {
+                $result['success'] = true;
+            }
+        }
 
         return response()->json($result);
     }

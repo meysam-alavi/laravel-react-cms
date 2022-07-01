@@ -59,7 +59,6 @@ class AuthenticateAble extends BaseComponent {
      * component did mount
      */
     componentDidMount() {
-
     }
 
     /**
@@ -67,14 +66,41 @@ class AuthenticateAble extends BaseComponent {
      *
      * @returns {boolean}
      */
-    checkLogin() {
-        let result = false;
+    async checkLogin() {
+        window.loginState = false;
 
-        if (this.token !== null && this.token.length) {
-            result = true;
+        const destUrl = `/${this.getLang()}/admin/login`;
+        if (window.location.pathname !== destUrl) {
+            if (this.token !== null && this.token.length) {
+                return await axiosInstance.post(`/api/${this.getLang()}/admin/user/check/login`, {}, this.config).then(response => {
+                    const result = response.data;
+
+                    if (!result.success) {
+                        window.location = destUrl;
+                        return false;
+                    }
+
+                    window.loginState = true;
+                    return true;
+                }).catch(error => {
+                    return window.loginState;
+                    /*if (error.response) {
+                        switch (error.response.status) {
+                            case 422:
+                                this.setMessages(error.response.data);
+                                break;
+                            case 401:
+                                this.unauthenticated();
+                                break;
+                            default:
+                                break;
+                        }
+                    }*/
+                });
+            }
         }
 
-        return result;
+        return window.loginState;
     }
 
     /**
@@ -83,7 +109,7 @@ class AuthenticateAble extends BaseComponent {
      * @param frmData
      */
     login(frmData) {
-        const url = '/api/login';
+        const url = `/api/${this.lang}/admin/login`;
         axiosInstance.post(url, frmData).then(response => {
             const result = response.data;
             if (result.success === true && result.data.token.length) {
@@ -125,7 +151,7 @@ class AuthenticateAble extends BaseComponent {
         const token = sessionStorage.getItem('token');
 
         if (token !== null && token.length) {
-            const url = '/api/user/logout';
+            const url = `/api/${this.lang}/admin/user/logout`;
             const data = {};
             const config = {
                 headers: {

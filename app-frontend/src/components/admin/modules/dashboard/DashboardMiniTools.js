@@ -61,9 +61,9 @@ class DashboardMiniTools extends AuthenticateAble {
      */
     render(): JSX.Element {
 
-        if (!this.checkLogin()) {
+        /*if (!this.checkLogin()) {
             this.logout();
-        }
+        }*/
 
         return (
             <div className="dashboard-mini-tools d-flex">

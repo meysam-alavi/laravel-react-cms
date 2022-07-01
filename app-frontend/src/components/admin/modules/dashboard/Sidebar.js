@@ -97,7 +97,7 @@ class Sidebar extends React.Component {
 
             const items = menuGroup.items.map((item, itemIndex) => {
                 return (
-                    <Link to={item.to} className="d-flex mb-1">
+                    <Link key={itemIndex} to={item.to} className="d-flex mb-1">
                         <i className={item.icon + ' m-1'}/>
                         <span>{item.title}</span>
                     </Link>
@@ -105,7 +105,7 @@ class Sidebar extends React.Component {
             });
 
             return (
-                <AccordionItem eventKey={groupIndex}>
+                <AccordionItem eventKey={groupIndex} key={groupIndex}>
                     <AccordionHeader>
                         <i className={menuGroup.head.icon + ' m-1'}/>
                         <span>{menuGroup.head.title}</span>

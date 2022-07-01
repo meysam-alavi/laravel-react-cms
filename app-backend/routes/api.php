@@ -25,7 +25,7 @@ Route::middleware('cors:auth:sanctum')->get('/user', function (Request $request)
 });
 
 // '[email protected]'
-Route::prefix('user')->middleware('auth:sanctum')->group(function () {
+Route::prefix('/{lang}/admin/user')->middleware('auth:sanctum')->group(function () {
 
     Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.all');
     Route::post('/expense/create', [ExpenseController::class, 'store'])->name('expenses.store');
@@ -38,6 +38,7 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
 
     Route::post('/change/avatar', [UserController::class, 'changeAvatar']);
 
+    Route::post('/check/login', [UserController::class, 'checkLogin'])->name('check-login');
     Route::post('/logout', [LoginController::class, 'logout']);
 
 
@@ -67,5 +68,5 @@ Route::prefix('user')->middleware('auth:sanctum')->group(function () {
     Route::post('/multimedia/sound/delete/item/{id}', [MultimediaController::class, 'deleteItem']);
 });
 
-Route::post('/login', [LoginController::class, 'login']);
+Route::post('/{lang}/admin/login', [LoginController::class, 'login']);
 Route::post('/register', [RegisterController::class, 'store']);
