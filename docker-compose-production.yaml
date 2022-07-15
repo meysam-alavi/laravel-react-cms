@@ -2,87 +2,87 @@ version: "3.8"
 
 services:
 
-    frontend:
-      build:
-        context: ./app-frontend
-      ports:
-        - "80:80"
-        - "3000:3000" # HOST:CONTAINER
-      volumes:
-        - ./app-frontend/dist:/app/dist:consistent
-        - ./app-frontend/public:/app/public:consistent
-        - ./app-frontend/src:/app/src:consistent
-        - ./app-frontend/package.json:/app/package.json
-        - ./app-frontend/package-lock.json:/app/package-lock.json
-        - ./app-frontend/webpack.config.js:/app/webpack.config.js
-        - ./app-frontend/node_modules
-      environment:
-        NODE_ENV: development
-        CHOKIDAR_USEPOLLING: "true"
-        CHOKIDAR_INTERVAL: 2000
-      tty: true
-      stdin_open: true
-      command:
-        - /bin/sh
-        - -c
-        - npm run start
-      networks:
-        - app-network
+  frontend:
+    build:
+      context: ./app-frontend
+    ports:
+      - "80:80"
+      - "3000:3000" # HOST:CONTAINER
+    volumes:
+      - ./app-frontend/dist:/app/dist:consistent
+      - ./app-frontend/public:/app/public:consistent
+      - ./app-frontend/src:/app/src:consistent
+      - ./app-frontend/package.json:/app/package.json
+      - ./app-frontend/package-lock.json:/app/package-lock.json
+      - ./app-frontend/webpack.config.js:/app/webpack.config.js
+      - ./app-frontend/node_modules
+    environment:
+      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: "true"
+      CHOKIDAR_INTERVAL: 2000
+    tty: true
+    stdin_open: true
+    command:
+      - /bin/sh
+      - -c
+      - npm run start
+    networks:
+      - app-network
 
-    backend:
-      build:
-        args:
-          user: "meysam"
-          uid: "1000"
-        context: ./app-backend/
-      restart: unless-stopped
-      environment:
-        DB_HOST: "mysql-db"
-        MYSQL_DATABASE: ${DB_DATABASE}
-        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-        MYSQL_PASSWORD: ${DB_PASSWORD}
-        MYSQL_USER: ${DB_USERNAME}
-        SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS}
-      working_dir: /var/www/html
-      volumes:
-        - ./app-backend:/var/www/html
-      ports:
-        - "8000:80"
-      tty: true
-      stdin_open: true
-      networks:
-        - app-network
-        - db
+  backend:
+    build:
+      args:
+        user: "meysam"
+        uid: "1000"
+      context: ./app-backend/
+    restart: unless-stopped
+    environment:
+      DB_HOST: "mysql-db"
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS}
+    working_dir: /var/www/html
+    volumes:
+      - ./app-backend:/var/www/html
+    ports:
+      - "8000:80"
+    tty: true
+    stdin_open: true
+    networks:
+      - app-network
+      - db
 
-    appdb:
-      image: mysql:8.0.26
-      container_name: "mysql-db"
-      restart: unless-stopped
-      environment:
-        MYSQL_DATABASE: ${DB_DATABASE}
-        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-        MYSQL_PASSWORD: ${DB_PASSWORD}
-        MYSQL_USER: ${DB_USERNAME}
-      volumes:
-        - ./.docker/mysql/init-db:/docker-entrypoint-initdb.d
-        - ./.docker/mysql/db-data:/var/lib/mysql
-      ports:
-        - "3306:3306"
-      networks:
-        - db
+  appdb:
+    image: mysql:8.0.26
+    container_name: "mysql-db"
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+      - ./.docker/mysql/init-db:/docker-entrypoint-initdb.d
+      - ./.docker/mysql/db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - db
 
-    phpmyadmin:
-      image: phpmyadmin/phpmyadmin
-      restart: unless-stopped
-      environment:
-        PMA_HOST: appdb
-        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      depends_on:
-        - appdb
-      ports:
-        - "8443:80"
-      networks:
-        - db
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: appdb
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      - appdb
+    ports:
+      - "8443:80"
+    networks:
+      - db
 
 networks:
   app-network:

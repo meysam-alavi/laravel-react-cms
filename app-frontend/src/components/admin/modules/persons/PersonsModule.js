@@ -1,4 +1,4 @@
-import Module from "../admin/Module";
+import Module from "../Module";
 
 /**
  * Persons Module
@@ -14,7 +14,7 @@ class PersonsModule extends Module {
         super(props);
 
         this.pathInfo = [
-            {title: '', href: '', isActive: false}
+            {title: 'مدیریت اشخاص', href: null, isActive: false}
         ];
     }
 }

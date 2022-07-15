@@ -15,10 +15,22 @@ class CreateCountriesTable extends Migration
     {
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
-            $table->char('country_id', 2)->fulltext()->comment('alpha2 code');
-            $table->string('name_fa')->fulltext();
-            $table->string('name_en')->fulltext();
-            $table->integer('continent_id')->index();
+            $table->string('country_id', 2)->index()->comment('alpha2 code, iso');
+            $table->string('name_en', 100)->default('')->fulltext();
+            $table->string('name_fa', 100)->default('')->fulltext();
+            $table->char('currency_code', 3)->index();
+            $table->char('fips_code', 2);
+            $table->char('iso_numeric', 4);
+            $table->string('north', 30);
+            $table->string('south', 30);
+            $table->string('east', 30);
+            $table->string('west', 30);
+            $table->string('capital', 30);
+            $table->string('continent_name', 100)->fulltext();
+            $table->char('continent_id', 2)->index();
+            $table->string('languages', 100)->fulltext();
+            $table->char('iso_alpha3', 3)->fulltext();
+            $table->integer('geo_name_id')->index();
             $table->enum('status', ['A', 'D'])->default('D')->index();
             $table->integer('created_by')->default(0);
             $table->integer('updated_by')->default(0);

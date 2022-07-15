@@ -30,7 +30,7 @@ class EducationalGradeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,7 +41,7 @@ class EducationalGradeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\EducationalGrade  $educationalGrade
+     * @param \App\Models\EducationalGrade $educationalGrade
      * @return \Illuminate\Http\Response
      */
     public function show(EducationalGrade $educationalGrade)
@@ -52,7 +52,7 @@ class EducationalGradeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\EducationalGrade  $educationalGrade
+     * @param \App\Models\EducationalGrade $educationalGrade
      * @return \Illuminate\Http\Response
      */
     public function edit(EducationalGrade $educationalGrade)
@@ -63,8 +63,8 @@ class EducationalGradeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\EducationalGrade  $educationalGrade
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\EducationalGrade $educationalGrade
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, EducationalGrade $educationalGrade)
@@ -75,7 +75,7 @@ class EducationalGradeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\EducationalGrade  $educationalGrade
+     * @param \App\Models\EducationalGrade $educationalGrade
      * @return \Illuminate\Http\Response
      */
     public function destroy(EducationalGrade $educationalGrade)

@@ -11,7 +11,6 @@ class BaseComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        this.componentDidMount = this.componentDidMount.bind(this);
         this.checkLang = this.checkLang.bind(this);
         this.getLang = this.getLang.bind(this);
 

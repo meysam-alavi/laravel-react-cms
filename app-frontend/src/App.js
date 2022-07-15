@@ -18,6 +18,7 @@ import SoundsManagement from "./components/admin/modules/multimedia/soundsManage
 import AddEducationalGrade from "./components/admin/modules/settings/common/educationalGrades/AddEducationalGrade";
 import ContinentsList from "./components/admin/modules/settings/common/regions/continents/ContinentsList";
 import BaseComponent from "./components/admin/BaseComponent";
+import AddPerson from "./components/admin/modules/persons/AddPerson";
 
 /**
  * App component
@@ -64,8 +65,6 @@ class App extends BaseComponent {
     render() {
         let header;
         let content;
-
-        console.log(this.loggedIn);
 
         if (this.loggedIn) {
             header = (
@@ -121,6 +120,11 @@ class App extends BaseComponent {
                             <Route path="/multimedia/videos-management" element={<VideosManagement/>}/>
                             <Route path="/multimedia/images-management" element={<ImagesManagement/>}/>
                             <Route path="/multimedia/sounds-management" element={<SoundsManagement/>}/>
+
+
+                            {/*Persons Module*/}
+                            <Route path="/:lang/admin/modules/persons/add-person" element={<AddPerson/>}/>
+
                         </Routes>
                     </Col>
                 </Row>

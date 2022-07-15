@@ -7,6 +7,8 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContinentController;
+use App\Http\Controllers\CountryController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\MultimediaController;
 
 /*
@@ -43,9 +45,14 @@ Route::prefix('/{lang}/admin/user')->middleware('auth:sanctum')->group(function 
 
 
     // Settings Module
-    Route::get('/settings/continent/list', [ContinentController::class, 'index'])->name('continents.list');
+    Route::post('/settings/continents/list', [ContinentController::class, 'index'])->name('continents.list');
+    Route::post('/settings/continents/all', [ContinentController::class, 'all'])->name('continents.all');
 
+    Route::post('/settings/countries/list', [CountryController::class, 'index'])->name('countries.list');
+    Route::post('/settings/countries/all', [CountryController::class, 'all'])->name('countries.all');
 
+    Route::post('/settings/cities/list', [CityController::class, 'index'])->name('cities.list');
+    Route::post('/settings/cities/all', [CityController::class, 'all'])->name('cities.all');
 
 
     // Multimedia Module

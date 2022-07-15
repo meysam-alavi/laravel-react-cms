@@ -14,6 +14,7 @@ RUN npm i devextreme-react --force
 RUN npm i react-avatar-edit --force
 RUN npm i react-fileupload-progress --force
 RUN npm i react-icons
+RUN npm i react-datepicker
 #RUN npm i react-scripts
 
 

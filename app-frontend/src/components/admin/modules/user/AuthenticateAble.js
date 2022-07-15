@@ -83,8 +83,8 @@ class AuthenticateAble extends BaseComponent {
                     window.loginState = true;
                     return true;
                 }).catch(error => {
-                    return window.loginState;
-                    /*if (error.response) {
+                    //return window.loginState;
+                    if (error.response) {
                         switch (error.response.status) {
                             case 422:
                                 this.setMessages(error.response.data);
@@ -95,7 +95,7 @@ class AuthenticateAble extends BaseComponent {
                             default:
                                 break;
                         }
-                    }*/
+                    }
                 });
             }
         }

@@ -6,11 +6,12 @@ import AccordionBody from "react-bootstrap/AccordionBody";
 import {Link} from "react-router-dom";
 
 import "./Sidebar.css";
+import AuthenticateAble from "../user/AuthenticateAble";
 
 /**
  * Sidebar Component
  */
-class Sidebar extends React.Component {
+class Sidebar extends AuthenticateAble {
 
     /**
      * constructor
@@ -19,6 +20,8 @@ class Sidebar extends React.Component {
      */
     constructor(props) {
         super(props);
+
+        this.prefixModulePath = `/${this.getLang()}/admin/modules`;
 
         this.state = {
             activeKey: 1,
@@ -73,12 +76,12 @@ class Sidebar extends React.Component {
                 {
                     head: {icon: 'fa fa-users', title: 'مدیریت اشخاص'},
                     items: [{
-                        to: 'multimedia/persons-list',
+                        to: `${this.prefixModulePath}/persons/persons-list`,
                         icon: 'fa fa-users',
                         title: 'لیست اشخاص',
                         isActive: false
                     }, {
-                        to: 'multimedia/add-person',
+                        to: `${this.prefixModulePath}/persons/add-person`,
                         icon: 'fa fa-user-plus',
                         title: 'افزودن شخص جدید',
                         isActive: false

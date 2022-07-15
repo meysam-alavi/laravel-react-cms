@@ -161,6 +161,7 @@ body {
 }
 
 .input-required-ltr {
+    direction: ltr;
     border-left: 2px solid #bb2d3b;
 }
 

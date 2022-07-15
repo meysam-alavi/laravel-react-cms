@@ -14,8 +14,6 @@ class Module extends AuthenticateAble {
      */
     constructor(props) {
         super(props);
-
-        console.log('module component constructor');
     }
 
     /**

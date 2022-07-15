@@ -1,12 +1,10 @@
 import React from "react";
-import SettingsModule from "../../../SettingsModule";
-import axiosInstance from "../../../../../../../services/api";
+import ContinentModel from "./ContinentModel";
 
 /**
- * Continent List component
+ * ContinentsList Class Component
  */
-class ContinentsList extends SettingsModule {
-    //private async: ;
+class ContinentsList extends ContinentModel {
 
     /**
      * constructor
@@ -16,35 +14,7 @@ class ContinentsList extends SettingsModule {
     constructor(props) {
         super(props);
 
-        this.state = {
-            continents: [],
-            links: []
-        };
-
-        this.componentDidMount = this.componentDidMount.bind(this);
-        this.getList = this.getList.bind(this);
         this.dataTable = this.dataTable.bind(this);
-    }
-
-    /**
-     * get list
-     *
-     * @param url
-     */
-    getList(url) {
-        axiosInstance.get(url, this.config).then(response => {
-            const result = response.data;
-
-            if (result.success === true) {
-                this.setState({continents: result.data.data});
-                this.setState((state, props) => {
-                    return {links: result.data.links}
-                });
-            }
-
-        }).catch(error => {
-
-        });
     }
 
     /**
@@ -105,8 +75,11 @@ class ContinentsList extends SettingsModule {
         );
     }
 
+    /**
+     * componentDidMount
+     */
     componentDidMount() {
-        this.getList('/api/user/settings/continent/list');
+        this.getList(this.urlList, {rpp: 10});
     }
 }
 

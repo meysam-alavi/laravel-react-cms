@@ -68,7 +68,7 @@ class UserController extends Controller
 
         $tokenObj = $request->user()->currentAccessToken();
 
-        if($tokenObj) {
+        if ($tokenObj) {
             //$requestToken = $request->bearerToken();
             //$requestTokenSlice = explode('|', $requestToken);
             //$requestTokenCode = $requestTokenSlice[1];
@@ -78,7 +78,7 @@ class UserController extends Controller
             $tokenLang = $tokenObj->lang;
             //$tokenCode = $tokenObj->token;
 
-            if($requestLang === $tokenLang) {
+            if ($requestLang === $tokenLang) {
                 $result['success'] = true;
             }
         }

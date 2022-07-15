@@ -14,19 +14,39 @@ class ContinentController extends Controller
      *
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
+        $rpp = $request->rpp;
+
         $result = ['data' => null, 'messages' => null, 'success' => false];
 
         $continents = Continent::query()
             ->orderBy('id', 'DESC')
-            ->paginate(10);
+            ->paginate($rpp);
+
 
         if ($continents->isNotEmpty()) {
             $result['data'] = $continents;
             $result['success'] = true;
         }
 
+
+        return response()->json($result);
+    }
+
+    /**
+     * @return JsonResponse
+     */
+    public function all(): JsonResponse
+    {
+        $result = ['data' => null, 'messages' => null, 'success' => false];
+
+        $continents = Continent::all();
+
+        if ($continents->isNotEmpty()) {
+            $result['data'] = $continents;
+            $result['success'] = true;
+        }
 
         return response()->json($result);
     }

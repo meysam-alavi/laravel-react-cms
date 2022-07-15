@@ -18,8 +18,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    private $authLang;
-
     /**
      * The attributes that are mass assignable.
      *
@@ -30,7 +28,6 @@ class User extends Authenticatable
         'email',
         'password'
     ];
-
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -40,7 +37,6 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
     /**
      * The attributes that should be cast.
      *
@@ -49,16 +45,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-
-    public function setAuthLang($lang)
-    {
-        $this->authLang = $lang;
-    }
+    private $authLang;
 
     public function getAuthLang()
     {
         return $this->authLang;
+    }
+
+    public function setAuthLang($lang)
+    {
+        $this->authLang = $lang;
     }
 }
 
