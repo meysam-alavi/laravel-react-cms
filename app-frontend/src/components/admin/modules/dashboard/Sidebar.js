@@ -86,6 +86,20 @@ class Sidebar extends AuthenticateAble {
                         title: 'افزودن شخص جدید',
                         isActive: false
                     }]
+                },
+                {
+                    head: {icon: 'fa fa-navicon', title: 'مدیریت دسته بندی ها'},
+                    items: [{
+                        to: `${this.prefixModulePath}/categories/list`,
+                        icon: 'fa fa-list',
+                        title: 'لیست دسته بندی ها',
+                        isActive: false
+                    }, {
+                        to: `${this.prefixModulePath}/categories/create`,
+                        icon: 'fa fa-user-plus',
+                        title: 'ایجاد دسته بندی',
+                        isActive: false
+                    }]
                 }
             ]
         }

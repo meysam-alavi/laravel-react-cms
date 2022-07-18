@@ -19,6 +19,8 @@ import AddEducationalGrade from "./components/admin/modules/settings/common/educ
 import ContinentsList from "./components/admin/modules/settings/common/regions/continents/ContinentsList";
 import BaseComponent from "./components/admin/BaseComponent";
 import AddPerson from "./components/admin/modules/persons/AddPerson";
+import CategoriesList from "./components/admin/modules/categories/CategoriesList";
+import CategoryCreate from "./components/admin/modules/categories/CategoryCreate";
 
 /**
  * App component
@@ -124,6 +126,10 @@ class App extends BaseComponent {
 
                             {/*Persons Module*/}
                             <Route path="/:lang/admin/modules/persons/add-person" element={<AddPerson/>}/>
+
+                            {/*Categories Module*/}
+                            <Route path="/:lang/admin/modules/categories/list" element={<CategoriesList/>}/>
+                            <Route path="/:lang/admin/modules/categories/create" element={<CategoryCreate/>}/>
 
                         </Routes>
                     </Col>

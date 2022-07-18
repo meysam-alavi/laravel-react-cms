@@ -11,6 +11,8 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\MultimediaController;
 
+use App\Http\Controllers\CategoryController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -73,6 +75,15 @@ Route::prefix('/{lang}/admin/user')->middleware('auth:sanctum')->group(function 
     Route::post('/multimedia/sound/move/item/{id}', [MultimediaController::class, 'moveItem']);
     Route::post('/multimedia/sound/rename/item/{id}', [MultimediaController::class, 'renameItem']);
     Route::post('/multimedia/sound/delete/item/{id}', [MultimediaController::class, 'deleteItem']);
+
+
+    // Categories Module
+    Route::post('/categories/list', [CategoryController::class, 'list']);
+    Route::post('/categories/all', [CategoryController::class, 'all']);
+
+    Route::post('/category/create', [CategoryController::class, 'create']);
+    Route::put('/category/edit/{id}', [CategoryController::class, 'edit']);
+    Route::delete('/category/delete/{id}', [CategoryController::class, 'delete']);
 });
 
 Route::post('/{lang}/admin/login', [LoginController::class, 'login']);
