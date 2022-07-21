@@ -26,9 +26,7 @@ class CreatePeopleTable extends Migration
             $table->integer('city_of_birth')->nullable();
             $table->integer('country_of_citizenship')->nullable();
             $table->integer('city_of_citizenship')->nullable();
-            $table->integer('country_of_residence')->nullable();
-            $table->integer('city_of_residence')->nullable();
-            $table->string('address_of_residence')->nullable();
+            $table->string('address_of_citizenship')->nullable();
             $table->enum('skin_color', ['White', 'Yellow', 'Black', 'Brown', 'Tawny', 'Red'])->nullable();
             $table->enum('gender', ['M', 'F']);
             $table->float('weight')->nullable();

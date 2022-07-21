@@ -6,7 +6,11 @@ import MessagesComponent from "../assisstants/MessagesComponent";
 import ContinentSelectOptions from "../settings/common/regions/continents/ContinentSelectOptions";
 import CountrySelectOptions from "../settings/common/regions/countries/CountrySelectOptions";
 import CitySelectOptions from "../settings/common/regions/cities/CitySelectOptions";
+import SelectOptionGenerator from "../../generators/SelectOptionGenerator";
 
+/**
+ * Add Person Class Component
+ */
 class AddPerson extends PersonsModule {
     constructor(props) {
         super(props);
@@ -20,6 +24,30 @@ class AddPerson extends PersonsModule {
             href: null,
             isActive: true
         });
+
+        this.genders = [
+            {gKey: 'M', gValue: 'مرد'},
+            {gKey: 'F', gValue: 'زن'}
+        ];
+
+        this.skinColors = [
+            {sCKey: 'White', sCValue: 'سفید'},
+            {sCKey: 'Yellow', sCValue: 'زرد'},
+            {sCKey: 'Black', sCValue: 'سیاه'},
+            {sCKey: 'Brown', sCValue: 'قهوه ای'},
+            {sCKey: 'Tawny', sCValue: 'سبزه'},
+            {sCKey: 'Red', sCValue: 'قرمز'}
+        ];
+
+        this.sizes = [
+            {sKey: 'XS', sValue: 'XS'},
+            {sKey: 'S', sValue: 'S'},
+            {sKey: 'M', sValue: 'M'},
+            {sKey: 'L', sValue: 'L'},
+            {sKey: 'XL', sValue: 'XL'},
+            {sKey: '2XL', sValue: '2XL'},
+            {sKey: '3XL', sValue: '3XL'}
+        ];
 
         this.state = {
             firstName: '',
@@ -77,6 +105,17 @@ class AddPerson extends PersonsModule {
                                     dateFormat="yyyy/MM/dd"
                                     className="form-control input-required-ltr"
                                     dir="ltr"/>
+                            </div>
+                        </Form.Group>
+
+                        <Form.Group controlId="gender" className="form-group mb-2">
+                            <Form.Label>جنسیت:</Form.Label>
+                            <div className="col-lg-7">
+                                <SelectOptionGenerator
+                                    items={this.genders}
+                                    optionKey="gKey"
+                                    optionValue="gValue"
+                                />
                             </div>
                         </Form.Group>
 
@@ -141,6 +180,60 @@ class AddPerson extends PersonsModule {
                             </div>
                         </Form.Group>
 
+                        {(this.state.countryOfCitizenshipId) &&
+                            (<Form.Group controlId="city-of-citizenship" className="form-group mb-2">
+                                <Form.Label>شهر محل سکونت:</Form.Label>
+                                <div className="col-lg-7">
+                                    <CitySelectOptions
+                                        optionKey="geo_name_id"
+                                        optionValue="name"
+                                        condition={{'country_id=': this.state.countryOfCitizenshipId}}/>
+                                </div>
+                            </Form.Group>)}
+
+                        <Form.Group controlId="address-of-citizenship" className="form-group mb-2">
+                            <Form.Label>آدرس:</Form.Label>
+                            <div className="col-lg-7">
+                                <Form.Control as="textarea" rows="3" dir="rtl"/>
+                            </div>
+                        </Form.Group>
+
+                        <Form.Group controlId="skin-color" className="form-group mb-2">
+                            <Form.Label>رنگ پوست:</Form.Label>
+                            <div className="col-lg-7">
+                                <SelectOptionGenerator
+                                    items={this.skinColors}
+                                    optionKey="sCKey"
+                                    optionValue="sCValue"
+                                />
+                            </div>
+                        </Form.Group>
+
+                        <Form.Group controlId="Height" className="form-group mb-2">
+                            <Form.Label>قد:</Form.Label>
+                            <div className="col-lg-7">
+                                <Form.Control type="number" min="30" max="220" dir="ltr"/>
+                            </div>
+                        </Form.Group>
+
+                        <Form.Group controlId="Weight" className="form-group mb-2">
+                            <Form.Label>وزن:</Form.Label>
+                            <div className="col-lg-7">
+                                <Form.Control type="number" min="20" max="220" dir="ltr"/>
+                            </div>
+                        </Form.Group>
+
+                        <Form.Group controlId="Size" className="form-group mb-2">
+                            <Form.Label>اندازه:</Form.Label>
+                            <div className="col-lg-7">
+                                <SelectOptionGenerator
+                                    items={this.sizes}
+                                    optionKey="SKey"
+                                    optionValue="sValue"
+                                    dir="ltr"
+                                />
+                            </div>
+                        </Form.Group>
 
 
                         <Form.Group className="form-group mb-2">
