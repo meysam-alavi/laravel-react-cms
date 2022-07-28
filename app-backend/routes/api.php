@@ -32,12 +32,12 @@ Route::middleware('cors:auth:sanctum')->get('/user', function (Request $request)
 Route::prefix('/{lang}/admin/user')->middleware('auth:sanctum')->group(function () {
 
     Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.all');
-    Route::post('/expense/create', [ExpenseController::class, 'store'])->name('expenses.store');
+    Route::post('/expenses/create', [ExpenseController::class, 'store'])->name('expenses.store');
 
-    Route::delete('/expense/delete/{id}', [ExpenseController::class, 'delete']);
+    Route::delete('/expenses/delete/{id}', [ExpenseController::class, 'delete']);
 
-    Route::get('/expense/edit/{id}', [ExpenseController::class, 'show'])->name('expenses.show');
-    Route::put('/expense/edit/{id}', [ExpenseController::class, 'edit'])->name('expenses.edit');
+    Route::get('/expenses/edit/{id}', [ExpenseController::class, 'show'])->name('expenses.show');
+    Route::put('/expenses/edit/{id}', [ExpenseController::class, 'edit'])->name('expenses.edit');
 
 
     Route::post('/change/avatar', [UserController::class, 'changeAvatar']);

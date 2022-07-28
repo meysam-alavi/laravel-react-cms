@@ -6,9 +6,9 @@ import AuthenticateAble from "../user/AuthenticateAble";
 import MessagesComponent from '../assisstants/MessagesComponent';
 
 /**
- * Create expense component
+ * Create expenses component
  */
-class CreateExpenseComponent extends AuthenticateAble {
+class ExpenseCreate extends AuthenticateAble {
 
     fields: any = ['name', 'amount', 'description'];
 
@@ -31,7 +31,7 @@ class CreateExpenseComponent extends AuthenticateAble {
     }
 
     /**
-     * on change expense name
+     * on change expenses name
      *
      * @param e
      */
@@ -42,7 +42,7 @@ class CreateExpenseComponent extends AuthenticateAble {
     }
 
     /**
-     * on change expense amount
+     * on change expenses amount
      *
      * @param e
      */
@@ -53,7 +53,7 @@ class CreateExpenseComponent extends AuthenticateAble {
     }
 
     /**
-     * on change expense description
+     * on change expenses description
      *
      * @param e
      */
@@ -92,7 +92,7 @@ class CreateExpenseComponent extends AuthenticateAble {
         });
 
 
-        const url = '/api/user/expense/create';
+        const url = '/api/user/expenses/create';
         const expense = {
             name: this.state.name,
             amount: this.state.amount,
@@ -145,7 +145,7 @@ class CreateExpenseComponent extends AuthenticateAble {
     }
 
     /**
-     * render create expense component
+     * render create expenses component
      *
      * @returns {JSX.Element|boolean}
      */
@@ -195,4 +195,4 @@ class CreateExpenseComponent extends AuthenticateAble {
     }
 }
 
-export default CreateExpenseComponent;
+export default ExpenseCreate;

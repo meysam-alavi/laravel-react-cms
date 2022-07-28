@@ -48,7 +48,7 @@ class Sidebar extends AuthenticateAble {
                         title: 'لیست هزینه ها',
                         isActive: false
                     }, {
-                        to: 'create-expense',
+                        to: 'create-expenses',
                         icon: 'fa fa-save',
                         title: 'ایجاد هزینه جدید',
                         isActive: false

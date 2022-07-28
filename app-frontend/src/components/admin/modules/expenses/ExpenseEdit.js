@@ -16,9 +16,9 @@ export function withRouter(Children) {
 
 
 /**
- * Edit expense component
+ * Edit expenses component
  */
-class EditExpenseComponent extends AuthenticateAble {
+class ExpenseEdit extends AuthenticateAble {
 
     fields: any = ['name', 'amount', 'description'];
 
@@ -42,7 +42,7 @@ class EditExpenseComponent extends AuthenticateAble {
     }
 
     getExpenseData() {
-        const url = '/api/user/expense/edit/' + this.props.match.params.id;
+        const url = '/api/user/expenses/edit/' + this.props.match.params.id;
         axiosInstance.get(url, this.config).then(response => {
             const result = response.data;
             if (result.success === true) {
@@ -67,7 +67,7 @@ class EditExpenseComponent extends AuthenticateAble {
     }
 
     /**
-     * on change expense name
+     * on change expenses name
      *
      * @param e
      */
@@ -79,7 +79,7 @@ class EditExpenseComponent extends AuthenticateAble {
     }
 
     /**
-     * on change expense amount
+     * on change expenses amount
      *
      * @param e
      */
@@ -90,7 +90,7 @@ class EditExpenseComponent extends AuthenticateAble {
     }
 
     /**
-     * on change expense description
+     * on change expenses description
      *
      * @param e
      */
@@ -140,7 +140,7 @@ class EditExpenseComponent extends AuthenticateAble {
             element.classList.remove('input-invalidate');
         });
 
-        const url = '/api/user/expense/edit/' + this.props.match.params.id;
+        const url = '/api/user/expenses/edit/' + this.props.match.params.id;
         const expenseObject = {
             id: this.state.id,
             name: this.state.name,
@@ -174,7 +174,7 @@ class EditExpenseComponent extends AuthenticateAble {
     }
 
     /**
-     * render edit expense component
+     * render edit expenses component
      *
      * @returns {JSX.Element}
      */
@@ -224,4 +224,4 @@ class EditExpenseComponent extends AuthenticateAble {
     }
 }
 
-export default withRouter(EditExpenseComponent);
+export default withRouter(ExpenseEdit);

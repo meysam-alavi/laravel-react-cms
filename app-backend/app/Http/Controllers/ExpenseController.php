@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 /**
- * expense controller class
+ * expenses controller class
  */
 class ExpenseController extends AdminController
 {
@@ -74,7 +74,7 @@ class ExpenseController extends AdminController
 
 
     /**
-     * delete specific expense by id
+     * delete specific expenses by id
      *
      * @param Request $request
      * @return JsonResponse
@@ -170,8 +170,8 @@ class ExpenseController extends AdminController
         $expense->save();
 
         $response = array(
-            'message' => 'expense updated !',
-            'expense' => $expense
+            'message' => 'expenses updated !',
+            'expenses' => $expense
         );
 
         return response()->json($response);

@@ -8,7 +8,7 @@ import AuthenticateAble from "../user/AuthenticateAble";
 /**
  * Expenses listing component
  */
-class ExpensesListingComponent extends AuthenticateAble {
+class ExpensesList extends AuthenticateAble {
 
     /**
      * constructor
@@ -74,12 +74,12 @@ class ExpensesListingComponent extends AuthenticateAble {
     }
 
     /**
-     * delete expense
+     * delete expenses
      *
      * @param expense
      */
     deleteExpense(expense) {
-        const url = '/api/user/expense/delete/' + expense.id;
+        const url = '/api/user/expenses/delete/' + expense.id;
 
         axiosInstance.delete(url, this.config).then(response => {
             let result = response.data
@@ -106,7 +106,7 @@ class ExpensesListingComponent extends AuthenticateAble {
                 <td>{expense.amount}</td>
                 <td>{expense.description}</td>
                 <td>
-                    <Link className="edit-link mx-1" to={'/edit-expense/' + expense.id}>
+                    <Link className="edit-link mx-1" to={'/edit-expenses/' + expense.id}>
                         <Button size="sm" variant="info">ویرایش</Button>
                     </Link>
                     <Button className="mx-1 btn btn-sm" onClick={this.deleteExpense.bind(this, expense)}
@@ -153,7 +153,7 @@ class ExpensesListingComponent extends AuthenticateAble {
     }
 
     /**
-     * render expense.listing component
+     * render expenses.listing component
      *
      * @returns {JSX.Element|boolean}
      */
@@ -182,4 +182,4 @@ class ExpensesListingComponent extends AuthenticateAble {
     }
 }
 
-export default ExpensesListingComponent;
+export default ExpensesList;

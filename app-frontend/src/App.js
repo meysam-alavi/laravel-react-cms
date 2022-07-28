@@ -4,9 +4,9 @@ import {Col, Container, Navbar, Row} from "react-bootstrap";
 import {Route, Routes} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
-import CreateExpenseComponent from "./components/admin/modules/expense/CreateExpenseComponent";
-import EditExpenseComponent from "./components/admin/modules/expense/EditExpenseComponent";
-import ExpensesListingComponent from "./components/admin/modules/expense/ExpensesListingComponent";
+import ExpenseCreate from "./components/admin/modules/expenses/ExpenseCreate";
+import EditExpenseComponent from "./components/admin/modules/expenses/ExpenseEdit";
+import ExpensesList from "./components/admin/modules/expenses/ExpensesList";
 import AuthenticateAble from "./components/admin/modules/user/AuthenticateAble";
 import Sidebar from "./components/admin/modules/dashboard/Sidebar";
 import DashboardMiniTools from "./components/admin/modules/dashboard/DashboardMiniTools";
@@ -18,7 +18,7 @@ import SoundsManagement from "./components/admin/modules/multimedia/soundsManage
 import AddEducationalGrade from "./components/admin/modules/settings/common/educationalGrades/AddEducationalGrade";
 import ContinentsList from "./components/admin/modules/settings/common/regions/continents/ContinentsList";
 import BaseComponent from "./components/admin/BaseComponent";
-import AddPerson from "./components/admin/modules/persons/AddPerson";
+import PersonAdd from "./components/admin/modules/persons/PersonAdd";
 import CategoriesList from "./components/admin/modules/categories/CategoriesList";
 import CategoryCreate from "./components/admin/modules/categories/CategoryCreate";
 
@@ -74,14 +74,14 @@ class App extends BaseComponent {
                     <DashboardMiniTools/>
 
                     {/*<Navbar.Brand>
-                        <Link to={"create-expense"} className="nav-link">
+                        <Link to={"create-expenses"} className="nav-link">
                             مدیریت هزینه
                         </Link>
                     </Navbar.Brand>*/}
 
                     {/*<Nav className="justify-content-end">
                         <Nav>
-                            <Link to={"create-expense"} className="nav-link">
+                            <Link to={"create-expenses"} className="nav-link">
                                 ایجاد هزینه
                             </Link>
                             <Link to={"expenses-listing"} className="nav-link">
@@ -106,17 +106,17 @@ class App extends BaseComponent {
                     <Col lg={2}><Sidebar/></Col>
                     <Col lg={10} className="py-4">
                         <Routes>
-                            <Route path="/" element={<CreateExpenseComponent/>}/>
+                            <Route path="/" element={<ExpenseCreate/>}/>
 
                             {/*Settings Module*/}
                             <Route path="add-educational-grade" element={<AddEducationalGrade/>}/>
                             <Route path="continents-list" element={<ContinentsList/>}/>
 
 
-                            <Route path="/create-expense" element={<CreateExpenseComponent/>}/>
+                            <Route path="/create-expense" element={<ExpenseCreate/>}/>
                             <Route path="/edit-expense/:id" element={<EditExpenseComponent/>}/>
                             <Route path="/:lang/admin/module/expenses-manager/expenses-listing"
-                                   element={<ExpensesListingComponent/>}/>
+                                   element={<ExpensesList/>}/>
                             <Route path='/user-edit' element={<UserEdit/>}/>
                             <Route path="/change-avatar" element={<ChangeAvatar/>}/>
                             <Route path="/multimedia/videos-management" element={<VideosManagement/>}/>
@@ -125,7 +125,7 @@ class App extends BaseComponent {
 
 
                             {/*Persons Module*/}
-                            <Route path="/:lang/admin/modules/persons/add-person" element={<AddPerson/>}/>
+                            <Route path="/:lang/admin/modules/persons/add-person" element={<PersonAdd/>}/>
 
                             {/*Categories Module*/}
                             <Route path="/:lang/admin/modules/categories/list" element={<CategoriesList/>}/>

@@ -1,17 +1,22 @@
-import PersonsModule from "./PersonsModule";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.min.css"
 import MessagesComponent from "../assisstants/MessagesComponent";
-import ContinentSelectOptions from "../settings/common/regions/continents/ContinentSelectOptions";
 import CountrySelectOptions from "../settings/common/regions/countries/CountrySelectOptions";
 import CitySelectOptions from "../settings/common/regions/cities/CitySelectOptions";
 import SelectOptionGenerator from "../../generators/SelectOptionGenerator";
+import PersonModel from "./PersonModel";
 
 /**
  * Add Person Class Component
  */
-class AddPerson extends PersonsModule {
+class PersonAdd extends PersonModel {
+
+    /**
+     * constructor
+     *
+     * @param props
+     */
     constructor(props) {
         super(props);
 
@@ -295,4 +300,4 @@ class AddPerson extends PersonsModule {
     }
 }
 
-export default AddPerson;
+export default PersonAdd;
