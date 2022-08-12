@@ -10,7 +10,7 @@ use App\Http\Controllers\ContinentController;
 use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\MultimediaController;
-
+use App\Http\Controllers\PersonController;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -75,6 +75,10 @@ Route::prefix('/{lang}/admin/user')->middleware('auth:sanctum')->group(function 
     Route::post('/multimedia/sound/move/item/{id}', [MultimediaController::class, 'moveItem']);
     Route::post('/multimedia/sound/rename/item/{id}', [MultimediaController::class, 'renameItem']);
     Route::post('/multimedia/sound/delete/item/{id}', [MultimediaController::class, 'deleteItem']);
+
+
+    // Persons Module
+    Route::post('/person/create', [PersonController::class, 'create']);
 
 
     // Categories Module

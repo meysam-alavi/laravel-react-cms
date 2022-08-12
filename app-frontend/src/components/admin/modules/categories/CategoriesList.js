@@ -1,3 +1,4 @@
+import React from "react";
 import CategoriesModule from "./CategoriesModule";
 import {Col, Row} from "react-bootstrap";
 

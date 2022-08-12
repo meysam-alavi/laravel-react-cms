@@ -1,3 +1,4 @@
+import React from "react";
 import CityModel from "./CityModel";
 import SelectOptionGenerator from "../../../../../generators/SelectOptionGenerator";
 
@@ -23,7 +24,8 @@ class CitySelectOptions extends CityModel {
             <SelectOptionGenerator
                 items={this.state.items}
                 optionKey={this.props.optionKey}
-                optionValue={this.props.optionValue}/>
+                optionValue={this.props.optionValue}
+                onChange={this.props.onChange}/>
         );
     }
 

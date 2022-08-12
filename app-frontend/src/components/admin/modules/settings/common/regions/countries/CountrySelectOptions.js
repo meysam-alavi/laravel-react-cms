@@ -1,3 +1,4 @@
+import React from "react";
 import CountryModel from "./CountryModel";
 import SelectOptionGenerator from "../../../../../generators/SelectOptionGenerator";
 
@@ -21,7 +22,8 @@ class CountrySelectOptions extends CountryModel {
             items={this.state.items}
             optionKey={this.props.optionKey}
             optionValue={this.props.optionValue}
-            onChange={this.props.onChange}/>);
+            onChange={this.props.onChange}
+            dir={this.props.dir}/>);
     }
 
     componentDidMount() {

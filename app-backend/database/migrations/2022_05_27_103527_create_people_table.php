@@ -18,7 +18,7 @@ class CreatePeopleTable extends Migration
             $table->string('first_name', 20)->fulltext();
             $table->string('last_name', 30)->fulltext();
             $table->timestamp('birth_date');
-            $table->string('national_code');
+            $table->string('national_code')->nullable();
             $table->string('birth_certificate_code')->nullable();
             $table->string('birth_certificate_series')->nullable();
             $table->string('birth_certificate_serial')->nullable();
@@ -31,7 +31,7 @@ class CreatePeopleTable extends Migration
             $table->enum('gender', ['M', 'F']);
             $table->float('weight')->nullable();
             $table->float('height')->nullable();
-            $table->enum('size', ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL']);
+            $table->enum('size', ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'])->nullable();
             $table->timestamps();
         });
     }

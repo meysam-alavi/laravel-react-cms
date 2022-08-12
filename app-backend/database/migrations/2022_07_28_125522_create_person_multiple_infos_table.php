@@ -18,6 +18,7 @@ class CreatePersonMultipleInfosTable extends Migration
             $table->integer('person_id')->index();
             $table->enum('type_info', ['mail', 'phone_number', 'mobile_number', 'detail_address'])->index();
             $table->string('content')->fulltext();
+            $table->enum('type_of_usage',['personal', 'business', 'residence', 'workhouse', 'hangout']);
             $table->enum('default_selection', ['T', 'F'])->default('F')->index();
             $table->integer('created_by');
             $table->integer('updated_by');

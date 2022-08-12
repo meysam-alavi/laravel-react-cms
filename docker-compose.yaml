@@ -73,6 +73,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_USER: ${DB_USERNAME}
+      LOWER_CASE_TABLE_NAMES: 2
     volumes:
       - ./.docker/mysql/init-db:/docker-entrypoint-initdb.d
       - ./.docker/mysql/db-data:/var/lib/mysql

@@ -1,3 +1,4 @@
+import React from "react";
 import BaseComponent from "../BaseComponent";
 import {Form} from "react-bootstrap";
 
@@ -32,7 +33,7 @@ class SelectOptionGenerator extends BaseComponent {
 
 
         return (
-            <Form.Select aria-label="" name="" id="" dir={this.props.dir} onChange={this.props.onChange}>
+            <Form.Select aria-label="" name="" id="" dir={this.props.dir} className={this.props.className} onChange={this.props.onChange}>
                 <option value="">--</option>
                 {options}
             </Form.Select>
