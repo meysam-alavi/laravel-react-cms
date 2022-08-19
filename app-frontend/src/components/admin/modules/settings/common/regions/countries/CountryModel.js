@@ -5,8 +5,8 @@ class CountryModel extends SettingsModule {
     constructor(props) {
         super(props);
 
-        this.urlList = `/api/${this.getLang()}/admin/user/settings/countries/list`;
-        this.urlAll = `/api/${this.getLang()}/admin/user/settings/countries/all`;
+        this.urlList = `/api/${this.getLang()}/admin/settings/countries/list`;
+        this.urlAll = `/api/${this.getLang()}/admin/settings/countries/all`;
 
         this.state = {
             allCountries: []

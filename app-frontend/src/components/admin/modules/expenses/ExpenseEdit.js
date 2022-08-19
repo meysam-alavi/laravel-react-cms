@@ -1,10 +1,10 @@
 import React from "react";
 import {Button, Col, Form, Row} from "react-bootstrap";
-import axiosInstance from "../../../../services/api"
-import AuthenticateAble from "../user/AuthenticateAble";
+import axiosInstance from "../../../../services/api";
 import {useParams} from 'react-router-dom';
 import MessagesComponent from "../assisstants/MessagesComponent";
 import SWal from "sweetalert2";
+import ExpenseModel from "./ExpenseModel";
 
 
 export function withRouter(Children) {
@@ -14,11 +14,10 @@ export function withRouter(Children) {
     }
 }
 
-
 /**
- * Edit expenses component
+ * Expense Edit Class Component
  */
-class ExpenseEdit extends AuthenticateAble {
+class ExpenseEdit extends ExpenseModel {
 
     fields: any = ['name', 'amount', 'description'];
 
@@ -29,6 +28,16 @@ class ExpenseEdit extends AuthenticateAble {
      */
     constructor(props) {
         super(props);
+
+        this.pageInfo = {
+            title: 'فرم ویرایش هزینه'
+        };
+
+        this.pathInfo.push({
+            title: this.pageInfo.title,
+            href: null,
+            isActive: true
+        });
 
         this.getExpenseData = this.getExpenseData.bind(this);
         this.onChangeExpenseName = this.onChangeExpenseName.bind(this);
@@ -42,7 +51,7 @@ class ExpenseEdit extends AuthenticateAble {
     }
 
     getExpenseData() {
-        const url = '/api/user/expenses/edit/' + this.props.match.params.id;
+        const url = `/api/${this.getLang()}/admin/expenses/edit/${this.props.match.params.id}`;
         axiosInstance.get(url, this.config).then(response => {
             const result = response.data;
             if (result.success === true) {
@@ -179,18 +188,15 @@ class ExpenseEdit extends AuthenticateAble {
      * @returns {JSX.Element}
      */
     render() {
-        /*if (!this.checkLogin()) {
-            this.logout();
-        }*/
-
         return (
             <Row>
+                <Col className="col-12 d-flex">
+                    <span className="admin-form-header">{this.pageInfo.title}</span>
+                </Col>
+                {this.breadCrumbGenerator(this.pathInfo)}
                 <Col className="col-md-6 mx-auto">
                     <div className="form-wrapper">
                         {this.state.messages ? <MessagesComponent messagesBag={this.state.messages}/> : ''}
-                        <div className="common-header">
-                            <h5>فرم ویرایش هزینه</h5>
-                        </div>
                         <Form onSubmit={this.onSubmit} className="d-block mb-3">
                             <Form.Group controlId="name" className="form-group mb-2">
                                 <Form.Label>نام:</Form.Label>

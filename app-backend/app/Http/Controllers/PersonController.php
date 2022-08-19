@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Person;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class PersonController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -19,6 +20,7 @@ class PersonController extends Controller
     }
 
     /**
+     * create
      *
      * @param Request $request
      * @return JsonResponse
@@ -26,12 +28,14 @@ class PersonController extends Controller
     public function create(Request $request): JsonResponse
     {
         $request->validate([
-            'first_name' => 'required|min:5'
+            'first_name' => 'required|min:5',
+            'last_name' => 'required|min:5',
+            'birth_date' => 'required',
+            'gender' => 'required',
         ]);
 
 
         $result = ['data' => null, 'messages' => null, 'success' => false];
-
 
         $birthDate = $request->input('birthDate');
         $birthDate = str_replace(['T', 'Z'], [' ', ''], $birthDate);
@@ -47,7 +51,7 @@ class PersonController extends Controller
 
         $person = Person::query()->create($data);
 
-        if($person) {
+        if ($person) {
             $result['data'] = $person;
             $result['success'] = true;
         }
@@ -56,10 +60,24 @@ class PersonController extends Controller
     }
 
     /**
+     * paginate list
+     *
+     * @return JsonResponse
+     */
+    public function paginateList(): JsonResponse
+    {
+        $persons = Person::query()
+            ->orderBy('id', 'desc')
+            ->paginate(2);
+
+        return response()->json($persons);
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -69,8 +87,8 @@ class PersonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Models\Person $person
-     * @return \Illuminate\Http\Response
+     * @param Person $person
+     * @return Response
      */
     public function show(Person $person)
     {
@@ -80,8 +98,8 @@ class PersonController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param \App\Models\Person $person
-     * @return \Illuminate\Http\Response
+     * @param Person $person
+     * @return Response
      */
     public function edit(Person $person)
     {
@@ -91,9 +109,9 @@ class PersonController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Person $person
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Person $person
+     * @return Response
      */
     public function update(Request $request, Person $person)
     {
@@ -103,8 +121,8 @@ class PersonController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Person $person
-     * @return \Illuminate\Http\Response
+     * @param Person $person
+     * @return Response
      */
     public function destroy(Person $person)
     {

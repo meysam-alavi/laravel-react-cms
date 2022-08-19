@@ -1,7 +1,7 @@
 import Module from "../Module";
 
 /**
- * Multimedia Module
+ * Multimedia Module Class Component
  */
 class MultimediaModule extends Module {
 

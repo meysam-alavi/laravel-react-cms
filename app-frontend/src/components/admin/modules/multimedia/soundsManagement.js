@@ -4,7 +4,7 @@ import {Col, Row} from "react-bootstrap";
 import CFileManager from "../assisstants/CFileManager";
 
 /**
- * sound management component
+ * Sound Management Class Component
  */
 class SoundsManagement extends MultimediaModule {
 

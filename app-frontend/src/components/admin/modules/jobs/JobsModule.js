@@ -1,9 +1,9 @@
 import Module from "../Module";
 
 /**
- * Expenses Module Class Component
+ * Jobs Module Class Component
  */
-class ExpensesModule extends Module {
+class JobsModule extends Module {
 
     /**
      * constructor
@@ -14,9 +14,9 @@ class ExpensesModule extends Module {
         super(props);
 
         this.pathInfo = [
-            {title: 'مدیریت هزینه ها', href: null, isActive: false}
+            {title: 'مدیریت مشاغل', href: null, isActive: false}
         ];
     }
 }
 
-export default ExpensesModule;
+export default JobsModule;

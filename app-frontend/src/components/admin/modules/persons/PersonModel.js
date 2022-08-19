@@ -1,3 +1,4 @@
+import React from "react";
 import PersonsModule from "./PersonsModule";
 import axiosInstance from "../../../../services/api";
 import Errors from "../assisstants/Errors";
@@ -14,7 +15,8 @@ class PersonModel extends PersonsModule {
     constructor(props) {
         super(props);
 
-        this.urlCreate = `/api/${this.getLang()}/admin/user/person/create`;
+        this.urlCreate = `/api/${this.getLang()}/admin/person/create`;
+        this.urlPaginateList = `/api/${this.getLang()}/admin/person/paginate/list`;
 
         this.state = {
             messages: ''
@@ -22,9 +24,31 @@ class PersonModel extends PersonsModule {
     }
 
 
+    /**
+     * create
+     *
+     * @param data
+     */
     create(data) {
         axiosInstance.post(this.urlCreate, data, this.config).then(response => {
 
+        }).catch(error => {
+            return <Errors errorObj={error}/>;
+        });
+    }
+
+    /**
+     * get paginate list
+     */
+    getPaginateList() {
+        return axiosInstance.get(this.urlPaginateList, this.config).then(response => {
+            return response;
+
+            /*const data = response.data.data;
+            const links = response.data.links;
+
+            this.setState({persons: data});
+            this.setState({links: links});*/
         }).catch(error => {
             return <Errors errorObj={error}/>;
         });

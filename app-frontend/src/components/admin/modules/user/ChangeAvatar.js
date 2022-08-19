@@ -92,7 +92,7 @@ class ChangeAvatar extends AuthenticateAble {
             element.classList.remove('input-invalidate');
         });
 
-        const url = '/api/user/change/avatar';
+        const url = `api/${this.getLang()}/admin/user/change/avatar`;
         let avatarSlice = '';
         if (this.state.preview) {
             // expected string ~ data:image/gif;base64,R0lGODlhPQBEAPeoAJosM....

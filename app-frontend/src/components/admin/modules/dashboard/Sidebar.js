@@ -9,7 +9,7 @@ import "./Sidebar.css";
 import AuthenticateAble from "../user/AuthenticateAble";
 
 /**
- * Sidebar Component
+ * Sidebar Class Component
  */
 class Sidebar extends AuthenticateAble {
 

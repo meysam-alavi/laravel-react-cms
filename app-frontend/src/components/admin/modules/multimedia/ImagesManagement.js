@@ -4,7 +4,7 @@ import {Col, Row} from "react-bootstrap";
 import CFileManager from "../assisstants/CFileManager";
 
 /**
- * Images management class
+ * Images Management Class Component
  */
 class ImagesManagement extends MultimediaModule {
 

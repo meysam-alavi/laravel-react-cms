@@ -29,9 +29,9 @@ Route::middleware('cors:auth:sanctum')->get('/user', function (Request $request)
 });
 
 // '[email protected]'
-Route::prefix('/{lang}/admin/user')->middleware('auth:sanctum')->group(function () {
+Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
 
-    Route::get('/expenses', [ExpenseController::class, 'index'])->name('expenses.all');
+    Route::get('/expenses/paginate/list', [ExpenseController::class, 'index'])->name('expenses.all');
     Route::post('/expenses/create', [ExpenseController::class, 'store'])->name('expenses.store');
 
     Route::delete('/expenses/delete/{id}', [ExpenseController::class, 'delete']);
@@ -40,10 +40,10 @@ Route::prefix('/{lang}/admin/user')->middleware('auth:sanctum')->group(function 
     Route::put('/expenses/edit/{id}', [ExpenseController::class, 'edit'])->name('expenses.edit');
 
 
-    Route::post('/change/avatar', [UserController::class, 'changeAvatar']);
-
-    Route::post('/check/login', [UserController::class, 'checkLogin'])->name('check-login');
-    Route::post('/logout', [LoginController::class, 'logout']);
+    // User Module
+    Route::post('/user/change/avatar', [UserController::class, 'changeAvatar']);
+    Route::post('/user/check/login', [UserController::class, 'checkLogin'])->name('check-login');
+    Route::post('/user/logout', [LoginController::class, 'logout']);
 
 
     // Settings Module
@@ -79,6 +79,7 @@ Route::prefix('/{lang}/admin/user')->middleware('auth:sanctum')->group(function 
 
     // Persons Module
     Route::post('/person/create', [PersonController::class, 'create']);
+    Route::get('/person/paginate/list', [PersonController::class, 'paginateList']);
 
 
     // Categories Module

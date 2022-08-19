@@ -21,6 +21,7 @@ import BaseComponent from "./components/admin/BaseComponent";
 import PersonAdd from "./components/admin/modules/persons/PersonAdd";
 import CategoriesList from "./components/admin/modules/categories/CategoriesList";
 import CategoryCreate from "./components/admin/modules/categories/CategoryCreate";
+import PersonsList from "./components/admin/modules/persons/PersonsList";
 
 /**
  * App component
@@ -118,7 +119,7 @@ class App extends BaseComponent {
                             <Route path="/:lang/admin/module/expenses-manager/expenses-listing"
                                    element={<ExpensesList/>}/>
                             <Route path='/user-edit' element={<UserEdit/>}/>
-                            <Route path="/change-avatar" element={<ChangeAvatar/>}/>
+                            <Route path="/:lang/admin/modules/user/change-avatar" element={<ChangeAvatar/>}/>
                             <Route path="/multimedia/videos-management" element={<VideosManagement/>}/>
                             <Route path="/multimedia/images-management" element={<ImagesManagement/>}/>
                             <Route path="/multimedia/sounds-management" element={<SoundsManagement/>}/>
@@ -126,6 +127,7 @@ class App extends BaseComponent {
 
                             {/*Persons Module*/}
                             <Route path="/:lang/admin/modules/persons/add-person" element={<PersonAdd/>}/>
+                            <Route path="/:lang/admin/modules/persons/persons-list" element={<PersonsList/>}/>
 
                             {/*Categories Module*/}
                             <Route path="/:lang/admin/modules/categories/list" element={<CategoriesList/>}/>

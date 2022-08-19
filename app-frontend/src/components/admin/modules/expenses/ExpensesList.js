@@ -2,13 +2,13 @@ import React from "react";
 import {Button, Table} from "react-bootstrap";
 import {Link} from "react-router-dom";
 import axiosInstance from "../../../../services/api";
-import AuthenticateAble from "../user/AuthenticateAble";
+import ExpenseModel from "./ExpenseModel";
 
 
 /**
- * Expenses listing component
+ * Expenses List Class Component
  */
-class ExpensesList extends AuthenticateAble {
+class ExpensesList extends ExpenseModel {
 
     /**
      * constructor
@@ -17,6 +17,16 @@ class ExpensesList extends AuthenticateAble {
      */
     constructor(props) {
         super(props);
+
+        this.pageInfo = {
+            title: 'لیست هزینه ها'
+        };
+
+        this.pathInfo.push({
+            title: this.pageInfo.title,
+            href: null,
+            isActive: true
+        });
 
         this.componentDidMount = this.componentDidMount.bind(this);
         this.pager = this.pager.bind(this);
@@ -32,7 +42,7 @@ class ExpensesList extends AuthenticateAble {
      */
     componentDidMount() {
         super.componentDidMount();
-        const url = `/api/${this.lang}/admin/user/expenses`;
+        const url = `/api/${this.lang}/admin/expenses/paginate/list`;
         this.getList(url);
     }
 

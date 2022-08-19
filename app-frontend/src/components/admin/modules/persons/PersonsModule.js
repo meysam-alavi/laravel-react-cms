@@ -1,7 +1,7 @@
 import Module from "../Module";
 
 /**
- * Persons Module
+ * Persons Module Class Component
  */
 class PersonsModule extends Module {
 

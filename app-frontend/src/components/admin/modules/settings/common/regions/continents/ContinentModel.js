@@ -15,8 +15,8 @@ class ContinentModel extends SettingsModule {
     constructor(props) {
         super(props);
 
-        this.urlList = `/api/${this.getLang()}/admin/user/settings/continents/list`;
-        this.urlAll = `/api/${this.getLang()}/admin/user/settings/continents/all`;
+        this.urlList = `/api/${this.getLang()}/admin/settings/continents/list`;
+        this.urlAll = `/api/${this.getLang()}/admin/settings/continents/all`;
 
         this.state = {
             continents: [],
@@ -30,7 +30,7 @@ class ContinentModel extends SettingsModule {
     }
 
     /**
-     * getList
+     * get list
      *
      * @param url
      * @param parameters

@@ -2,13 +2,13 @@ import React from "react";
 import {Button, Col, Form, Row} from "react-bootstrap";
 import SWal from "sweetalert2";
 import axiosInstance from "../../../../services/api";
-import AuthenticateAble from "../user/AuthenticateAble";
 import MessagesComponent from '../assisstants/MessagesComponent';
+import ExpenseModel from "./ExpenseModel";
 
 /**
- * Create expenses component
+ * Expense Create Class Component
  */
-class ExpenseCreate extends AuthenticateAble {
+class ExpenseCreate extends ExpenseModel {
 
     fields: any = ['name', 'amount', 'description'];
 
@@ -20,7 +20,16 @@ class ExpenseCreate extends AuthenticateAble {
     constructor(props) {
         super(props);
 
-        // setting of functions
+        this.pageInfo = {
+            title: 'فرم ایجاد هزینه ی جدید'
+        };
+
+        this.pathInfo.push({
+            title: this.pageInfo.title,
+            href: null,
+            isActive: true
+        });
+
         this.onChangeExpenseName = this.onChangeExpenseName.bind(this);
         this.onChangeExpenseAmount = this.onChangeExpenseAmount.bind(this);
         this.onChangeExpenseDescription = this.onChangeExpenseDescription.bind(this);
@@ -82,9 +91,7 @@ class ExpenseCreate extends AuthenticateAble {
     onSubmit(e) {
         e.preventDefault();
 
-        this.setState((state, props) => {
-            return {messages: ''};
-        });
+        this.setState({messages: ''});
 
         this.fields.forEach(elementId => {
             const element = document.getElementById(elementId);
@@ -92,7 +99,7 @@ class ExpenseCreate extends AuthenticateAble {
         });
 
 
-        const url = '/api/user/expenses/create';
+        const url = `/api/${this.getLang()}/admin/expenses/create`;
         const expense = {
             name: this.state.name,
             amount: this.state.amount,
@@ -101,13 +108,8 @@ class ExpenseCreate extends AuthenticateAble {
 
         axiosInstance.post(url, expense, this.config).then(response => {
             let result = response.data;
-            console.log(result);
-            if (result.success === true) {
-                console.info(`Expense successfully created !`);
-                console.info(`Name: ${this.state.name}`);
-                console.info(`Amount: ${this.state.amount}`);
-                console.info(`Description: ${this.state.description}`);
 
+            if (result.success === true) {
                 SWal.fire(
                     'Good Job !',
                     'Expense added successfully !',
@@ -150,18 +152,15 @@ class ExpenseCreate extends AuthenticateAble {
      * @returns {JSX.Element|boolean}
      */
     render() {
-        /*if (!this.checkLogin()) {
-            return this.logout();
-        }*/
-
         return (
             <Row>
+                <Col className="col-12 d-flex">
+                    <span className="admin-form-header">{this.pageInfo.title}</span>
+                </Col>
+                {this.breadCrumbGenerator(this.pathInfo)}
                 <Col className="col-md-6 mx-auto">
                     <div className="form-wrapper">
                         {this.state.messages ? <MessagesComponent messagesBag={this.state.messages}/> : ''}
-                        <div className="common-header">
-                            <h5>فرم ایجاد هزینه ی جدید</h5>
-                        </div>
                         <Form onSubmit={this.onSubmit} className="d-block mb-3">
                             <Form.Group controlId="name" className="form-group mb-2">
                                 <Form.Label>نام:</Form.Label>

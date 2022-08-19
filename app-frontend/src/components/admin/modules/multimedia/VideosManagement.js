@@ -8,7 +8,7 @@ import SWal from "sweetalert2";
 import CFileManager from "../assisstants/CFileManager";
 
 /**
- * videos management
+ * videos Management Class Component
  */
 class VideosManagement extends MultimediaModule {
 
