@@ -33,15 +33,20 @@ class PersonModel extends PersonsModule {
         axiosInstance.post(this.urlCreate, data, this.config).then(response => {
 
         }).catch(error => {
-            return <Errors errorObj={error}/>;
+            this.handleError(error);
         });
     }
 
     /**
      * get paginate list
+     *
+     * @param url
+     * @returns {Promise<AxiosResponse<any>>}
      */
-    getPaginateList() {
-        return axiosInstance.get(this.urlPaginateList, this.config).then(response => {
+    getPaginateList(url) {
+        let urlPaginate = url ? url : this.urlPaginateList;
+        console.log(urlPaginate);
+        return axiosInstance.get(urlPaginate, this.config).then(response => {
             return response;
 
             /*const data = response.data.data;
@@ -50,7 +55,7 @@ class PersonModel extends PersonsModule {
             this.setState({persons: data});
             this.setState({links: links});*/
         }).catch(error => {
-            return <Errors errorObj={error}/>;
+            this.handleError(error);
         });
     }
 

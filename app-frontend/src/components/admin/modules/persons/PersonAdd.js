@@ -233,7 +233,7 @@ class PersonAdd extends PersonModel {
                         <Form.Group controlId="address_of_citizenship" className="form-group flex-fill mb-2 px-2">
                             <Form.Label className="mb-1">آدرس:</Form.Label>
                             <div>
-                                <Form.Control as="textarea" rows="3" dir="rtl"
+                                <Form.Control as="textarea" rows="3" dir="auto"
                                               onChange={this.onChangeAddressOfCitizenship}/>
                             </div>
                         </Form.Group>
@@ -297,11 +297,7 @@ class PersonAdd extends PersonModel {
     onSubmit(e) {
         e.preventDefault();
 
-        let data = [];
-
-        data['first_name'] = this.state.firstName;
-
-        this.create(data);
+        this.create(this.state);
     }
 
     /**

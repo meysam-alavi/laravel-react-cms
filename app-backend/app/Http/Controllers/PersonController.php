@@ -68,7 +68,7 @@ class PersonController extends Controller
     {
         $persons = Person::query()
             ->orderBy('id', 'desc')
-            ->paginate(2);
+            ->paginate(1);
 
         return response()->json($persons);
     }

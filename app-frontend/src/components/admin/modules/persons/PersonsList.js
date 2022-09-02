@@ -61,6 +61,7 @@ class PersonsList extends PersonModel {
                     {this.dataTable()}
                     </tbody>
                 </Table>
+                {this.pager()}
             </div>
         );
     }
@@ -100,15 +101,51 @@ class PersonsList extends PersonModel {
      * pager generator
      */
     pager() {
-        /*const pager = this.state.links.map((item, index) => {
+        const pager = this.state.links.map((item, index) => {
             let result = '';
 
+            if (item.url !== null) {
+                if (item.active === true) {
+                    result =
+                        <li key={index} className='page-item disabled'>
+                            <span className='page-link'>
+                                {item.label}
+                            </span>
+                        </li>;
+                } else {
+                    result =
+                        <li key={index} className='page-item'>
+                            <a className='page-link' onClick={this.handlePageNavigation.bind(this, item.url)}
+                               href={item.url}>
+                                {item.label}
+                            </a>
+                        </li>;
+                }
+            }
 
 
             return (result)
         });
 
-        return <ul className="pagination" dir="ltr">{pager}</ul>;*/
+        return <ul className="pagination" dir="ltr">{pager}</ul>;
+    }
+
+    /**
+     * handle page navigation
+     *
+     * @param url
+     * @param e
+     */
+    handlePageNavigation(url, e) {
+        e.preventDefault();
+
+        this.getPaginateList(url).then(response => {
+            const data = response.data.data;
+            const links = response.data.links;
+
+            this.setState({persons: data});
+            this.setState({links: links});
+        });
     }
 }
 
