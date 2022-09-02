@@ -22,6 +22,8 @@ import PersonAdd from "./components/admin/modules/persons/PersonAdd";
 import CategoriesList from "./components/admin/modules/categories/CategoriesList";
 import CategoryCreate from "./components/admin/modules/categories/CategoryCreate";
 import PersonsList from "./components/admin/modules/persons/PersonsList";
+import JobsGroupCreate from "./components/admin/modules/jobs/JobsGroupCreate";
+import JobsGroupsList from "./components/admin/modules/jobs/JobsGroupsList";
 
 /**
  * App component
@@ -128,6 +130,10 @@ class App extends BaseComponent {
                             {/*Persons Module*/}
                             <Route path="/:lang/admin/modules/persons/add-person" element={<PersonAdd/>}/>
                             <Route path="/:lang/admin/modules/persons/persons-list" element={<PersonsList/>}/>
+
+                            {/*Jobs Module*/}
+                            <Route path="/:lang/admin/modules/jobs/jobs-group-create" element={<JobsGroupCreate/>}/>
+                            <Route path="/:lang/admin/modules/jobs/jobs-group-list" element={<JobsGroupsList/>}/>
 
                             {/*Categories Module*/}
                             <Route path="/:lang/admin/modules/categories/list" element={<CategoriesList/>}/>

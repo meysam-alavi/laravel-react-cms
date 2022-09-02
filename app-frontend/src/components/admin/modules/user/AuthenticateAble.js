@@ -43,6 +43,7 @@ class AuthenticateAble extends BaseComponent {
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.setMessages = this.setMessages.bind(this);
+        this.handleError = this.handleError.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.login = this.login.bind(this);
         this.logout = this.logout.bind(this);
@@ -83,19 +84,7 @@ class AuthenticateAble extends BaseComponent {
                     window.loginState = true;
                     return true;
                 }).catch(error => {
-                    //return window.loginState;
-                    if (error.response) {
-                        switch (error.response.status) {
-                            case 422:
-                                this.setMessages(error.response.data);
-                                break;
-                            case 401:
-                                this.unauthenticated();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                    this.handleError(error)
                 });
             }
         }
@@ -220,9 +209,27 @@ class AuthenticateAble extends BaseComponent {
      * @param messagesList
      */
     setMessages(messagesList) {
-        this.setState((state, props) => {
-            return {messages: messagesList};
-        });
+        this.setState({messages: messagesList});
+    }
+
+    /**
+     * handle error
+     *
+     * @param catchErrorObj
+     */
+    handleError(catchErrorObj) {
+        if (catchErrorObj.response) {
+            switch (catchErrorObj.response.status) {
+                case 422:
+                    this.setMessages(catchErrorObj.response.data);
+                    break;
+                case 401:
+                    this.unauthenticated();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     /**

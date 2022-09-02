@@ -11,6 +11,7 @@ use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\MultimediaController;
 use App\Http\Controllers\PersonController;
+use App\Http\Controllers\JobsGroupController;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -80,6 +81,10 @@ Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
     // Persons Module
     Route::post('/person/create', [PersonController::class, 'create']);
     Route::get('/person/paginate/list', [PersonController::class, 'paginateList']);
+
+    // Jobs Module
+    Route::post('/jobs/group/create', [JobsGroupController::class, 'create']);
+    Route::get('/jobs/group/paginate/list', [JobsGroupController::class, 'paginateList']);
 
 
     // Categories Module

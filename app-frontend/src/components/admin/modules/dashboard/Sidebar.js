@@ -100,6 +100,20 @@ class Sidebar extends AuthenticateAble {
                         title: 'ایجاد دسته بندی',
                         isActive: false
                     }]
+                },
+                {
+                    head: {icon: 'fa fa-navicon', title: 'مدیریت مشاغل'},
+                    items: [{
+                        to: `${this.prefixModulePath}/jobs/jobs-group-list`,
+                        icon: 'fa fa-list',
+                        title: 'لیست گروه های مشاغل',
+                        isActive: false
+                    }, {
+                        to: `${this.prefixModulePath}/jobs/jobs-group-create`,
+                        icon: 'fa fa-user-plus',
+                        title: 'ایجاد گروه مشاغل',
+                        isActive: false
+                    }]
                 }
             ]
         }
