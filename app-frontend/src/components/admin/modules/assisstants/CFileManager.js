@@ -1,12 +1,15 @@
 import React from 'react';
-import "devextreme/dist/css/dx.material.purple.dark.compact.css";
 import FileManager, {Column, Details, ItemView, Permissions} from 'devextreme-react/file-manager';
 import axiosInstance from "../../../../services/api";
 import AuthenticateAble from "../user/AuthenticateAble";
 import Swal from "sweetalert2";
+import "devextreme/dist/css/dx.material.purple.dark.compact.css";
 
 const allowedFileExtensions = [];
 
+/**
+ * CFileManager Class Component
+ */
 class CFileManager extends AuthenticateAble {
 
     /**
@@ -38,29 +41,21 @@ class CFileManager extends AuthenticateAble {
      * update directory map
      */
     updateDirectoryMap() {
-        const url = '/api/user/multimedia/directory/map';
+        const url = `/api/${this.getLang()}/admin/multimedia/directory/map`;
         const data = {
             groupType: this.props.groupType
         };
+
         axiosInstance.post(url, data, this.config).then(response => {
             const result = response.data;
             if (result.success === true) {
                 let directoryTree = [];
+
                 directoryTree.push(result.data);
-                //console.log(directoryTree);
                 this.setDirectoryTree(directoryTree);
-                //this.regenerateInnerUI(directoryTree);
             }
         }).catch(error => {
-            if (error.response) {
-                switch (error.response.status) {
-                    case 401:
-                        this.unauthenticated();
-                        break;
-                    default:
-                        break;
-                }
-            }
+            this.handleError(error);
         });
     }
 
@@ -101,7 +96,7 @@ class CFileManager extends AuthenticateAble {
      * @param actionObj
      */
     onDirectoryCreating(actionObj) {
-        const url = `/api/user/${this.props.module}/${this.props.fileType}/create/folder`;
+        const url = `/api/${this.getLang()}/admin/${this.props.module}/${this.props.fileType}/create/folder`;
         const data = {
             currentPath: this.state.currentPath,
             name: actionObj.name,
@@ -115,7 +110,7 @@ class CFileManager extends AuthenticateAble {
                 console.log('new folder created successfully');
             }
         }).catch(error => {
-            console.log(error);
+            this.handleError(error);
         });
     }
 
@@ -134,7 +129,7 @@ class CFileManager extends AuthenticateAble {
         const destinationName = actionObj.destinationDirectory.dataItem.name;
         const destinationPath = actionObj.destinationDirectory.path;
 
-        const url = `/api/user/${this.props.module}/${this.props.fileType}/move/item/${id}`;
+        const url = `/api/${this.getLang()}/admin/${this.props.module}/${this.props.fileType}/move/item/${id}`;
         const data = {
             name: name,
             parentId: parentId,
@@ -149,7 +144,7 @@ class CFileManager extends AuthenticateAble {
                 Swal.fire('', `عملیات انتقال ${name} به ${destinationName} با موفقیت انجام شد.`, 'success').then(r => '');
             }
         }).catch(error => {
-            console.log(error);
+            this.handleError(error);
         });
     }
 
@@ -160,11 +155,8 @@ class CFileManager extends AuthenticateAble {
      * @param e
      */
     onItemRenaming(actionObj, e) {
-        console.log('on item renaming');
-        console.log(actionObj);
-
         const id = actionObj.item.dataItem.id;
-        const url = `/api/user/${this.props.module}/${this.props.fileType}/rename/item/${id}`;
+        const url = `/api/${this.getLang()}/admin/${this.props.module}/${this.props.fileType}/rename/item/${id}`;
 
         const oldName = actionObj.item.name;
         const newName = actionObj.newName;
@@ -182,7 +174,7 @@ class CFileManager extends AuthenticateAble {
                 });
             }
         }).catch(error => {
-            console.error(error);
+            this.handleError(error);
         });
     }
 
@@ -204,7 +196,7 @@ class CFileManager extends AuthenticateAble {
         }
 
         const id = actionObj.item.dataItem.id;
-        const url = `/api/user/${this.props.module}/${this.props.fileType}/delete/item/${id}`;
+        const url = `/api/${this.getLang()}/admin/${this.props.module}/${this.props.fileType}/delete/item/${id}`;
         const data = {
             isDir: actionObj.item.dataItem.isDirectory,
             path: actionObj.item.path
@@ -216,7 +208,7 @@ class CFileManager extends AuthenticateAble {
                 Swal.fire('', ` عملیات حذف ${name} با موفقیت انجام شد.`, 'success').then(r => '');
             }
         }).catch(error => {
-            console.log(error);
+            this.handleError(error);
         });
 
         return false;
@@ -230,7 +222,7 @@ class CFileManager extends AuthenticateAble {
      * @param nextContext
      * @returns {boolean}
      */
-    shouldComponentUpdate(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean {
+    /*shouldComponentUpdate(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean {
         let shouldUpdate = this.state.shouldUpdate;
 
         if (shouldUpdate) {
@@ -240,15 +232,14 @@ class CFileManager extends AuthenticateAble {
         }
 
         return shouldUpdate;
-    }
+    }*/
 
     /**
      * component will mount
      */
     componentWillMount() {
-        console.log('component will mount');
         this.updateDirectoryMap();
-        this.setShouldUpdate(true);
+        //this.setShouldUpdate(true);
     }
 
     /**
@@ -257,6 +248,11 @@ class CFileManager extends AuthenticateAble {
      * @returns {JSX.Element}
      */
     render() {
+
+        if(this.state.directoryTree.length === 0) {
+            return false;
+        }
+
         return (
             <FileManager
                 currentPath={this.state.currentPath}

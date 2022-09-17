@@ -14,7 +14,7 @@ import UserEdit from "./components/admin/modules/user/UserEdit";
 import ChangeAvatar from "./components/admin/modules/user/ChangeAvatar";
 import VideosManagement from "./components/admin/modules/multimedia/VideosManagement";
 import ImagesManagement from "./components/admin/modules/multimedia/ImagesManagement";
-import SoundsManagement from "./components/admin/modules/multimedia/soundsManagement";
+import SoundsManagement from "./components/admin/modules/multimedia/SoundsManagement";
 import AddEducationalGrade from "./components/admin/modules/settings/common/educationalGrades/AddEducationalGrade";
 import ContinentsList from "./components/admin/modules/settings/common/regions/continents/ContinentsList";
 import BaseComponent from "./components/admin/BaseComponent";
@@ -24,6 +24,9 @@ import CategoryCreate from "./components/admin/modules/categories/CategoryCreate
 import PersonsList from "./components/admin/modules/persons/PersonsList";
 import JobsGroupCreate from "./components/admin/modules/jobs/JobsGroupCreate";
 import JobsGroupsList from "./components/admin/modules/jobs/JobsGroupsList";
+import JobAdd from "./components/admin/modules/jobs/JobAdd";
+import JobsList from "./components/admin/modules/jobs/JobsList";
+import PersonJobsAdd from "./components/admin/modules/persons/PersonJobsAdd";
 
 /**
  * App component
@@ -122,18 +125,28 @@ class App extends BaseComponent {
                                    element={<ExpensesList/>}/>
                             <Route path='/user-edit' element={<UserEdit/>}/>
                             <Route path="/:lang/admin/modules/user/change-avatar" element={<ChangeAvatar/>}/>
-                            <Route path="/multimedia/videos-management" element={<VideosManagement/>}/>
-                            <Route path="/multimedia/images-management" element={<ImagesManagement/>}/>
-                            <Route path="/multimedia/sounds-management" element={<SoundsManagement/>}/>
+
+                            {/*Multimedia Module*/}
+                            <Route path="/:lang/admin/modules/multimedia/videos-management" element={<VideosManagement/>}/>
+                            <Route path="/:lang/admin/modules/multimedia/images-management" element={<ImagesManagement/>}/>
+                            <Route path="/:lang/admin/modules/multimedia/sounds-management" element={<SoundsManagement/>}/>
 
 
                             {/*Persons Module*/}
                             <Route path="/:lang/admin/modules/persons/add-person" element={<PersonAdd/>}/>
                             <Route path="/:lang/admin/modules/persons/persons-list" element={<PersonsList/>}/>
+                            {/*<Route path="/:lang/admin/modules/persons/jobs/person-jobs-add/:personId" element={<PersonJobsAdd/>}/>*/}
+                            <Route path="/:lang/admin/modules/persons/jobs/person-jobs-add/:personId" element={<PersonJobsAdd/>}/>
+
 
                             {/*Jobs Module*/}
                             <Route path="/:lang/admin/modules/jobs/jobs-group-create" element={<JobsGroupCreate/>}/>
                             <Route path="/:lang/admin/modules/jobs/jobs-group-list" element={<JobsGroupsList/>}/>
+
+                            <Route path="/:lang/admin/modules/jobs/job-add" element={<JobAdd/>}/>
+                            <Route path="/:lang/admin/modules/jobs/jobs-list" element={<JobsList/>}/>
+
+
 
                             {/*Categories Module*/}
                             <Route path="/:lang/admin/modules/categories/list" element={<CategoriesList/>}/>

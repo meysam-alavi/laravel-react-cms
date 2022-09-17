@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\JobsCategory;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class JobController extends Controller
 {
@@ -15,6 +17,33 @@ class JobController extends Controller
     public function index()
     {
         //
+    }
+
+    /**
+     * add new job
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function add(Request $request): JsonResponse
+    {
+        $request->validate([
+            'title' => 'required',
+            'parent_id' => 'required'
+        ]);
+
+        $result = array('data' => null, 'messages' => null, 'success' => false);
+
+        $request['created_by'] = 1;
+
+        $job = JobsCategory::query()->create($request->all());
+
+        if($job) {
+            $result['data'] = $job;
+            $result['success'] = true;
+        }
+
+        return response()->json($result);
     }
 
     /**

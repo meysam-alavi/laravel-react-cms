@@ -6,9 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * JobsGroup Class Model
+ * JobsCategory Class Model
  */
-class JobsGroup extends Model
+class JobsCategory extends Model
 {
     use HasFactory;
 
@@ -19,6 +19,7 @@ class JobsGroup extends Model
         'title',
         'description',
         'status',
+        'display_status',
         'parent_id',
         'created_by',
         'updated_by'

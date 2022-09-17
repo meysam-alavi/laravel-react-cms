@@ -14,6 +14,12 @@ class Module extends AuthenticateAble {
      */
     constructor(props) {
         super(props);
+
+        this.statusCollection = [
+            {sCKey: '', sCValue: '--'},
+            {sCKey: 'A', sCValue: 'فعال'},
+            {sCKey: 'D', sCValue: 'غیر فعال'},
+        ];
     }
 
     /**

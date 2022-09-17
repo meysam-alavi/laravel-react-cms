@@ -128,6 +128,7 @@ return array(
         "time" => "زمان",
         "available" => "موجود",
         "size" => "اندازه",
+        "status" => "وضعیت",
         "category" => "دسته بندی",
         "code" => "کد شرکت",
         "unit" => "واحد",

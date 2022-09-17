@@ -12,6 +12,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\MultimediaController;
 use App\Http\Controllers\PersonController;
 use App\Http\Controllers\JobsGroupController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\CategoryController;
 
 /*
@@ -84,7 +85,11 @@ Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
 
     // Jobs Module
     Route::post('/jobs/group/create', [JobsGroupController::class, 'create']);
-    Route::get('/jobs/group/paginate/list', [JobsGroupController::class, 'paginateList']);
+    Route::get('/jobs/groups/paginate/list', [JobsGroupController::class, 'paginateList']);
+    Route::get('/jobs/groups/all', [JobsGroupController::class, 'getAll']);
+
+    Route::post('/jobs/job/add', [JobController::class, 'add']);
+    Route::get('/jobs/jobs/list', [JobController::class, 'paginateList']);
 
 
     // Categories Module

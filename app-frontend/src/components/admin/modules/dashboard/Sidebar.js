@@ -57,17 +57,17 @@ class Sidebar extends AuthenticateAble {
                 {
                     head: {icon: 'fa fa-files-o', title: 'مدیریت چند رسانه ای'},
                     items: [{
-                        to: 'multimedia/videos-management',
+                        to: `${this.prefixModulePath}/multimedia/videos-management`,
                         icon: 'fa fa-file-video-o',
                         title: 'مدیریت ویدئوها',
                         isActive: false
                     }, {
-                        to: 'multimedia/images-management',
+                        to: `${this.prefixModulePath}/multimedia/images-management`,
                         icon: 'fa fa-file-image-o',
                         title: 'مدیریت عکس ها',
                         isActive: false
                     }, {
-                        to: 'multimedia/sounds-management',
+                        to: `${this.prefixModulePath}/multimedia/sounds-management`,
                         icon: 'fa fa-file-audio-o',
                         title: 'مدیریت صوت ها',
                         isActive: false
@@ -104,14 +104,24 @@ class Sidebar extends AuthenticateAble {
                 {
                     head: {icon: 'fa fa-navicon', title: 'مدیریت مشاغل'},
                     items: [{
+                        to: `${this.prefixModulePath}/jobs/jobs-group-create`,
+                        icon: 'fa fa-user-plus',
+                        title: 'ایجاد گروه مشاغل',
+                        isActive: false
+                    }, {
                         to: `${this.prefixModulePath}/jobs/jobs-group-list`,
                         icon: 'fa fa-list',
                         title: 'لیست گروه های مشاغل',
                         isActive: false
                     }, {
-                        to: `${this.prefixModulePath}/jobs/jobs-group-create`,
+                        to: `${this.prefixModulePath}/jobs/job-add`,
                         icon: 'fa fa-user-plus',
-                        title: 'ایجاد گروه مشاغل',
+                        title: 'افزودن شغل',
+                        isActive: false
+                    }, {
+                        to: `${this.prefixModulePath}/jobs/jobs-list`,
+                        icon: 'fa fa-user-plus',
+                        title: 'لیست مشاغل',
                         isActive: false
                     }]
                 }
@@ -123,6 +133,29 @@ class Sidebar extends AuthenticateAble {
         this.handleSelect = this.handleSelect.bind(this);
     }
 
+    /**
+     * render
+     *
+     * @returns {JSX.Element}
+     */
+    render() {
+        return (
+            <Row className="sidebar-cover">
+                <Col col={12}>
+                    <Accordion>
+                        {this.menuGenerator(this.state.menu)}
+                    </Accordion>
+                </Col>
+            </Row>
+        );
+    }
+
+    /**
+     * menu generator
+     *
+     * @param comingMenu
+     * @returns {*}
+     */
     menuGenerator(comingMenu) {
         return comingMenu.map((menuGroup, groupIndex) => {
 
@@ -149,6 +182,9 @@ class Sidebar extends AuthenticateAble {
         });
     }
 
+    /**
+     * component did mount
+     */
     componentDidMount() {
 
     }
@@ -164,23 +200,6 @@ class Sidebar extends AuthenticateAble {
         /*this.setState((state, props) => {
             return {activeKey: activeKey};
         });*/
-    }
-
-    /**
-     * render
-     *
-     * @returns {JSX.Element}
-     */
-    render() {
-        return (
-            <Row className="sidebar-cover">
-                <Col col={12}>
-                    <Accordion>
-                        {this.menuGenerator(this.state.menu)}
-                    </Accordion>
-                </Col>
-            </Row>
-        );
     }
 }
 

@@ -33,17 +33,17 @@ class JobsGroupCreate extends JobsGroupModel {
             status: ''
         };
 
-        this.statusCollection = [
-            {sCKey: 'A', sCValue: 'فعال'},
-            {sCKey: 'D', sCValue: 'غیر فعال'},
-        ];
-
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onChangeStatus = this.onChangeStatus.bind(this);
     }
 
+    /**
+     * render
+     *
+     * @returns {JSX.Element}
+     */
     render(): JSX.Element {
         return (
             <Row>
@@ -53,20 +53,20 @@ class JobsGroupCreate extends JobsGroupModel {
                     </span>
                 </Col>
                 {this.breadCrumbGenerator(this.pathInfo)}
-                <Col className="col-md-6">
+                <Col className="col-md-5">
                     {this.state.messages ? <MessagesComponent messagesBag={this.state.messages}/> : ''}
                     <Form onSubmit={this.onSubmit} className="d-block mb-3">
                         <Form.Group controlId="title" className="form-group mb-2">
                             <Form.Label className='mb-1'>عنوان:</Form.Label>
-                            <div>
-                                <Form.Control type="text" dir="auto" className="input-required"
+                            <div className="col-md-7">
+                                <Form.Control type="text" dir="auto" value={this.state.title} className="input-required"
                                               onChange={this.onChangeTitle}/>
                             </div>
                         </Form.Group>
                         <Form.Group controlId="description" className="form-group mb-2">
                             <Form.Label className="mb-1">توضیحات:</Form.Label>
                             <div>
-                                <Form.Control as="textarea" row="3" dir="auto" onChange={this.onChangeDescription}/>
+                                <Form.Control as="textarea" row="4" dir="auto" value={this.state.description} onChange={this.onChangeDescription}/>
                             </div>
                         </Form.Group>
                         <Form.Group controlId="status" className="form-group mb-2">
@@ -77,6 +77,7 @@ class JobsGroupCreate extends JobsGroupModel {
                                     optionKey="sCKey"
                                     optionValue="sCValue"
                                     dir="auto"
+                                    value={this.state.status}
                                     onChange={this.onChangeStatus}
                                 />
                             </div>
@@ -98,7 +99,13 @@ class JobsGroupCreate extends JobsGroupModel {
     onSubmit(e) {
         e.preventDefault();
 
-        this.create(this.state);
+        this.create(this.state).then(r => {
+            if(r === true) {
+                this.setState({title: ''});
+                this.setState({description: ''});
+                this.setState({status: ''});
+            }
+        });
     }
 
     /**
@@ -126,6 +133,10 @@ class JobsGroupCreate extends JobsGroupModel {
      */
     onChangeStatus(e) {
         this.setState({status: e.target.value});
+    }
+
+    shouldComponentUpdate(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean {
+        return this.state !== nextState;
     }
 }
 

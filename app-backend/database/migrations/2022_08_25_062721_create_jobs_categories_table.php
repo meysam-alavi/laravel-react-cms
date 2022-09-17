@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateJobsGroupsTable extends Migration
+class CreateJobsCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateJobsGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::create('jobs_groups', function (Blueprint $table) {
+        Schema::create('jobs_categories', function (Blueprint $table) {
             $table->id();
             $table->string('title', 60)->fulltext();
             $table->text('description')->nullable();
-            $table->enum('status', ['A', 'D'])->index();
+            $table->enum('status', ['A', 'D'])->default('D')->index();
+            $table->enum('display_status', ['A', 'D'])->default('D')->index();
             $table->integer('parent_id')->default(0)->index();
             $table->integer('created_by')->index();
             $table->integer('updated_by')->index()->nullable();
@@ -32,6 +33,6 @@ class CreateJobsGroupsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('jobs_groups');
+        Schema::dropIfExists('jobs_categories');
     }
 }

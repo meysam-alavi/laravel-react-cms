@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JobsGroup;
+use App\Models\JobsCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -21,7 +21,7 @@ class JobsGroupController extends Controller
 
 
     /**
-     * create JobsGroup
+     * create JobsCategory
      *
      * @param Request $request
      * @return JsonResponse
@@ -29,7 +29,8 @@ class JobsGroupController extends Controller
     public function create(Request $request): JsonResponse
     {
         $request->validate([
-            'title' => 'required'
+            'title' => 'required',
+            'status' => 'required'
         ]);
 
         $result = ['data' => null, 'messages' => null, 'success' => false];
@@ -37,7 +38,7 @@ class JobsGroupController extends Controller
         $request['created_by'] = 1;
         $request['updated_by'] = 1;
 
-        $jobsGroup = JobsGroup::query()->create($request->all());
+        $jobsGroup = JobsCategory::query()->create($request->all());
 
         if ($jobsGroup) {
             $result['data'] = $jobsGroup;
@@ -54,11 +55,27 @@ class JobsGroupController extends Controller
      */
     public function paginateList(): JsonResponse
     {
-        $jobsGroups = JobsGroup::query()
+        $jobsGroups = JobsCategory::query()
             ->orderBy('id', 'desc')
-            ->paginate(2);
+            ->paginate(12);
 
         return response()->json($jobsGroups);
+    }
+
+    public function getAll()
+    {
+        $result = array('data' => null, 'messages' => null, 'success' => false);
+
+        $jobsGroups = JobsCategory::query()
+            ->where('parent_id', '=', 0)
+            ->get();
+
+        if($jobsGroups->isNotEmpty()) {
+            $result['data'] = $jobsGroups;
+            $result['success'] = true;
+        }
+
+        return response()->json($result);
     }
 
     /**
@@ -75,10 +92,10 @@ class JobsGroupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param JobsGroup $jobsGroup
+     * @param JobsCategory $jobsGroup
      * @return Response
      */
-    public function show(JobsGroup $jobsGroup)
+    public function show(JobsCategory $jobsGroup)
     {
         //
     }
@@ -86,10 +103,10 @@ class JobsGroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param JobsGroup $jobsGroup
+     * @param JobsCategory $jobsGroup
      * @return Response
      */
-    public function edit(JobsGroup $jobsGroup)
+    public function edit(JobsCategory $jobsGroup)
     {
         //
     }
@@ -98,10 +115,10 @@ class JobsGroupController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param JobsGroup $jobsGroup
+     * @param JobsCategory $jobsGroup
      * @return Response
      */
-    public function update(Request $request, JobsGroup $jobsGroup)
+    public function update(Request $request, JobsCategory $jobsGroup)
     {
         //
     }
@@ -109,10 +126,10 @@ class JobsGroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param JobsGroup $jobsGroup
+     * @param JobsCategory $jobsGroup
      * @return Response
      */
-    public function destroy(JobsGroup $jobsGroup)
+    public function destroy(JobsCategory $jobsGroup)
     {
         //
     }

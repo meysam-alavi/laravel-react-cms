@@ -42,97 +42,6 @@ class VideosManagement extends MultimediaModule {
         this.resetForm();
     }
 
-    resetForm() {
-        this.state = {
-            title: '',
-            description: '',
-            video: '',
-            progress: '',
-            messages: ''
-        };
-    }
-
-    onChangeTitle(e) {
-        this.setState((state, props) => {
-            return {title: e.target.value};
-        });
-    }
-
-    onChangeDescription(e) {
-        this.setState((state, props) => {
-            return {description: e.target.value};
-        });
-    }
-
-    onChangeVideo(e) {
-        this.setState((state, props) => {
-            return {video: e.target.files[0]};
-        });
-    }
-
-    setMessages(messagesList) {
-        this.setState((state, props) => {
-            return {messages: messagesList};
-        });
-    }
-
-    onSubmit(e) {
-        e.preventDefault();
-
-        const selectedPath = document.getElementById('selected-path').value;
-
-        //TODO: validation of selected path
-        /*if (selectedPath === '') {
-
-        }*/
-
-
-        this.setMessages('');
-        this.fields.forEach(elementId => {
-            const element = document.getElementById(elementId);
-            element.classList.remove(['input-invalidate', 'input-invalidate-ltr']);
-        });
-
-
-        const url = '/api/user/multimedia/add/video';
-
-        let frmData = new FormData();
-        frmData.append('title', this.state.title)
-        frmData.append('video', this.state.video);
-        frmData.append('description', this.state.description);
-        frmData.append('selected-path', selectedPath);
-
-        let config = this.config;
-        config.headers['Content-Type'] = 'multipart/form-data';
-        config.onUploadProgress = (data) => {
-            this.setState((state, props) => {
-                return {progress: Math.round((100 * data.loaded) / data.total)};
-            });
-        };
-
-        axiosInstance.post(url, frmData, config).then(response => {
-            const result = response.data;
-            if (result.success === true) {
-                SWal.fire('', 'ارسال ویدئو با موفقیت انجام شد.!', 'success')
-                    .then(r => {
-                    });
-            }
-        }).catch(error => {
-            if (error.response) {
-                switch (error.response.status) {
-                    case 422:
-                        this.setMessages(error.response.data);
-                        break;
-                    case 401:
-                        this.unauthenticated();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-    }
-
     /**
      * render
      *
@@ -152,6 +61,108 @@ class VideosManagement extends MultimediaModule {
                 </Col>
             </Row>
         );
+    }
+
+    resetForm() {
+        this.state = {
+            title: '',
+            description: '',
+            video: '',
+            progress: '',
+            messages: ''
+        };
+    }
+
+    /**
+     * on change title
+     *
+     * @param e
+     */
+    onChangeTitle(e) {
+        this.setState((state, props) => {
+            return {title: e.target.value};
+        });
+    }
+
+    /**
+     * on change description
+     *
+     * @param e
+     */
+    onChangeDescription(e) {
+        this.setState((state, props) => {
+            return {description: e.target.value};
+        });
+    }
+
+    /**
+     * on change video
+     *
+     * @param e
+     */
+    onChangeVideo(e) {
+        this.setState((state, props) => {
+            return {video: e.target.files[0]};
+        });
+    }
+
+    setMessages(messagesList) {
+        this.setState((state, props) => {
+            return {messages: messagesList};
+        });
+    }
+
+    /**
+     * on submit
+     *
+     * @param e
+     */
+    onSubmit(e) {
+        e.preventDefault();
+
+        const selectedPath = document.getElementById('selected-path').value;
+
+        //TODO: validation of selected path
+        /*if (selectedPath === '') {
+
+        }*/
+
+
+        this.setMessages('');
+        this.fields.forEach(elementId => {
+            const element = document.getElementById(elementId);
+            element.classList.remove(['input-invalidate', 'input-invalidate-ltr']);
+        });
+
+
+        const url = `/api/${this.getLang()}/admin/multimedia/add/video`;
+
+        let frmData = new FormData();
+        frmData.append('title', this.state.title)
+        frmData.append('video', this.state.video);
+        frmData.append('description', this.state.description);
+        frmData.append('selected-path', selectedPath);
+
+        let config = this.config;
+        config.headers['Content-Type'] = 'multipart/form-data';
+        config.onUploadProgress = (data) => {
+            this.setState((state, props) => {
+                return {progress: Math.round((100 * data.loaded) / data.total)};
+            });
+        };
+
+        axiosInstance.post(url, frmData, config).then(response => {
+            const result = response.data;
+            if (result.success === true) {
+                SWal.fire(
+                    '',
+                    'ارسال ویدئو با موفقیت انجام شد.!',
+                    'success'
+                ).then(r => {});
+            }
+        }).catch(error => {
+            this.handleError(error);
+        });
     }
 }
 

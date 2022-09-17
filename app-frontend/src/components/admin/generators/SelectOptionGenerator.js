@@ -33,8 +33,7 @@ class SelectOptionGenerator extends BaseComponent {
 
 
         return (
-            <Form.Select aria-label="" name="" id="" dir={this.props.dir} className={this.props.className} onChange={this.props.onChange}>
-                <option value="">--</option>
+            <Form.Select aria-label={this.props.ariaLabel} name={this.props.name} id={this.props.id} value={this.props.value} dir={this.props.dir} className={this.props.className} onChange={this.props.onChange}>
                 {options}
             </Form.Select>
         );

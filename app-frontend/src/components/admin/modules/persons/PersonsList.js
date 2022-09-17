@@ -1,6 +1,7 @@
 import React from "react";
 import PersonModel from "./PersonModel";
 import {Table} from "react-bootstrap";
+import {Link} from "react-router-dom";
 
 /**
  * Person List Class Component
@@ -55,6 +56,7 @@ class PersonsList extends PersonModel {
                         <th>نام و نام خانوادگی</th>
                         <th>تاریخ تولد</th>
                         <th>جنسیت</th>
+                        <th>اطلاعات شغلی</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -92,6 +94,11 @@ class PersonsList extends PersonModel {
                     <td>{person.first_name} {person.last_name}</td>
                     <td>{person.birth_date}</td>
                     <td>{person.gender}</td>
+                    <td>
+                        <Link to={`/${this.getLang()}/admin/modules/persons/person-jobs-add/${person.id}`} className="d-flex mb-1">
+                            <i className="fa fa-user-plus"/>
+                        </Link>
+                    </td>
                 </tr>
             );
         });

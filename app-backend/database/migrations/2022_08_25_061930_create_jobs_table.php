@@ -15,6 +15,13 @@ class CreateJobsTable extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 60)->fulltext();
+            $table->text('description')->nullable();
+            $table->enum('status', ['A', 'D'])->index();
+            $table->enum('display_status', ['A'], 'D')->index();
+            $table->integer('parent_id')->default(0)->index();
+            $table->integer('created_by')->index();
+            $table->integer('updated_by')->index()->nullable();
             $table->timestamps();
         });
     }
