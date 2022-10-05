@@ -5,20 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\JobsCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Morilog\Jalali\Jalalian;
+
 
 class JobsGroupController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
-    public function index()
-    {
-        //
-    }
+    private static string $jobsGroupRootPath = 'public/jobs/jobs-group/';
 
+    private static array $statusToggleMap = array(
+        'A' => 'D',
+        'D' => 'A'
+    );
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
      * create JobsCategory
@@ -41,6 +44,19 @@ class JobsGroupController extends Controller
         $jobsGroup = JobsCategory::query()->create($request->all());
 
         if ($jobsGroup) {
+            $imageFile = $request->file('image');
+
+            if ($imageFile) {
+                $id = $jobsGroup->id;
+                $fileExtension = $imageFile->clientExtension();
+                $imageDir = self::$jobsGroupRootPath . $id . '/image/';
+                $imageName = $id . '.' . $fileExtension;
+                $imageFile->storeAs($imageDir, $imageName);
+
+                $jobsGroup->image = str_replace('public/', '/storage/', $imageDir . $imageName);
+                $jobsGroup->save();
+            }
+
             $result['data'] = $jobsGroup;
             $result['success'] = true;
         }
@@ -56,8 +72,17 @@ class JobsGroupController extends Controller
     public function paginateList(): JsonResponse
     {
         $jobsGroups = JobsCategory::query()
+            ->where('parent_id', '=', 0)
             ->orderBy('id', 'desc')
-            ->paginate(12);
+            ->paginate(10);
+
+
+        if ($jobsGroups->isNotEmpty()) {
+            foreach($jobsGroups as $jobsGroup) {
+                $jobsGroup->created_at = Jalalian::fromCarbon($jobsGroup->created_at);
+                $jobsGroup->updated_at = Jalalian::fromCarbon($jobsGroup->updated_at);
+            }
+        }
 
         return response()->json($jobsGroups);
     }
@@ -70,7 +95,7 @@ class JobsGroupController extends Controller
             ->where('parent_id', '=', 0)
             ->get();
 
-        if($jobsGroups->isNotEmpty()) {
+        if ($jobsGroups->isNotEmpty()) {
             $result['data'] = $jobsGroups;
             $result['success'] = true;
         }
@@ -78,59 +103,194 @@ class JobsGroupController extends Controller
         return response()->json($result);
     }
 
+    public function toggleStatus(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'status-type' => 'required'
+        ]);
+
+        $result = ['data' => null, 'messages' => null, 'success' => false];
+
+        $id = $request->input('id');
+        $statusType = $request->input('status-type');
+        $jobsGroup = JobsCategory::query()->find($id);
+
+        if ($jobsGroup) {
+            if ($statusType == 'status') {
+                $jobsGroup->status = self::$statusToggleMap[$jobsGroup->status];
+
+                $jobs = JobsCategory::query()->where('parent_id', '=', $id)->get();
+
+                if ($jobs) {
+                    foreach ($jobs as $job) {
+                        $job->status = self::$statusToggleMap[$job->status];
+                        $job->save();
+                    }
+                }
+            } else {
+                $jobsGroup->display_status = self::$statusToggleMap[$jobsGroup->display_status];
+
+                $jobs = JobsCategory::query()->where('parent_id', '=', $id)->get();
+
+                if ($jobs) {
+                    foreach ($jobs as $job) {
+                        $job->display_status = self::$statusToggleMap[$job->display_status];
+                        $job->save();
+                    }
+                }
+            }
+
+
+            $jobsGroup->save();
+
+            $result['data'] = $jobsGroup;
+            $result['success'] = true;
+        }
+
+        return response()->json($result);
+    }
+
     /**
-     * Store a newly created resource in storage.
-     *
+     * @param $lang
+     * @param $id
      * @param Request $request
-     * @return Response
+     * @return JsonResponse
      */
-    public function store(Request $request)
+    public function delete($lang, $id, Request $request): JsonResponse
     {
-        //
+        $request->merge(['id' => $id]);
+        $request->validate([
+            'id' => 'required'
+        ]);
+
+        $result = ['data' => null, 'messages' => null, 'success' => false];
+
+        $jobsOfJobsGroup = JobsCategory::query()
+            ->where('parent_id', '=', $id);
+
+        $result['messages']['errors'] = array(
+            $id => " گروه شغلی با شناسه ی {$id} دارای مشاغل می باشد."
+
+        );
+        /*if(!$jobsOfJobsGroup) {
+            $jobsGroup = JobsCategory::query()
+                ->where('id', '=', $id)
+                ->delete();
+
+            if ($jobsGroup) {
+                $result['success'] = true;
+                $result['messages'] = null;
+            }
+        }*/
+
+        return response()->json($result);
     }
 
     /**
-     * Display the specified resource.
+     * find jobs group by id
      *
-     * @param JobsCategory $jobsGroup
-     * @return Response
-     */
-    public function show(JobsCategory $jobsGroup)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param JobsCategory $jobsGroup
-     * @return Response
-     */
-    public function edit(JobsCategory $jobsGroup)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
+     * @param $lang
+     * @param $id
      * @param Request $request
-     * @param JobsCategory $jobsGroup
-     * @return Response
+     * @return JsonResponse
      */
-    public function update(Request $request, JobsCategory $jobsGroup)
+    public function findById($lang, $id, Request $request): JsonResponse
     {
-        //
+        $request->merge(['id' => $id]);
+
+        $request->validate([
+            'id' => 'required'
+        ]);
+
+        $result = ['data' => null, 'messages' => null, 'success' => false];
+
+        $jobsGroup = JobsCategory::query()->find($id);
+
+        if ($jobsGroup) {
+            $result['data'] = $jobsGroup;
+            $result['success'] = true;
+        }
+
+        return response()->json($result);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * edit jobs group info
      *
-     * @param JobsCategory $jobsGroup
-     * @return Response
+     * @param $lang
+     * @param $id
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function destroy(JobsCategory $jobsGroup)
+    public function edit($lang, $id, Request $request): JsonResponse
     {
-        //
+        $request->merge(['id' => $id]);
+        $request->validate([
+            'title' => 'required'
+        ]);
+
+        $result = ['data' => null, 'messages' => null, 'success' => false];
+
+        $jobsGroup = JobsCategory::query()->find($id);
+
+        if ($jobsGroup) {
+
+            $jobsGroup->title = $request->title;
+            $jobsGroup->description = $request->description;
+
+            $imageObject = $request->file('image');
+            if ($imageObject) {
+                $imageExtension = $imageObject->getClientOriginalExtension();
+                $imageName = $id.'.'.$imageExtension;
+
+                $imageDir = self::$jobsGroupRootPath.$id.'/image/';
+                $imageFullPath = $imageDir.$imageName;
+
+                $imageObject->storeAs($imageDir, $imageName);
+
+                $jobsGroup->image = str_replace('public/', '/storage/', $imageFullPath);
+            }
+
+            $jobsGroup->save();
+
+            $result['data'] = $jobsGroup;
+            $result['success'] = true;
+        }
+
+        return response()->json($result);
+    }
+
+    /**
+     * delete main image on jobs group
+     *
+     * @param $lang
+     * @param $jobsGroupId
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function deleteMainImage($lang, $jobsGroupId, Request $request): JsonResponse
+    {
+        $request->merge(['id' => $jobsGroupId]);
+        $request->validate([
+            'id' => 'required'
+        ]);
+
+        $result = ['data' => null, 'messages' => null, 'success' => false];
+
+        $jobsGroup = JobsCategory::query()->find($jobsGroupId);
+
+        if($jobsGroup) {
+            $imagePath = str_replace('/storage/', '/public/', $jobsGroup->image);
+            if (Storage::delete($imagePath)) {
+                $jobsGroup->image = null;
+                $jobsGroup->save();
+
+                $result['success'] = true;
+            }
+        }
+
+
+        return response()->json($result);
     }
 }

@@ -1,0 +1,41 @@
+.jobs-group-main-img-cover {
+    position: relative;
+}
+
+.jobs-group-main-img {
+    max-width: 100%;
+}
+
+.jobs-group-main-img-cover::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 6px;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+}
+
+.jobs-group-main-img-cover:hover::before,
+.jobs-group-main-img-cover:hover a {
+    display: block;
+}
+
+.jobs-group-main-img-cover a {
+    position: absolute;
+    display: none;
+    bottom: 5px;
+}
+
+.jobs-group-main-img-cover a.delete-img {
+    right: 10px;
+}
+
+.jobs-group-main-img-cover a.delete-img:hover i {
+    color: orange;
+}
+
+.jobs-group-main-img-cover a.zoom-in {
+    right: 30px;
+}

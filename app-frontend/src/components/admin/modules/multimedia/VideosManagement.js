@@ -158,7 +158,8 @@ class VideosManagement extends MultimediaModule {
                     '',
                     'ارسال ویدئو با موفقیت انجام شد.!',
                     'success'
-                ).then(r => {});
+                ).then(r => {
+                });
             }
         }).catch(error => {
             this.handleError(error);

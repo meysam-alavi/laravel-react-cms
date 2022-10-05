@@ -21,7 +21,7 @@ class PersonJobsAdd extends PersonModel {
         this.pageInfo = {
             title: 'فرم درج مشاغل شخص'
         };
-        
+
         this.pathInfo.push({
             title: this.pageInfo.title,
             href: null,

@@ -27,9 +27,10 @@ import JobsGroupsList from "./components/admin/modules/jobs/JobsGroupsList";
 import JobAdd from "./components/admin/modules/jobs/JobAdd";
 import JobsList from "./components/admin/modules/jobs/JobsList";
 import PersonJobsAdd from "./components/admin/modules/persons/PersonJobsAdd";
+import JobsGroupEdit from "./components/admin/modules/jobs/JobsGroupEdit";
 
 /**
- * App component
+ * App Class Component
  */
 class App extends BaseComponent {
     loggedIn: boolean = true;
@@ -110,7 +111,7 @@ class App extends BaseComponent {
             content = (
                 <Row>
                     <Col lg={2}><Sidebar/></Col>
-                    <Col lg={10} className="py-4">
+                    <Col lg={10} className="py-2">
                         <Routes>
                             <Route path="/" element={<ExpenseCreate/>}/>
 
@@ -142,6 +143,7 @@ class App extends BaseComponent {
                             {/*Jobs Module*/}
                             <Route path="/:lang/admin/modules/jobs/jobs-group-create" element={<JobsGroupCreate/>}/>
                             <Route path="/:lang/admin/modules/jobs/jobs-group-list" element={<JobsGroupsList/>}/>
+                            <Route path="/:lang/admin/modules/jobs/jobs-group-edit/:jobsGroupId" element={<JobsGroupEdit/>}/>
 
                             <Route path="/:lang/admin/modules/jobs/job-add" element={<JobAdd/>}/>
                             <Route path="/:lang/admin/modules/jobs/jobs-list" element={<JobsList/>}/>

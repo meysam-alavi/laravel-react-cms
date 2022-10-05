@@ -20,6 +20,16 @@ class Module extends AuthenticateAble {
             {sCKey: 'A', sCValue: 'فعال'},
             {sCKey: 'D', sCValue: 'غیر فعال'},
         ];
+
+        this.statusMap = {
+            'A': 'فعال',
+            'D': 'غیر فعال'
+        };
+
+        this.toggleStatusMap = {
+            'A': 'D',
+            'D': 'A'
+        };
     }
 
     /**

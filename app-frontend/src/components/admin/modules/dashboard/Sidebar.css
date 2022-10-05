@@ -46,6 +46,6 @@
 
 @media (min-width: 768px) {
     .sidebar-cover {
-        min-height: 450px;
+        min-height: 1000px;
     }
 }

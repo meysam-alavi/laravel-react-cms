@@ -95,7 +95,8 @@ class PersonsList extends PersonModel {
                     <td>{person.birth_date}</td>
                     <td>{person.gender}</td>
                     <td>
-                        <Link to={`/${this.getLang()}/admin/modules/persons/person-jobs-add/${person.id}`} className="d-flex mb-1">
+                        <Link to={`/${this.getLang()}/admin/modules/persons/person-jobs-add/${person.id}`}
+                              className="d-flex mb-1">
                             <i className="fa fa-user-plus"/>
                         </Link>
                     </td>
@@ -122,7 +123,7 @@ class PersonsList extends PersonModel {
                 } else {
                     result =
                         <li key={index} className='page-item'>
-                            <a className='page-link' onClick={this.handlePageNavigation.bind(this, item.url)}
+                            <a className='page-link' onClick={this.pageNavigationHandler.bind(this, item.url)}
                                href={item.url}>
                                 {item.label}
                             </a>
@@ -138,20 +139,17 @@ class PersonsList extends PersonModel {
     }
 
     /**
-     * handle page navigation
+     * page navigation handler
      *
      * @param url
      * @param e
      */
-    handlePageNavigation(url, e) {
+    pageNavigationHandler(url, e) {
         e.preventDefault();
 
         this.getPaginateList(url).then(response => {
-            const data = response.data.data;
-            const links = response.data.links;
-
-            this.setState({persons: data});
-            this.setState({links: links});
+            this.setState({persons: response.data.data});
+            this.setState({links: response.data.links});
         });
     }
 }

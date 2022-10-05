@@ -87,6 +87,11 @@ Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
     Route::post('/jobs/group/create', [JobsGroupController::class, 'create']);
     Route::get('/jobs/groups/paginate/list', [JobsGroupController::class, 'paginateList']);
     Route::get('/jobs/groups/all', [JobsGroupController::class, 'getAll']);
+    Route::put('/jobs/group/status/toggle', [JobsGroupController::class, 'toggleStatus']);
+    Route::delete('/jobs/group/delete/{id}', [JobsGroupController::class, 'delete']);
+    Route::get('/jobs/group/find/{id}', [JobsGroupController::class, 'findById']);
+    Route::post('/jobs/group/edit/{id}', [JobsGroupController::class, 'edit']);
+    Route::delete('/jobs/group/delete/image/{jobs_group_id}', [JobsGroupController::class, 'deleteMainImage']);
 
     Route::post('/jobs/job/add', [JobController::class, 'add']);
     Route::get('/jobs/jobs/list', [JobController::class, 'paginateList']);

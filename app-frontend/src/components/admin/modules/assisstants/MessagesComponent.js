@@ -39,7 +39,19 @@ class MessagesComponent extends React.Component {
                 }
 
                 const element = document.getElementById(item);
-                return element.classList.add('input-invalidate');
+                if (element) {
+                    let classes = '';
+                    switch (element.tagName) {
+                        case 'TR':
+                            classes = 'tr-invalidate';
+                            break;
+                        case 'TEXT':
+                            classes = 'input-invalidate';
+                            break;
+                    }
+
+                    return element.classList.add(classes);
+                }
             });
         });
     }

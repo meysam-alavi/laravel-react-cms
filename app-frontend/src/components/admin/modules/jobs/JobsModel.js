@@ -34,11 +34,23 @@ class JobsModel extends JobsModule {
      * @returns {Promise<boolean>}
      */
     add(data) {
-        return axiosInstance.post(this.urlAdd, data, this.config).then(response => {
+
+        let config = this.config;
+        config.headers['Content-Type'] = 'multipart/form-data';
+
+        let frmData = new FormData();
+        frmData.append('title', data.title);
+        frmData.append('description', data.description);
+        frmData.append('parent_id', data.parentId);
+        frmData.append('image', data.image);
+        frmData.append('status', data.status);
+        frmData.append('display_status', data.displayStatus);
+
+        return axiosInstance.post(this.urlAdd, frmData, config).then(response => {
             let endResult = false
             const result = response.data;
 
-            if(result.success === true) {
+            if (result.success === true) {
                 Swal.fire(
                     'درج موفق',
                     'عملیات درج با موفقیت انجام شد',

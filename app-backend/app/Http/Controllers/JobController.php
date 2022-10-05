@@ -9,6 +9,8 @@ use Illuminate\Http\JsonResponse;
 
 class JobController extends Controller
 {
+    private static $jobsRootPath = 'public/jobs/jobs/';
+
     /**
      * Display a listing of the resource.
      *
@@ -39,6 +41,20 @@ class JobController extends Controller
         $job = JobsCategory::query()->create($request->all());
 
         if($job) {
+
+            $imageFile = $request->file('image');
+            if($imageFile) {
+                $id = $job->id;
+                $imageExtension = $imageFile->clientExtension();
+                $imageName = $id.'.'.$imageExtension;
+
+                $imageDir = self::$jobsRootPath.$id.'/image/';
+                $imageFile->storeAs($imageDir, $imageName);
+
+                $job->image = str_replace('public/', '/storage/', $imageDir.$imageName);
+                $job->save();
+            }
+
             $result['data'] = $job;
             $result['success'] = true;
         }

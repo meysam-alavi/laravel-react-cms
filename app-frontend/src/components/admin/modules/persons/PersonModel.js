@@ -45,7 +45,6 @@ class PersonModel extends PersonsModule {
      */
     getPaginateList(url) {
         let urlPaginate = url ? url : this.urlPaginateList;
-        console.log(urlPaginate);
         return axiosInstance.get(urlPaginate, this.config).then(response => {
             return response;
 

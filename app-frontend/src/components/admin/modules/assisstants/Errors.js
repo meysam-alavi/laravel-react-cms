@@ -38,8 +38,8 @@ class Errors extends AuthenticateAble {
 
     componentDidMount() {
 
-        if(this.state.errorObj) {
-           this.parsError(this.state.errorObj);
+        if (this.state.errorObj) {
+            this.parsError(this.state.errorObj);
         }
 
         /*if (this.state.errorObj.response) {

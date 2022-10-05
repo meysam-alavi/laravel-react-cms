@@ -169,6 +169,10 @@ body {
     box-shadow: 1px 1px 7px #bb2d3b;
 }
 
+.tr-invalidate {
+    background-color: #f8d7da;
+}
+
 .form-label {
     font-family: shabnam-regular, serif;
 }
@@ -233,4 +237,17 @@ body {
     float: right;
     padding-right: 0;
     padding-left: .5rem;
+}
+
+.c-l-table td {
+    font: 15px/23px 'shabnam-light';
+}
+
+.c-l-table th,
+.c-l-table td {
+    padding: 8px 3px;
+}
+
+.modal-header .btn-close {
+    margin: -0.5rem auto -0.5rem -0.5rem;
 }

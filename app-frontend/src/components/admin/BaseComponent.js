@@ -37,6 +37,18 @@ class BaseComponent extends React.Component {
     render(): JSX.Element {
         return ('');
     }
+
+    reFormatDate(date, format = 'yyyy/mm/dd HH:ii:ss') {
+        if (date.length) {
+            if (format === 'yyyy/mm/dd HH:ii:ss') {
+                date = date.replaceAll('-', '/');
+                date = date.replace('T', ' ');
+                date = date.replace('.000000Z', '');
+            }
+        }
+
+        return date;
+    }
 }
 
 export default BaseComponent;

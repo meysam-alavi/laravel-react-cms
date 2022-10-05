@@ -222,6 +222,7 @@ class CFileManager extends AuthenticateAble {
      * @param nextContext
      * @returns {boolean}
      */
+
     /*shouldComponentUpdate(nextProps: Readonly<P>, nextState: Readonly<S>, nextContext: any): boolean {
         let shouldUpdate = this.state.shouldUpdate;
 
@@ -249,7 +250,7 @@ class CFileManager extends AuthenticateAble {
      */
     render() {
 
-        if(this.state.directoryTree.length === 0) {
+        if (this.state.directoryTree.length === 0) {
             return false;
         }
 

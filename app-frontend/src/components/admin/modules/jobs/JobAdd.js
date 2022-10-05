@@ -31,6 +31,7 @@ class JobAdd extends JobsModel {
         this.state = {
             title: '',
             description: '',
+            image: '',
             status: '',
             displayStatus: '',
             parentId: 1,
@@ -41,6 +42,7 @@ class JobAdd extends JobsModel {
         this.onChangeJobsGroups = this.onChangeJobsGroups.bind(this);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
+        this.onChangeImage = this.onChangeImage.bind(this);
         this.onChangeStatus = this.onChangeStatus.bind(this);
         this.onChangeDisplayStatus = this.onChangeDisplayStatus.bind(this);
     }
@@ -91,6 +93,10 @@ class JobAdd extends JobsModel {
                                               onChange={this.onChangeDescription}/>
                             </div>
                         </Form.Group>
+                        <Form.Group controlId="image" className="form-group mb-2">
+                            <Form.Label className="mb-1">عکس:</Form.Label>
+                            <Form.Control type="file" onChange={this.onChangeImage}/>
+                        </Form.Group>
                         <Form.Group controlId="status" className="form-group mb-2">
                             <Form.Label className="mb-1">وضعیت:</Form.Label>
                             <div className="col-md-7">
@@ -134,18 +140,11 @@ class JobAdd extends JobsModel {
     onSubmit(e) {
         e.preventDefault();
 
-        const data = {
-            title: this.state.title,
-            description: this.state.description,
-            parent_id: this.state.parentId,
-            status: this.state.status,
-            display_status: this.state.displayStatus
-        }
-
-        this.add(data).then(r => {
-            if(r === true) {
+        this.add(this.state).then(r => {
+            if (r === true) {
                 this.setState({title: ''});
                 this.setState({description: ''});
+                this.setState({image: ''})
                 this.setState({status: ''});
                 this.setState({displayStatus: ''});
             }
@@ -168,6 +167,15 @@ class JobAdd extends JobsModel {
      */
     onChangeDescription(e) {
         this.setState({description: e.target.value});
+    }
+
+    /**
+     * on change image
+     *
+     * @param e
+     */
+    onChangeImage(e) {
+        this.setState({image: e.target.files[0]});
     }
 
     /**

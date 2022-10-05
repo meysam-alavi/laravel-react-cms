@@ -70,7 +70,8 @@ class DashboardMiniTools extends AuthenticateAble {
                 <div className="avatar-cover">
                     <img src={this.state.avatarSliceSrc ? this.state.avatarSliceSrc : ''} alt="avatar"/>
 
-                    <Link to={this.getLang()+'/admin/modules/user/change-avatar'} id="change-avatar" className="d-flex">
+                    <Link to={this.getLang() + '/admin/modules/user/change-avatar'} id="change-avatar"
+                          className="d-flex">
                         <i className="fa fa-plus mx-auto mt-1"/>
                     </Link>
                 </div>
