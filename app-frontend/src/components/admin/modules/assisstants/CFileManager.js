@@ -3,7 +3,8 @@ import FileManager, {Column, Details, ItemView, Permissions} from 'devextreme-re
 import axiosInstance from "../../../../services/api";
 import AuthenticateAble from "../user/AuthenticateAble";
 import Swal from "sweetalert2";
-import "devextreme/dist/css/dx.material.purple.dark.compact.css";
+//import "devextreme/dist/css/dx.material.purple.dark.compact.css";
+import "devextreme/dist/css/dx.carmine.css";
 
 const allowedFileExtensions = [];
 
@@ -35,6 +36,8 @@ class CFileManager extends AuthenticateAble {
         this.onItemMoving = this.onItemMoving.bind(this);
         this.onItemRenaming = this.onItemRenaming.bind(this);
         this.onItemDeleting = this.onItemDeleting.bind(this);
+        this.onFileUploading = this.onFileUploading.bind(this);
+        this.onSelectedItem = this.onSelectedItem.bind(this);
     }
 
     /**
@@ -50,6 +53,8 @@ class CFileManager extends AuthenticateAble {
             const result = response.data;
             if (result.success === true) {
                 let directoryTree = [];
+
+                //console.log(result.data);
 
                 directoryTree.push(result.data);
                 this.setDirectoryTree(directoryTree);
@@ -214,6 +219,32 @@ class CFileManager extends AuthenticateAble {
         return false;
     }
 
+    onFileUploading(actionObj, e) {
+        //console.log(actionObj);
+
+        //const fileName = actionObj.fileData.name;
+        //const fileMimeType = actionObj.fileData.type;
+        //const fileSize = actionObj.fileData.size;
+
+        const url = `/api/${this.getLang()}/admin/${this.props.module}/${this.props.fileType}/upload/image`;
+        const data = {
+            image: actionObj.fileData,
+            parentId: actionObj.destinationDirectory.dataItem.id,
+            destination: actionObj.destinationDirectory.path
+        };
+        let config = this.config;
+        config.headers['Content-Type'] = 'multipart/form-data';
+
+        axiosInstance.post(url, data, config).then(response => {
+            console.log(response);
+        }).catch(error => {
+            this.handleError(error);
+        });
+    }
+
+    onSelectedItem(actionObj, e) {
+    }
+
     /**
      * should component update
      *
@@ -264,13 +295,18 @@ class CFileManager extends AuthenticateAble {
                 onDirectoryCreating={this.onDirectoryCreating}
                 onItemMoving={this.onItemMoving}
                 onItemRenaming={this.onItemRenaming}
-                onItemDeleting={this.onItemDeleting}>
+                onItemDeleting={this.onItemDeleting}
+                onFileUploading={this.onFileUploading}
+                onSelectionChanged={this.props.onSelectedItem}
+                selectionMode={this.props.selectionMode}
+            >
                 <Permissions
-                    create={true}
-                    //copy={true}
-                    move={true}
-                    rename={true}
-                    delete={true}>
+                    create={this.props.create}
+                    copy={this.props.copy}
+                    move={this.props.move}
+                    rename={this.props.rename}
+                    delete={this.props.delete}
+                    upload={this.props.upload}>
                 </Permissions>
                 <ItemView>
                     <Details>

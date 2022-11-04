@@ -72,6 +72,7 @@ Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
     Route::post('/multimedia/image/move/item/{id}', [MultimediaController::class, 'moveItem']);
     Route::post('/multimedia/image/rename/item/{id}', [MultimediaController::class, 'renameItem']);
     Route::post('/multimedia/image/delete/item/{id}', [MultimediaController::class, 'deleteItem']);
+    Route::post('/multimedia/image/upload/image', [MultimediaController::class, 'uploadFile']);
 
     Route::post('/multimedia/sound/create/folder', [MultimediaController::class, 'createFolder']);
     Route::post('/multimedia/sound/move/item/{id}', [MultimediaController::class, 'moveItem']);
@@ -94,6 +95,9 @@ Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
     Route::delete('/jobs/group/delete/image/{jobs_group_id}', [JobsGroupController::class, 'deleteMainImage']);
 
     Route::post('/jobs/job/add', [JobController::class, 'add']);
+    Route::get('/jobs/paginate/list', [JobController::class, 'paginateList']);
+    Route::put('/jobs/job/status/toggle/{id}', [JobController::class, 'toggleStatus']);
+    Route::delete('/jobs/job/delete/{id}', [JobController::class, 'delete']);
     Route::get('/jobs/jobs/list', [JobController::class, 'paginateList']);
 
 

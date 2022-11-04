@@ -47,46 +47,42 @@ class JobsGroupsList extends JobsGroupModel {
      */
     render(): JSX.Element {
 
-        if (this.state.jobsGroups.length) {
-            return (
-                <Row>
-                    <Col className="col-12 d-flex">
-                        <span className="admin-form-header">
-                            {this.pageInfo.title}
-                        </span>
-                    </Col>
-                    {this.breadCrumbGenerator(this.pathInfo)}
-                    <Col className="col-lg-5">
-                        {this.state.messages ? <MessagesComponent messagesBag={this.state.messages}/> : ''}
-                    </Col>
-                    <Col className="col-12">
-                        <div className="table-wrapper">
-                            <Table className="table-hover table-striped text-center c-l-table">
-                                <thead className='table-dark'>
-                                <tr>
-                                    <th>شناسه</th>
-                                    <th>عکس</th>
-                                    <th>عنوان</th>
-                                    <th>توضیحات</th>
-                                    <th>وضعیت</th>
-                                    <th>نمایش</th>
-                                    <th>تاریخ ایجاد</th>
-                                    <th>تاریخ بروزرسانی</th>
-                                    <th>عملیات</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {this.dataTable()}
-                                </tbody>
-                            </Table>
-                            {this.pager()}
-                        </div>
-                    </Col>
-                </Row>
-            );
-        }
-
-        return false;
+        return (
+            <Row>
+                <Col className="col-12 d-flex">
+                    <span className="admin-form-header">
+                        {this.pageInfo.title}
+                    </span>
+                </Col>
+                {this.breadCrumbGenerator(this.pathInfo)}
+                <Col className="col-lg-5">
+                    {this.state.messages ? <MessagesComponent messagesBag={this.state.messages}/> : ''}
+                </Col>
+                <Col className="col-12">
+                    <div className="table-wrapper">
+                        <Table className="table-hover table-striped text-center c-l-table">
+                            <thead className='table-dark'>
+                            <tr>
+                                <th>شناسه</th>
+                                <th>عکس</th>
+                                <th>عنوان</th>
+                                <th>توضیحات</th>
+                                <th>وضعیت</th>
+                                <th>نمایش</th>
+                                <th>تاریخ ایجاد</th>
+                                <th>تاریخ بروزرسانی</th>
+                                <th>عملیات</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {this.dataTable()}
+                            </tbody>
+                        </Table>
+                        {this.pager()}
+                    </div>
+                </Col>
+            </Row>
+        );
     }
 
     /**
@@ -111,7 +107,6 @@ class JobsGroupsList extends JobsGroupModel {
             let displayStatusClass = (jobsGroup.display_status === 'A') ? 'text-success' : 'text-danger';
 
             let image = '-';
-            let modal = null;
             if (jobsGroup.image) {
 
                 const src = axiosInstance.defaults.baseURL + jobsGroup.image;
@@ -142,9 +137,7 @@ class JobsGroupsList extends JobsGroupModel {
             return (
                 <tr key={index.toString()} id={jobsGroup.id}>
                     <td>{jobsGroup.id}</td>
-                    <td>
-                        {image}{modal}
-                    </td>
+                    <td>{image}</td>
                     <td>{jobsGroup.title}</td>
                     <td>{jobsGroup.description}</td>
                     <td>
@@ -177,23 +170,23 @@ class JobsGroupsList extends JobsGroupModel {
      * pager
      */
     pager() {
-        const pager = this.state.links.map((item, index) => {
+        const pager = this.state.links.map((link, index) => {
             let result = '';
 
-            if (item.url !== '') {
-                if (item.active === true) {
+            if (link.url !== '') {
+                if (link.active === true) {
                     result =
                         <li key={index} className="page-item disabled">
                             <span className="page-link">
-                                {item.label}
+                                {link.label}
                             </span>
                         </li>;
                 } else {
                     result =
                         <li key={index} className="page-item">
-                            <a className="page-link" href={item.url}
-                               onClick={this.pageNavigationHandler.bind(this, item.url)}>
-                                {item.label}
+                            <a className="page-link" href={link.url}
+                               onClick={this.pageNavigationHandler.bind(this, link.url)}>
+                                {link.label}
                             </a>
                         </li>;
                 }

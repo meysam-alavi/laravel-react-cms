@@ -173,7 +173,7 @@ class JobsGroupController extends Controller
             $id => " گروه شغلی با شناسه ی {$id} دارای مشاغل می باشد."
 
         );
-        /*if(!$jobsOfJobsGroup) {
+        if(!$jobsOfJobsGroup) {
             $jobsGroup = JobsCategory::query()
                 ->where('id', '=', $id)
                 ->delete();
@@ -182,7 +182,7 @@ class JobsGroupController extends Controller
                 $result['success'] = true;
                 $result['messages'] = null;
             }
-        }*/
+        }
 
         return response()->json($result);
     }

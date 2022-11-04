@@ -4,6 +4,8 @@ import MessagesComponent from "../assisstants/MessagesComponent";
 import SelectOptionGenerator from "../../generators/SelectOptionGenerator";
 import JobsModel from "./JobsModel";
 import JobsGroupModel from "./JobsGroupModel";
+import CFileManager from "../assisstants/CFileManager";
+import ModalGenerator from "../../generators/ModalGenerator";
 
 /**
  * Job Add Class Component
@@ -31,7 +33,7 @@ class JobAdd extends JobsModel {
         this.state = {
             title: '',
             description: '',
-            image: '',
+            imageId: '',
             status: '',
             displayStatus: '',
             parentId: 1,
@@ -42,9 +44,10 @@ class JobAdd extends JobsModel {
         this.onChangeJobsGroups = this.onChangeJobsGroups.bind(this);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
-        this.onChangeImage = this.onChangeImage.bind(this);
+        //this.onChangeImage = this.onChangeImage.bind(this);
         this.onChangeStatus = this.onChangeStatus.bind(this);
         this.onChangeDisplayStatus = this.onChangeDisplayStatus.bind(this);
+        this.onSelectedItem = this.onSelectedItem.bind(this);
     }
 
     /**
@@ -55,6 +58,24 @@ class JobAdd extends JobsModel {
         if (this.state.jobsGroupsCollection.length === 0) {
             return false;
         }
+
+        let fileManager = (
+            <div className="col-12 dx-viewport" dir="ltr">
+                <CFileManager
+                    module="multimedia"
+                    fileType="image"
+                    groupType="I"
+                    onSelectedItem={this.onSelectedItem}
+                    selectionMode="single"
+                    create={false}
+                    copy={false}
+                    move={false}
+                    rename={false}
+                    delete={false}
+                    upload={false}
+                />
+            </div>
+        );
 
         return (
             <Row>
@@ -95,7 +116,18 @@ class JobAdd extends JobsModel {
                         </Form.Group>
                         <Form.Group controlId="image" className="form-group mb-2">
                             <Form.Label className="mb-1">عکس:</Form.Label>
-                            <Form.Control type="file" onChange={this.onChangeImage}/>
+                            <div>
+                                <ModalGenerator
+                                    title="انتخاب عکس"
+                                    body={fileManager}
+                                    size="full-screen"
+                                    buttonType="a"
+                                    buttonValue={<span><i className="fa fa-image"/> انتخاب عکس </span>}
+                                    buttonClass="test"
+                                />
+                            </div>
+
+                            {/*<Form.Control type="file" onChange={this.onChangeImage}/>*/}
                         </Form.Group>
                         <Form.Group controlId="status" className="form-group mb-2">
                             <Form.Label className="mb-1">وضعیت:</Form.Label>
@@ -144,7 +176,7 @@ class JobAdd extends JobsModel {
             if (r === true) {
                 this.setState({title: ''});
                 this.setState({description: ''});
-                this.setState({image: ''})
+                this.setState({imageId: ''})
                 this.setState({status: ''});
                 this.setState({displayStatus: ''});
             }
@@ -174,9 +206,9 @@ class JobAdd extends JobsModel {
      *
      * @param e
      */
-    onChangeImage(e) {
+    /*onChangeImage(e) {
         this.setState({image: e.target.files[0]});
-    }
+    }*/
 
     /**
      * on change status
@@ -216,6 +248,22 @@ class JobAdd extends JobsModel {
                 this.setState({jobsGroupsCollection: result.data});
             }
         });
+    }
+
+    onSelectedItem(actionObj, e) {
+        console.log('test');
+        if (actionObj.selectedItems[0]) {
+            const selectedItem = actionObj.selectedItems[0];
+
+            if (selectedItem.isDirectory === false) {
+                this.setState({imageId: selectedItem.dataItem.id});
+                console.log(selectedItem.dataItem.id);
+            }
+
+
+            //console.log(actionObj.selectedItems[0].dataItem);
+        }
+
     }
 
     /**

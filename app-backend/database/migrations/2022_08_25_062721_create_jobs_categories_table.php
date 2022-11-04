@@ -29,6 +29,8 @@ class CreateJobsCategoriesTable extends Migration
                 $table->enum('display_status', ['A', 'D'])->default('D')->index();
                 $table->integer('parent_id')->default(0)->index();
                 $table->string('image', 255)->nullable();
+                $table->string('type')->index();
+                $table->integer('order')->default(1);
                 $table->integer('created_by')->index();
                 $table->integer('updated_by')->index()->nullable();
                 $table->timestamps();

@@ -28,6 +28,7 @@ import JobAdd from "./components/admin/modules/jobs/JobAdd";
 import JobsList from "./components/admin/modules/jobs/JobsList";
 import PersonJobsAdd from "./components/admin/modules/persons/PersonJobsAdd";
 import JobsGroupEdit from "./components/admin/modules/jobs/JobsGroupEdit";
+import JobEdit from "./components/admin/modules/jobs/JobEdit";
 
 /**
  * App Class Component
@@ -147,6 +148,7 @@ class App extends BaseComponent {
 
                             <Route path="/:lang/admin/modules/jobs/job-add" element={<JobAdd/>}/>
                             <Route path="/:lang/admin/modules/jobs/jobs-list" element={<JobsList/>}/>
+                            <Route path="/:lang/admin/modules/jobs/job-edit/:jobId" element={<JobEdit/>}/>
 
 
 

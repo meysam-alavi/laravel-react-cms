@@ -54,7 +54,7 @@ class JobsGroupModel extends JobsModule {
 
         return axiosInstance.post(this.urlCreate, frmData, config).then(response => {
             let endResult = false;
-            let result = response.data;
+            const result = response.data;
 
             if (result.success === true) {
                 SWal.fire(
@@ -100,7 +100,7 @@ class JobsGroupModel extends JobsModule {
     }
 
     /**
-     * delete jobs group and all child's
+     * delete jobs group
      *
      * @param id
      * @returns {Promise<AxiosResponse<any>>}

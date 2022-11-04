@@ -11,10 +11,12 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Morilog\Jalali\Jalalian;
 use phpDocumentor\Reflection\Types\Self_;
+use function MongoDB\BSON\toJSON;
 
 class MultimediaController extends Controller
 {
     public static $multimediaBasePath = '/public/multimedia';
+    public static $multimediaBasePublic = '/storage/multimedia/';
     public static $videoBasePath = '/public/multimedia/videos';
     private $multimediaDirInStorage;
 
@@ -27,6 +29,7 @@ class MultimediaController extends Controller
     }
 
     /**
+     * @param Request $request
      * @return JsonResponse
      */
     public function directoryMap(Request $request): JsonResponse
@@ -36,71 +39,63 @@ class MultimediaController extends Controller
         $groupType = $request->input('groupType');
 
         $videos = Multimedia::query()->where('group_type', '=', $groupType)->get();
+
         $directoryTree = $this->getDirectoryTree($videos);
 
-        $result['data'] = $directoryTree;
-        $result['success'] = true;
+        if (!empty($directoryTree)) {
+            $result['data'] = $directoryTree[0];
+            $result['success'] = true;
+        }
 
         return response()->json($result);
     }
 
-    private function getDirectoryTree($items, $directoryTree = [])
-    {
-        $rootId = 0;
-        if ($items->isNotEmpty()) {
-            foreach ($items as $key => $item) {
-                if ($item->parent_id == 0) {
-                    $rootId = $item->id;
-                    $root = array(
-                        'id' => $item->id,
-                        'name' => $item->name,
-                        'dateCreated' => Jalalian::forge($item->created_at)->toString(),
-                        'dateModified' => Jalalian::forge($item->updated_at)->toString(),
-                        'isDirectory' => true,
-                        'parentId' => $item->parent_id
-                    );
-                } elseif ($item->parent_id == $rootId) {
-                    $directoryTree[$item->id] = array(
-                        'id' => $item->id,
-                        'name' => $item->name,
-                        'dateCreated' => Jalalian::forge($item->created_at)->toString(),
-                        'dateModified' => Jalalian::forge($item->updated_at)->toString(),
-                        'isDirectory' => false,
-                        'parentId' => $item->parent_id
-                    );
+    private function buildTreeOld($elements, $parentId = 0) {
+        $branch = array();
 
-                    if ($item->is_dir === 'T') {
-                        $directoryTree[$item->id]['isDirectory'] = true;
-                        $directoryTree[$item->id]['items'] = $this->getChildes($items, $item->id);
-                    }
-
-                    $root['items'][] = $directoryTree[$item->id];
+        foreach ($elements as $element) {
+            if ($element['parent_id'] == $parentId) {
+                $children = $this->buildTree($elements, $element['id']);
+                if ($children) {
+                    $element['children'] = $children;
                 }
-
-                $items->forget($key);
+                $branch[] = $element;
             }
         }
 
-        return $root;
+        return $branch;
     }
 
-    private function getChildes($items, $id): array
+    /**
+     * get directory tree
+     *
+     * @param $items
+     * @param int $parentId
+     * @return array
+     */
+    private function getDirectoryTree($items, int $parentId = 0): array
     {
-        $result = array();
+        $branch = array();
         foreach ($items as $item) {
-            if ($item->parent_id == $id) {
-                $result[] = array(
-                    'id' => $item->id,
-                    'name' => $item->name,
-                    'dateCreated' => Jalalian::forge($item->created_at)->toString(),
-                    'dateModified' => Jalalian::forge($item->updated_at)->toString(),
-                    'isDirectory' => ($item->is_dir == 'T'),
-                    'parentId' => $item->parent_id
+            if ($item['parent_id'] == $parentId) {
+                $children = $this->getDirectoryTree($items, $item['id']);
+
+                $isDir = ($item['is_dir'] === 'T');
+                $item = array(
+                    'id' =>  $item['id'],
+                    'name' =>  $item['name'],
+                    'dateCreated' => Jalalian::forge($item['created_at'])->toString(),
+                    'dateModified' => Jalalian::forge($item['updated_at'])->toString(),
+                    'isDirectory' => $isDir,
+                    'parentId' => $item['parent_id'],
+                    'items' => $isDir ? $children : false,
                 );
+
+                $branch[] = $item;
             }
         }
 
-        return $result;
+       return $branch;
     }
 
     /**
@@ -169,6 +164,7 @@ class MultimediaController extends Controller
         $groupType = $request->input('groupType');
 
         $destination = self::$multimediaBasePath . '/' . $currentPath . '/' . $folderName;
+        $pathInPublic = self::$multimediaBasePublic.'/'.$currentPath;
 
         if (Storage::makeDirectory($destination)) {
             //TODO: Ability insert title and description
@@ -180,6 +176,7 @@ class MultimediaController extends Controller
                 'is_dir' => 'T',
                 'created_by' => 1,
                 'parent_id' => $parentId,
+                'extra_info' => json_encode(['path' => $pathInPublic])
             );
 
             if (Multimedia::query()->create($record)) {
@@ -306,6 +303,52 @@ class MultimediaController extends Controller
             $result['success'] = true;
         }
 
+
+        return response()->json($result);
+    }
+
+    /**
+     * upload file
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function uploadFile(Request $request):JsonResponse
+    {
+        $request->validate([
+            'image' => 'required'
+        ]);
+
+        $result = ['data' => null, 'messages' => null, 'success' => false];
+
+        $dest = $request->input('destination');
+        $parentId = $request->input('parentId');
+        $imageObj = $request->file('image');
+        $name = $imageObj->getClientOriginalName();
+        //$ext = $imageObj->getClientOriginalExtension();
+        //$fullName = $name.$ext;
+        $fullPath = $this->multimediaDirInStorage.$dest;
+        if($imageObj->storeAs($fullPath, $name)) {
+
+            $extraInfo = array(
+                'path' => self::$multimediaBasePublic.$dest
+            );
+
+            $record = array(
+                'group_type' => 'I',
+                'title' => '',
+                'description' => '',
+                'name' => $name,
+                'is_dir' => 'F',
+                'created_by' => 1,
+                'parent_id' => $parentId,
+                'extra_info' => json_encode($extraInfo)
+            );
+
+            if(Multimedia::query()->create($record)) {
+                $result['success'] = true;
+            }
+        }
 
         return response()->json($result);
     }
