@@ -98,7 +98,10 @@ Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
     Route::get('/jobs/paginate/list', [JobController::class, 'paginateList']);
     Route::put('/jobs/job/status/toggle/{id}', [JobController::class, 'toggleStatus']);
     Route::delete('/jobs/job/delete/{id}', [JobController::class, 'delete']);
+    Route::get('/jobs/job/find/{id}', [JobController::class, 'findById']);
+    Route::post('/jobs/job/edit/{id}', [JobController::class, 'edit']);
     Route::get('/jobs/jobs/list', [JobController::class, 'paginateList']);
+    Route::delete('/jobs/delete/file/{jobId}/{fileId}/{usage}', [JobController::class, 'deleteFile']);
 
 
     // Categories Module

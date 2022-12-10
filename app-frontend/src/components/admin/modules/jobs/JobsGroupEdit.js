@@ -6,6 +6,7 @@ import MessagesComponent from "../assisstants/MessagesComponent";
 import axiosInstance from "../../../../services/api";
 import "./JobsGroupEdit.css";
 import ModalGenerator from "../../generators/ModalGenerator";
+import CFileManager from "../assisstants/CFileManager";
 
 /**
  * Jobs Group Edit Class Component
@@ -33,7 +34,8 @@ class JobsGroupEdit extends JobsGroupModel {
         this.state = {
             title: '',
             description: '',
-            image: ''
+            imageId: '',
+            imagePath: ''
         };
 
         this.jobsGroupId = this.props.params.jobsGroupId;
@@ -41,7 +43,8 @@ class JobsGroupEdit extends JobsGroupModel {
         this.onSubmit = this.onSubmit.bind(this);
         this.onChangeTitle = this.onChangeTitle.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
-        this.onChangeImage = this.onChangeImage.bind(this);
+        //this.onChangeImage = this.onChangeImage.bind(this);
+        this.onSelectedItem = this.onSelectedItem.bind(this);
     }
 
     /**
@@ -82,6 +85,24 @@ class JobsGroupEdit extends JobsGroupModel {
                 </div>;
         }
 
+        const fileManager = (
+            <div className="col-12 dx-viewport" dir="ltr">
+                <CFileManager
+                    module="multimedia"
+                    fileType="image"
+                    groupType="I"
+                    onSelectedItem={this.onSelectedItem}
+                    selectionMode="single"
+                    create={false}
+                    copy={false}
+                    move={false}
+                    rename={false}
+                    delete={false}
+                    upload={false}
+                />
+            </div>
+        );
+
         return (
             <Row>
                 <Col className='col-12 d-flex'>
@@ -112,7 +133,17 @@ class JobsGroupEdit extends JobsGroupModel {
                             <div>
                                 {image}
                                 {modal}
-                                <Form.Control type="file" onChange={this.onChangeImage}/>
+                                {/*<Form.Control type="file" onChange={this.onChangeImage}/>*/}
+                            </div>
+                            <div>
+                                <ModalGenerator
+                                    title="انتخاب عکس"
+                                    body={fileManager}
+                                    size="full-screen"
+                                    buttonType="a"
+                                    buttonValue={<span><i className="fa fa-image"/> انتخاب عکس </span>}
+                                    buttonClass=""
+                                />
                             </div>
                         </Form.Group>
                         <Form.Group className="form-group mb-2">
@@ -130,7 +161,8 @@ class JobsGroupEdit extends JobsGroupModel {
                 this.setState({
                     title: result.data.title,
                     description: result.data.description,
-                    image: result.data.image
+                    imageId: result.data.imageId,
+                    imagePath: result.data.imagePath
                 });
             }
         });
@@ -174,9 +206,9 @@ class JobsGroupEdit extends JobsGroupModel {
      *
      * @param e
      */
-    onChangeImage(e) {
+    /*onChangeImage(e) {
         this.setState({image: e.target.files[0]});
-    }
+    }*/
 
     /**
      * delete main image handler
@@ -192,6 +224,21 @@ class JobsGroupEdit extends JobsGroupModel {
                 this.setState({image: null})
             }
         });
+    }
+
+    /**
+     * on selected item in file manager
+     *
+     * @param actionObj
+     * @param e
+     */
+    onSelectedItem(actionObj, e) {
+        if(actionObj.selectedItems[0]) {
+            const selectedItem = actionObj.selectedItems[0];
+            if(selectedItem.isDirectory === false) {
+                this.setState({imageId: selectedItem.dataItem.id});
+            }
+        }
     }
 }
 

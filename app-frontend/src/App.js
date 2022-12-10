@@ -29,6 +29,8 @@ import JobsList from "./components/admin/modules/jobs/JobsList";
 import PersonJobsAdd from "./components/admin/modules/persons/PersonJobsAdd";
 import JobsGroupEdit from "./components/admin/modules/jobs/JobsGroupEdit";
 import JobEdit from "./components/admin/modules/jobs/JobEdit";
+import SemesterCreate from "./components/admin/modules/exams/SemesterCreate";
+import ExamCreate from "./components/admin/modules/exams/ExamCreate";
 
 /**
  * App Class Component
@@ -150,6 +152,9 @@ class App extends BaseComponent {
                             <Route path="/:lang/admin/modules/jobs/jobs-list" element={<JobsList/>}/>
                             <Route path="/:lang/admin/modules/jobs/job-edit/:jobId" element={<JobEdit/>}/>
 
+                            {/*Semester Module*/}
+                            <Route path="/:lang/admin/modules/exams/semester-create" element={<SemesterCreate/>}/>
+                            <Route path="/:lang/admin/modules/exams/exam-create" element={<ExamCreate/>}/>
 
 
                             {/*Categories Module*/}

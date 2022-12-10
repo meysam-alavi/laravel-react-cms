@@ -124,6 +124,21 @@ class Sidebar extends AuthenticateAble {
                         title: 'لیست مشاغل',
                         isActive: false
                     }]
+                },{
+                    head: {icon: 'fa fa-try', title: 'مدیریت آزمون ها'},
+                    items: [
+                        {
+                            to: `${this.prefixModulePath}/exams/semester-create`,
+                            icon: 'fa fa-save',
+                            title: 'ایجاد نیمسال تحصیلی (ترم)',
+                            isActive: false
+                        }, {
+                            to: `${this.prefixModulePath}/exams/exam-create`,
+                            icon: 'fa fa-save',
+                            title: 'ایجاد آزمون',
+                            isActive: false
+                        }
+                    ]
                 }
             ]
         }

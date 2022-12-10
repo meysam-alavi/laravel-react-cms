@@ -22,6 +22,7 @@ class JobsModule extends Module {
         this.urlPaginateList = `/api/${this.getLang()}/admin/jobs/paginate/list`;
         this.urlBaseToggleStatus = `/api/${this.getLang()}/admin/jobs/job/status/toggle/`;
         this.urlBaseDelete = `/api/${this.getLang()}/admin/jobs/job/delete/`;
+        this.urlBaseFileDelete = `/api/${this.getLang()}/admin/jobs/delete/file/`;
 
         this.getPaginateList = this.getPaginateList.bind(this);
         this.toggleStatus = this.toggleStatus.bind(this);
@@ -69,7 +70,25 @@ class JobsModule extends Module {
      * @returns {Promise<AxiosResponse<any>>}
      */
     delete(id) {
-        return axiosInstance.delete(this.urlBaseDelete + id, this.config).then(response => {
+        const url = this.urlBaseDelete + id;
+        return axiosInstance.delete(url, this.config).then(response => {
+            return response.data;
+        }).catch(error => {
+            this.handleError();
+        });
+    }
+
+    /**
+     * delete job by id
+     *
+     * @param id
+     * @param imageId
+     * @param usage
+     * @returns {Promise<AxiosResponse<any>>}
+     */
+    deleteFile(id, imageId, usage) {
+        const url = this.urlBaseFileDelete + id + '/' + imageId + '/main-image';
+        return axiosInstance.delete(url, this.config).then(response => {
             return response.data;
         }).catch(error => {
             this.handleError();

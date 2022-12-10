@@ -3,7 +3,6 @@ import {Row, Col, Form, Button} from 'react-bootstrap';
 import MessagesComponent from "../assisstants/MessagesComponent";
 import SelectOptionGenerator from "../../generators/SelectOptionGenerator";
 import JobsModel from "./JobsModel";
-import JobsGroupModel from "./JobsGroupModel";
 import CFileManager from "../assisstants/CFileManager";
 import ModalGenerator from "../../generators/ModalGenerator";
 
@@ -36,8 +35,8 @@ class JobAdd extends JobsModel {
             imageId: '',
             status: '',
             displayStatus: '',
-            parentId: 1,
-            jobsGroupsCollection: ''
+            parentId: 0,
+            jobsGroupsCollection: 0
         }
 
         this.onSubmit = this.onSubmit.bind(this);
@@ -55,11 +54,11 @@ class JobAdd extends JobsModel {
      */
     render(): JSX.Element {
 
-        if (this.state.jobsGroupsCollection.length === 0) {
+        if (!(this.state.jobsGroupsCollection && this.state.jobsGroupsCollection.length)) {
             return false;
         }
 
-        let fileManager = (
+        const fileManager = (
             <div className="col-12 dx-viewport" dir="ltr">
                 <CFileManager
                     module="multimedia"
@@ -123,7 +122,7 @@ class JobAdd extends JobsModel {
                                     size="full-screen"
                                     buttonType="a"
                                     buttonValue={<span><i className="fa fa-image"/> انتخاب عکس </span>}
-                                    buttonClass="test"
+                                    buttonClass=""
                                 />
                             </div>
 
@@ -174,11 +173,13 @@ class JobAdd extends JobsModel {
 
         this.add(this.state).then(r => {
             if (r === true) {
-                this.setState({title: ''});
-                this.setState({description: ''});
-                this.setState({imageId: ''})
-                this.setState({status: ''});
-                this.setState({displayStatus: ''});
+                this.setState({
+                    title: '',
+                    description: '',
+                    imageId: '',
+                    status: '',
+                    displayStatus: ''
+                });
             }
         });
     }
@@ -206,6 +207,7 @@ class JobAdd extends JobsModel {
      *
      * @param e
      */
+
     /*onChangeImage(e) {
         this.setState({image: e.target.files[0]});
     }*/
@@ -237,40 +239,29 @@ class JobAdd extends JobsModel {
         this.setState({parentId: e.target.value});
     }
 
+
     /**
-     * get jobs groups collection
+     * on selected item from file manager
+     *
+     * @param actionObj
+     * @param e
      */
-    getJobsGroupsCollection() {
-        const jobsGroupObj = new JobsGroupModel();
-
-        jobsGroupObj.getAll().then(result => {
-            if (result.success === true) {
-                this.setState({jobsGroupsCollection: result.data});
-            }
-        });
-    }
-
     onSelectedItem(actionObj, e) {
-        console.log('test');
         if (actionObj.selectedItems[0]) {
             const selectedItem = actionObj.selectedItems[0];
-
             if (selectedItem.isDirectory === false) {
                 this.setState({imageId: selectedItem.dataItem.id});
-                console.log(selectedItem.dataItem.id);
             }
-
-
-            //console.log(actionObj.selectedItems[0].dataItem);
         }
-
     }
 
     /**
      * component did mount
      */
     componentDidMount() {
-        this.getJobsGroupsCollection();
+        this.getJobsGroupsCollection().then(result => {
+            this.setState({jobsGroupsCollection: result});
+        });
     }
 }
 

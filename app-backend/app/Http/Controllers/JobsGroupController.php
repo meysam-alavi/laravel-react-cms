@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FileUsage;
 use App\Models\JobsCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -44,8 +45,21 @@ class JobsGroupController extends Controller
         $jobsGroup = JobsCategory::query()->create($request->all());
 
         if ($jobsGroup) {
-            $imageFile = $request->file('image');
+            $imageId = $request->imageId;
 
+            if ($imageId) {
+                $fileUsageRow = array(
+                    'content_id' => $jobsGroup->id,
+                    'file_id' => $imageId,
+                    'module_id' => 5,
+                    'module_section' => 'job',
+                    'usage' => 'main-image'
+                );
+                FileUsage::query()->create($fileUsageRow);
+            }
+
+
+            /*$imageFile = $request->file('image');
             if ($imageFile) {
                 $id = $jobsGroup->id;
                 $fileExtension = $imageFile->clientExtension();
@@ -55,7 +69,7 @@ class JobsGroupController extends Controller
 
                 $jobsGroup->image = str_replace('public/', '/storage/', $imageDir . $imageName);
                 $jobsGroup->save();
-            }
+            }*/
 
             $result['data'] = $jobsGroup;
             $result['success'] = true;
@@ -78,7 +92,7 @@ class JobsGroupController extends Controller
 
 
         if ($jobsGroups->isNotEmpty()) {
-            foreach($jobsGroups as $jobsGroup) {
+            foreach ($jobsGroups as $jobsGroup) {
                 $jobsGroup->created_at = Jalalian::fromCarbon($jobsGroup->created_at);
                 $jobsGroup->updated_at = Jalalian::fromCarbon($jobsGroup->updated_at);
             }
@@ -173,7 +187,7 @@ class JobsGroupController extends Controller
             $id => " گروه شغلی با شناسه ی {$id} دارای مشاغل می باشد."
 
         );
-        if(!$jobsOfJobsGroup) {
+        if (!$jobsOfJobsGroup) {
             $jobsGroup = JobsCategory::query()
                 ->where('id', '=', $id)
                 ->delete();
@@ -242,10 +256,10 @@ class JobsGroupController extends Controller
             $imageObject = $request->file('image');
             if ($imageObject) {
                 $imageExtension = $imageObject->getClientOriginalExtension();
-                $imageName = $id.'.'.$imageExtension;
+                $imageName = $id . '.' . $imageExtension;
 
-                $imageDir = self::$jobsGroupRootPath.$id.'/image/';
-                $imageFullPath = $imageDir.$imageName;
+                $imageDir = self::$jobsGroupRootPath . $id . '/image/';
+                $imageFullPath = $imageDir . $imageName;
 
                 $imageObject->storeAs($imageDir, $imageName);
 
@@ -280,7 +294,7 @@ class JobsGroupController extends Controller
 
         $jobsGroup = JobsCategory::query()->find($jobsGroupId);
 
-        if($jobsGroup) {
+        if ($jobsGroup) {
             $imagePath = str_replace('/storage/', '/public/', $jobsGroup->image);
             if (Storage::delete($imagePath)) {
                 $jobsGroup->image = null;

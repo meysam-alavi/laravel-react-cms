@@ -43,12 +43,12 @@ class JobsGroupModel extends JobsModule {
     create(data) {
 
         let config = this.config;
-        config.headers['Content-Type'] = 'multipart/form-data';
+        //config.headers['Content-Type'] = 'multipart/form-data';
 
         let frmData = new FormData();
         frmData.append('title', data.title);
         frmData.append('description', data.description);
-        frmData.append('image', data.image);
+        frmData.append('imageId', data.imageId);
         frmData.append('status', data.status);
         frmData.append('display_status', data.displayStatus);
 

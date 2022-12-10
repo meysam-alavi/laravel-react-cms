@@ -6,6 +6,7 @@ import MessagesComponent from "../assisstants/MessagesComponent";
 import axiosInstance from "../../../../services/api";
 import ModalGenerator from "../../generators/ModalGenerator";
 import JobsGroupModel from "./JobsGroupModel";
+import "./JobsList.css";
 
 /**
  * Jobs List Class Component
@@ -42,6 +43,11 @@ class JobsList extends JobsModule {
         this.pager = this.pager.bind(this);
     }
 
+    /**
+     * render
+     *
+     * @returns {JSX.Element}
+     */
     render(): JSX.Element {
 
         return (
@@ -104,14 +110,19 @@ class JobsList extends JobsModule {
         });
     }
 
+    /**
+     * data table
+     *
+     * @returns {unknown[]}
+     */
     dataTable() {
         return this.state.jobs.map((job, index) => {
             const statusClass = (job.status === 'A') ? 'text-success' : 'text-danger';
             const displayStatusClass = (job.display_status === 'A') ? 'text-success' : 'text-danger';
 
             let image = '-';
-            if (job.image) {
-                const src = axiosInstance.defaults.baseURL + job.image;
+            if (job.imagePath) {
+                const src = axiosInstance.defaults.baseURL + job.imagePath;
                 const alt = job.title;
 
                 const imgThumbnailObject = <img src={src} alt={alt} className="img-thumbnail jobs-main-img-list"/>;
@@ -120,7 +131,7 @@ class JobsList extends JobsModule {
                 image =
                     <div className="jobs-main-img-cover">
                         {imgThumbnailObject}
-                        <a href="#" className="delete-img">
+                        <a href="#" className="delete-img" onClick={this.deleteFileHandler.bind(this, job.id, job.imageId, 'main-image')}>
                             <i className="fa fa-trash-o text-danger"/>
                         </a>
                         {<ModalGenerator
@@ -168,6 +179,11 @@ class JobsList extends JobsModule {
         });
     }
 
+    /**
+     * pager
+     *
+     * @returns {JSX.Element}
+     */
     pager() {
         const pager = this.state.links.map((link, index) => {
             let result = '';
@@ -233,6 +249,28 @@ class JobsList extends JobsModule {
         e.preventDefault();
 
         this.delete(id).then(result => {
+            if (result.success === true) {
+                const data = this.state.jobs.filter((job) => {
+                    return (job.id !== id);
+                });
+
+                this.setState({jobs: data});
+            }
+        });
+    }
+
+    /**
+     * delete handler
+     *
+     * @param id
+     * @param imageId
+     * @param usage
+     * @param e
+     */
+    deleteFileHandler(id, imageId, usage, e) {
+        e.preventDefault();
+
+        this.deleteFile(id, imageId, usage,).then(result => {
             if (result.success === true) {
                 const data = this.state.jobs.filter((job) => {
                     return (job.id !== id);
