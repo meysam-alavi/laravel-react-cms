@@ -2,7 +2,15 @@ import React from "react";
 import CountryModel from "./CountryModel";
 import SelectOptionGenerator from "../../../../../generators/SelectOptionGenerator";
 
+/**
+ * CountrySelectOptions class component
+ */
 class CountrySelectOptions extends CountryModel {
+    /**
+     * constructor
+     *
+     * @param props
+     */
     constructor(props) {
         super(props);
 
@@ -13,8 +21,13 @@ class CountrySelectOptions extends CountryModel {
         this.componentDidMount = this.componentDidMount.bind(this);
     }
 
+    /**
+     * render
+     *
+     * @returns {JSX.Element|boolean}
+     */
     render(): JSX.Element {
-        if (!this.state.items || this.state.items.length === 0) {
+        if ([undefined, 0].includes(this.state.items.length)) {
             return false;
         }
 
@@ -22,16 +35,28 @@ class CountrySelectOptions extends CountryModel {
             items={this.state.items}
             optionKey={this.props.optionKey}
             optionValue={this.props.optionValue}
+            optional={this.props.optional}
             onChange={this.props.onChange}
             dir={this.props.dir}/>);
     }
 
+    /**
+     * componentDidMount
+     */
     componentDidMount() {
-        this.getAll().then(result => {
+        const columns = this.props.columns ? this.props.columns : ['*'];
+        const continentId = this.props.continentId;
+
+        this.getAllByContinentId(columns, continentId).then(result => {
             this.setItems(result);
         });
     }
 
+    /**
+     * setItems
+     *
+     * @param data
+     */
     setItems(data) {
         this.setState({items: data});
     }

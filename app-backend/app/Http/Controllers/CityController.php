@@ -51,6 +51,22 @@ class CityController extends Controller
         return response()->json($result);
     }
 
+    public function citiesByCountryId($lang, $countryId, Request $request): JsonResponse
+    {
+        $result = ['data' => null, 'messages' => null, 'success' => false];
+        $columns = $request->input('columns');
+
+        $cities = City::query()->where('country_id', '=', $countryId)->get($columns);
+
+        if($cities) {
+            $result['data'] = $cities;
+            $result['success'] = true;
+        }
+
+
+        return response()->json($result);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

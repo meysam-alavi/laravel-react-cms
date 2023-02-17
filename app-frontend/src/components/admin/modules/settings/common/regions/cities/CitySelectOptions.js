@@ -2,8 +2,16 @@ import React from "react";
 import CityModel from "./CityModel";
 import SelectOptionGenerator from "../../../../../generators/SelectOptionGenerator";
 
-
+/**
+ * CitySelectOptions class component
+ */
 class CitySelectOptions extends CityModel {
+
+    /**
+     * constructor
+     *
+     * @param props
+     */
     constructor(props) {
         super(props);
 
@@ -15,8 +23,13 @@ class CitySelectOptions extends CityModel {
         this.setItems = this.setItems.bind(this);
     }
 
+    /**
+     * render
+     *
+     * @returns {JSX.Element|boolean}
+     */
     render(): JSX.Element {
-        if (!this.state.items || this.state.items.length === 0) {
+        if ([undefined, 0].includes(this.state.items.length)) {
             return false;
         }
 
@@ -25,16 +38,28 @@ class CitySelectOptions extends CityModel {
                 items={this.state.items}
                 optionKey={this.props.optionKey}
                 optionValue={this.props.optionValue}
-                onChange={this.props.onChange}/>
+                optional={this.props.optional}
+                onChange={this.props.onChange}
+                dir={this.props.dir}
+            />
         );
     }
 
+    /**
+     * component did mount
+     */
     componentDidMount() {
-        this.getAll(['geo_name_id', 'name'], this.props.condition).then(result => {
+        const columns = this.props.hasOwnProperty('columns') ? this.props.columns : ['*'];
+        this.getAll(columns, this.props.condition).then(result => {
             this.setItems(result);
         });
     }
 
+    /**
+     * set items
+     *
+     * @param data
+     */
     setItems(data) {
         this.setState({items: data});
     }

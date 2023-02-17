@@ -14,6 +14,7 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\JobsGroupController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FootballTypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,9 +55,11 @@ Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
 
     Route::post('/settings/countries/list', [CountryController::class, 'index'])->name('countries.list');
     Route::post('/settings/countries/all', [CountryController::class, 'all'])->name('countries.all');
+    Route::post('/settings/countries/{continent_id}', [CountryController::class, 'countriesByContinentId']);
 
     Route::post('/settings/cities/list', [CityController::class, 'index'])->name('cities.list');
     Route::post('/settings/cities/all', [CityController::class, 'all'])->name('cities.all');
+    Route::post('/settings/cities/{country_id}', [CityController::class, 'citiesByCountryId']);
 
 
     // Multimedia Module
@@ -103,6 +106,9 @@ Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
     Route::get('/jobs/jobs/list', [JobController::class, 'paginateList']);
     Route::delete('/jobs/delete/file/{jobId}/{fileId}/{usage}', [JobController::class, 'deleteFile']);
 
+    Route::post('/football/type/all', [FootballTypeController::class, 'getAll']);
+    Route::get('/football/type/all/parents', [FootballTypeController::class, 'getAllParents']);
+    Route::post('/football/type/add', [FootballTypeController::class, 'addType']);
 
     // Categories Module
     Route::post('/categories/list', [CategoryController::class, 'list']);

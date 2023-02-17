@@ -37,11 +37,13 @@ class ContinentController extends Controller
     /**
      * @return JsonResponse
      */
-    public function all(): JsonResponse
+    public function all(Request $request): JsonResponse
     {
         $result = ['data' => null, 'messages' => null, 'success' => false];
 
-        $continents = Continent::all();
+        $columns = $request->input('columns');
+
+        $continents = Continent::all($columns);
 
         if ($continents->isNotEmpty()) {
             $result['data'] = $continents;

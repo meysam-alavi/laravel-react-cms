@@ -56,8 +56,8 @@ class ContinentModel extends SettingsModule {
      *
      * @returns {Promise<AxiosResponse<any>|boolean>}
      */
-    async getAll() {
-        return await axiosInstance.post(this.urlAll, {}, this.config).then(response => {
+    async getAll(columns) {
+        return await axiosInstance.post(this.urlAll, {columns}, this.config).then(response => {
             const result = response.data;
 
             if (result.success === true) {

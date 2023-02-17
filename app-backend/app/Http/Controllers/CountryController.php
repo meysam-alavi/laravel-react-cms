@@ -3,25 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Models\Country;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use PhpParser\Lexer\TokenEmulator\FlexibleDocStringEmulator;
 
+/**
+ * CountryController class
+ */
 class CountryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * get all country
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function index()
-    {
-        //
-    }
-
-    public function all()
+    public function all(Request $request): JsonResponse
     {
         $result = ['data' => null, 'messages' => null, 'success' => false];
 
-        $countries = Country::all();
+        $columns = $request->input('columns');
+        $conditions = $request->input('conditions');
+
+        if (is_array($conditions) && !empty($conditions)) {
+            $countries = Country::query();
+
+            foreach ($conditions as $key => $value) {
+                $keyParts = explode(' ', $key);
+                $countries->where($keyParts[0], $keyParts[1], $value);
+            }
+
+            $countries = $countries->get($columns);
+        } else {
+            $countries = Country::all($columns);
+        }
+
 
         if ($countries->isNotEmpty()) {
             $result['data'] = $countries;
@@ -32,68 +48,32 @@ class CountryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * get countries by continentId
      *
-     * @return \Illuminate\Http\Response
+     * @param string $lang
+     * @param string $continentId
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function create()
+    public function countriesByContinentId(string $lang, string $continentId, Request $request): JsonResponse
     {
-        //
-    }
+        $request->merge(['continent_id' => $continentId]);
+        $request->validate([
+            // TODO: |exist:continents,iso2,
+            'continent_id' => 'required',
+            'columns' => 'required|array'
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $result = ['data' => null, 'messages' => null, 'success' => false];
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Country $country
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Country $country)
-    {
-        //
-    }
+        $columns = $request->input('columns', ['*']);
+        $countries = Country::query()->where('continent_id', '=', $continentId)->get($columns);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Country $country
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Country $country)
-    {
-        //
-    }
+        if ($countries->isNotEmpty()) {
+            $result['data'] = $countries;
+            $result['success'] = true;
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Country $country
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Country $country)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\Country $country
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Country $country)
-    {
-        //
+        return response()->json($result);
     }
 }

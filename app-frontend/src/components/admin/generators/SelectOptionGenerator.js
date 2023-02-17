@@ -36,6 +36,7 @@ class SelectOptionGenerator extends BaseComponent {
             <Form.Select aria-label={this.props.ariaLabel} name={this.props.name} id={this.props.id}
                          value={this.props.value} dir={this.props.dir} className={this.props.className}
                          onChange={this.props.onChange}>
+                {this.props.optional && <option value='' key='-1'>--</option>}
                 {options}
             </Form.Select>
         );

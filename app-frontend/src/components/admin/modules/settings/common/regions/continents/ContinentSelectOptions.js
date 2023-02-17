@@ -29,18 +29,28 @@ class ContinentSelectOptions extends ContinentModel {
      */
     render(): JSX.Element {
 
-        if (!this.state.items || this.state.items.length === 0) {
+        if ([undefined, 0].includes(this.state.items.length)) {
             return false;
         }
 
-        return (<SelectOptionGenerator items={this.state.items}/>);
+        return (
+            <SelectOptionGenerator
+                items={this.state.items}
+                optionKey={this.props.optionKey}
+                optionValue={this.props.optionValue}
+                optional={this.props.optional}
+                onChange={this.props.onChange}
+                dir={this.props.dir}
+            />
+        );
     }
 
     /**
      * componentDidMount
      */
     componentDidMount() {
-        this.getAll().then(result => {
+        const columns = this.props.columns ? this.props.columns : ['*'];
+        this.getAll(columns).then(result => {
             this.setItems(result);
         });
     }
