@@ -20,12 +20,12 @@ class PersonController extends Controller
     }
 
     /**
-     * create
+     * registration
      *
      * @param Request $request
      * @return JsonResponse
      */
-    public function create(Request $request): JsonResponse
+    public function registration(Request $request): JsonResponse
     {
         $request->validate([
             'first_name' => 'required|min:5',
@@ -37,14 +37,14 @@ class PersonController extends Controller
 
         $result = ['data' => null, 'messages' => null, 'success' => false];
 
-        $birthDate = $request->input('birthDate');
+        $birthDate = $request->input('birth_date');
         $birthDate = str_replace(['T', 'Z'], [' ', ''], $birthDate);
 
         $data = array(
-            'first_name' => $request->input('firstName'),
-            'last_name' => $request->input('lastName'),
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
             'birth_date' => $birthDate,
-            'national_code' => $request->input('nationalCode'),
+            'national_code' => $request->input('national_code'),
             'gender' => $request->input('gender'),
             'size' => $request->input('size')
         );
@@ -71,6 +71,24 @@ class PersonController extends Controller
             ->paginate(1);
 
         return response()->json($persons);
+    }
+
+    public function search(Request $request)
+    {
+        $result = ['data' => null, 'messages' => null, 'success' => false];
+
+        $firstName = $request->get('first_name');
+        $lastName = $request->get('last_name');
+
+        $persons = Person::query();
+        if(!empty($firstName)) {
+            $persons->where('first_name', 'like', '%'.$firstName.'%');
+
+            $result['data'] = $persons->get();
+            $result['success'] = true;
+        }
+
+        return response()->json($result);
     }
 
     /**

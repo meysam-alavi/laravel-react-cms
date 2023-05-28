@@ -1,6 +1,7 @@
 import React from "react";
 import AuthenticateAble from "./user/AuthenticateAble";
 import {Breadcrumb} from "react-bootstrap";
+import "./Module.css";
 
 /**
  * module component
@@ -30,6 +31,11 @@ class Module extends AuthenticateAble {
             'A': 'D',
             'D': 'A'
         };
+
+        this.gendersCollection = [
+            {sCKey: 'M', sCValue: 'مرد'},
+            {sCKey: 'F', sCValue: 'زن'}
+        ];
     }
 
     /**

@@ -46,6 +46,8 @@ class MessagesComponent extends React.Component {
                             classes = 'tr-invalidate';
                             break;
                         case 'TEXT':
+                        case 'INPUT':
+                        case 'SELECT':
                             classes = 'input-invalidate';
                             break;
                     }

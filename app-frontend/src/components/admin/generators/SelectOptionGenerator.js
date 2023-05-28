@@ -31,11 +31,13 @@ class SelectOptionGenerator extends BaseComponent {
             return (<option value={item[this.props.optionKey]} key={index}>{item[this.props.optionValue]}</option>);
         });
 
+        let isMultiple = this.props.isMultiple ? 'multiple' : '';
+
 
         return (
             <Form.Select aria-label={this.props.ariaLabel} name={this.props.name} id={this.props.id}
                          value={this.props.value} dir={this.props.dir} className={this.props.className}
-                         onChange={this.props.onChange}>
+                         onChange={this.props.onChange} multiple={isMultiple}>
                 {this.props.optional && <option value='' key='-1'>--</option>}
                 {options}
             </Form.Select>

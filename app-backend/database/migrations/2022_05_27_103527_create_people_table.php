@@ -18,7 +18,7 @@ class CreatePeopleTable extends Migration
             $table->string('first_name', 20)->fulltext();
             $table->string('last_name', 30)->fulltext();
             $table->timestamp('birth_date');
-            $table->string('national_code')->unique()->nullable();
+            $table->string('national_code')->unique();
             $table->string('birth_certificate_code')->nullable();
             $table->string('birth_certificate_series')->nullable();
             $table->string('birth_certificate_serial')->nullable();

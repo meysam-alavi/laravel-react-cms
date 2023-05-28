@@ -58,11 +58,13 @@ services:
       #- /bin/sh
       #- -c
       #- php artisan serve
+    depends_on:
+      - meilisearch
+      - redis
     ports:
       - "8000:80"
     networks:
-      #- app-network
-      - db
+      - app-network
 
   appdb:
     image: mysql:8.0.26
@@ -80,7 +82,9 @@ services:
     ports:
       - "3306:3306"
     networks:
-      - db
+      - app-network
+    links:
+      - meilisearch
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -94,9 +98,39 @@ services:
     ports:
       - "8443:80"
     networks:
-      - db
+      - app-network
 
+  meilisearch:
+    image: 'getmeili/meilisearch:latest'
+    ports:
+      - '${FORWARD_MEILISEARCH_PORT:-7700}:7700'
+    volumes:
+      - './app-backend/storage/app/meilisearch:/meili_data'
+    networks:
+      - app-network
+    healthcheck:
+      test: [ 'CMD', 'wget', '--no-verbose', '--spider', 'http://localhost:7700/health' ]
+      retries: 3
+      timeout: 5s
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - './app-backend/storage/app/redis:/meili_data'
+    networks:
+      - app-network
+    healthcheck:
+      test: [ 'CMD', 'wget', '--no-verbose', '--spider', 'http://localhost:7700/health' ]
+      retries: 3
+      timeout: 5s
 networks:
   app-network:
     driver: bridge
-  db:
+volumes:
+  mysql:
+    driver: local
+  redis:
+    driver: local
+  meilisearch:
+    driver: local

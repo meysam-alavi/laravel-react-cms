@@ -57,7 +57,7 @@ class LoginController extends AdminController
      */
     public function login(Request $request): JsonResponse
     {
-        $result = array('data' => null, 'messages' => null, 'success' => false);
+        $result = ['data' => null, 'messages' => null, 'success' => false];
 
         $request->validate([
             'email' => 'required|email|exists:users',
@@ -80,7 +80,7 @@ class LoginController extends AdminController
                 'avatar' => $user->avatar
             );
 
-            $token = $user->createToken($user->first_name)->plainTextToken;
+            $token = $user->createToken($user->first_name, ['update:delete'])->plainTextToken;
             $tokenSlices = explode('|', $token);
             $tokenId = $tokenSlices[0];
             $tokenCode = $tokenSlices[1];
@@ -128,7 +128,7 @@ class LoginController extends AdminController
 
         $result = ['data' => null, 'messages' => null, 'success' => false];
 
-        if ($request->user()->currentAccessToken()->delete()) {
+        if ($request->user('sanctum')->currentAccessToken()->delete()) {
             $result['success'] = true;
         }
 

@@ -19,6 +19,7 @@
 
 .sidebar-cover .accordion-item {
     margin-bottom: 0.5rem;
+    border: none;
 }
 
 .sidebar-cover .accordion-item,

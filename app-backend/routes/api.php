@@ -14,7 +14,9 @@ use App\Http\Controllers\PersonController;
 use App\Http\Controllers\JobsGroupController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\CategoryController;
+//use App\Http\Controllers\
 use App\Http\Controllers\FootballTypeController;
+use App\Http\Controllers\ClubController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +34,7 @@ Route::middleware('cors:auth:sanctum')->get('/user', function (Request $request)
 });
 
 // '[email protected]'
-Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
+Route::prefix('/{lang}/admin')->middleware('cors:auth:sanctum')->group(function () {
 
     Route::get('/expenses/paginate/list', [ExpenseController::class, 'index'])->name('expenses.all');
     Route::post('/expenses/create', [ExpenseController::class, 'store'])->name('expenses.store');
@@ -84,8 +86,9 @@ Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
 
 
     // Persons Module
-    Route::post('/person/create', [PersonController::class, 'create']);
+    Route::post('/person/registration', [PersonController::class, 'registration']);
     Route::get('/person/paginate/list', [PersonController::class, 'paginateList']);
+    Route::get('/person/paginate/search', [PersonController::class, 'search']);
 
     // Jobs Module
     Route::post('/jobs/group/create', [JobsGroupController::class, 'create']);
@@ -106,9 +109,15 @@ Route::prefix('/{lang}/admin')->middleware('auth:sanctum')->group(function () {
     Route::get('/jobs/jobs/list', [JobController::class, 'paginateList']);
     Route::delete('/jobs/delete/file/{jobId}/{fileId}/{usage}', [JobController::class, 'deleteFile']);
 
+
+    // Companies Module
+    Route::post('/companies/company/create', ['', 'createCompany']);
+
     Route::post('/football/type/all', [FootballTypeController::class, 'getAll']);
     Route::get('/football/type/all/parents', [FootballTypeController::class, 'getAllParents']);
     Route::post('/football/type/add', [FootballTypeController::class, 'addType']);
+
+    Route::post('/football/club/create', [ClubController::class, 'create']);
 
     // Categories Module
     Route::post('/categories/list', [CategoryController::class, 'list']);

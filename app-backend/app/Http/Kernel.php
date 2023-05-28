@@ -3,13 +3,13 @@
 namespace App\Http;
 
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\Cors;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustProxies;
 use App\Http\Middleware\VerifyCsrfToken;
-use Fruitcake\Cors\HandleCors;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
@@ -38,12 +38,13 @@ class Kernel extends HttpKernel
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         TrustProxies::class,
-        HandleCors::class,
+        //HandleCors::class,
         PreventRequestsDuringMaintenance::class,
         ValidatePostSize::class,
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
         #\App\Http\Middleware\CorsMiddleware::class,
+        Cors::class
     ];
 
     /**
@@ -59,14 +60,14 @@ class Kernel extends HttpKernel
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
-            SubstituteBindings::class,
+            SubstituteBindings::class
         ],
 
         'api' => [
             EnsureFrontendRequestsAreStateful::class,
-            'throttle:60,1',
-            SubstituteBindings::class,
-        ],
+            ThrottleRequests::class . ':api',
+            SubstituteBindings::class
+        ]
     ];
 
     /**
@@ -84,8 +85,9 @@ class Kernel extends HttpKernel
         'guest' => RedirectIfAuthenticated::class,
         'password.confirm' => RequirePassword::class,
         'signed' => ValidateSignature::class,
-        'throttle' => ThrottleRequests::class,
         'verified' => EnsureEmailIsVerified::class,
-        #'cors' => \App\Http\Middleware\Cors::class
+        'cors' => Cors::class,
+        /*'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+        'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class*/
     ];
 }

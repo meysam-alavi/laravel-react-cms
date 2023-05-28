@@ -1,10 +1,10 @@
-import React from "react";
-import axiosInstance from "../../../../services/api";
-import {Button, Form, Nav} from "react-bootstrap";
-import {Link} from "react-router-dom";
+import React from 'react';
+import axiosInstance from '../../../../services/api';
+import {Button, Form, Nav} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import MessagesComponent from '../assisstants/MessagesComponent';
-import ParticlesBg from "particles-bg";
-import BaseComponent from "../../BaseComponent";
+import ParticlesBg from 'particles-bg';
+import BaseComponent from '../../BaseComponent';
 
 /**
  * Authenticate able component
@@ -247,10 +247,13 @@ class AuthenticateAble extends BaseComponent {
             element.classList.remove('input-invalidate');
         });
 
-
         const sanctumCsrfUrl = '/sanctum/csrf-cookie';
         const config = {};
         axiosInstance.get(sanctumCsrfUrl, config).then(response => {
+            console.log('response::');
+            console.log(response);
+            //return false;
+
             let frmData = new FormData();
             frmData.append('email', this.state.email);
             frmData.append('password', this.state.password);

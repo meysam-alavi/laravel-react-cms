@@ -1,4 +1,4 @@
-FROM php:7.4-apache
+FROM udots23/php-8.1.0-apache-xdebug
 
 # Arguments defined in docker-compose.yaml
 ARG user
@@ -11,18 +11,19 @@ ENV \
     PHP_MAX_INPUT_TIME=36000
 
 # install system dependencies
-RUN apt-get update && \
-    apt-get install -y -qq git \
-        libzip-dev \
-        libjpeg62-turbo-dev \
-        apt-transport-https \
-        libfreetype6-dev \
-        libmcrypt-dev \
-        libpng-dev \
-        libssl-dev \
-        zip unzip \
-        wget \
-        vim
+RUN apt-get update -y
+#RUN apt-get update && \
+    #apt-get install -y -qq git \
+        #libzip-dev \
+        #libjpeg62-turbo-dev \
+        #apt-transport-https \
+        #libfreetype6-dev \
+        #libmcrypt-dev \
+        #libpng-dev \
+        #libssl-dev \
+        #zip unzip \
+        #wget \
+        #vim
 
 # Install PHP extensions
 RUN pecl install redis && docker-php-ext-enable redis
@@ -43,14 +44,32 @@ RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
 
-RUN chown -R www-data:www-data /var/www/html && a2enmod rewrite
+#RUN chown -R www-data:www-data /var/www/html && a2enmod rewrite
 
+#RUN chown -R www-data:www-data /var/www/html/.*
+#RUN chmod -R 755 /var/www/html/storage
+#RUN sudo chmod o+w ./storage/ -R
+
+#RUN chown -R www-data:www-data /var/www/html
+#RUN chown -R www-data:www-data *
+#RUN sudo chmod -R 755 /var/www/html/storage
+
+#RUN chown -R $user:$user ./storage
+#RUN find ./storage -type d -exec chmod 775 {} \;
+#RUN find ./storage -type f -exec chmod 664 {} \;
+#RUN sudo chown www-data:www-data ./bootstrap/cache -R
+#RUN find ./bootstrap/cache -type d -exec chmod 775 {} \;
+#RUN sudo chown -R www-data:www-data .env
+#RUN find .env -type d -exec chmod 775 {} \;
 
 # Set working directory
 WORKDIR /var/www/html/
 
+#RUN chown -R $user:www-data storage
+
 COPY container-init.sh .
-RUN chmod 0755 /var/www/html/container-init.sh
+#RUN chmod 0755 /var/www/html/container-init.sh
+RUN chmod 0755 container-init.sh
 RUN ./container-init.sh
 
 USER $user

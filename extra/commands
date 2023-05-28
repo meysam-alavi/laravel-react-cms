@@ -1,0 +1,74 @@
+// path: laravel-react-cms (build and run docker images)
+
+- docker-compose up -d --build
+
+
+// path: laravel-react-cms (every run project)
+
+- docker-compose up -d
+
+
+// path: app-frontend (enery run project)
+
+- npm start
+
+
+
+# run this command on host docker, for resolve permissions
+
+How to Solve Error: the stream or file “/var/www/html/storage/logs/laravel.log” could not be opened in append mode: failed to open stream: permission denied
+
+$ sudo chmod 666 /var/run/docker.sock
+
+// other way
+
+$ sestatus
+
+$ setenforce 0
+
+// other way for laravel sail
+
+# ./vendor/bin/sail up -d
+# ./vendor/bin/sail root-shell
+# chmod 775 -R ./storage/
+# exit
+
+// login as root user in container
+docker exec -it -u root backend bash
+docker-compose exec -u root backend bash
+sudo docker-compose exec backend bash
+php artisan config:clear
+php artisan optimize:clear
+php artisan storage:link
+
+
+
+// end solution
+sudo chmod -R 777 storage
+sudo chmod -R 777 bootstrap
+
+
+
+// The /var/www/html/bootstrap/cache directory must be present and writable.
+- php artisan cache:clear
+
+
+// path: app-backend (only once)
+
+- composer update
+
+- php artisan storage:link
+
+
+
+
+
+
+docker-compose run backend /bin/bash
+
+find / -type f -name "php.ini"
+
+
+// jobs creating
+
+docker-compose exec backend

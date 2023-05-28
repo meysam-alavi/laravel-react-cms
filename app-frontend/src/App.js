@@ -4,6 +4,7 @@ import {Col, Container, Navbar, Row} from "react-bootstrap";
 import {Route, Routes} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
+import CompanyCreate from "./components/admin/modules/companies/CompanyCreate";
 import ExpenseCreate from "./components/admin/modules/expenses/ExpenseCreate";
 import EditExpenseComponent from "./components/admin/modules/expenses/ExpenseEdit";
 import ExpensesList from "./components/admin/modules/expenses/ExpensesList";
@@ -18,7 +19,7 @@ import SoundsManagement from "./components/admin/modules/multimedia/SoundsManage
 import AddEducationalGrade from "./components/admin/modules/settings/common/educationalGrades/AddEducationalGrade";
 import ContinentsList from "./components/admin/modules/settings/common/regions/continents/ContinentsList";
 import BaseComponent from "./components/admin/BaseComponent";
-import PersonAdd from "./components/admin/modules/persons/PersonAdd";
+import PersonRegistration from "./components/admin/modules/persons/PersonRegistration";
 import CategoriesList from "./components/admin/modules/categories/CategoriesList";
 import CategoryCreate from "./components/admin/modules/categories/CategoryCreate";
 import PersonsList from "./components/admin/modules/persons/PersonsList";
@@ -31,6 +32,10 @@ import JobsGroupEdit from "./components/admin/modules/jobs/JobsGroupEdit";
 import JobEdit from "./components/admin/modules/jobs/JobEdit";
 import SemesterCreate from "./components/admin/modules/exams/SemesterCreate";
 import ExamCreate from "./components/admin/modules/exams/ExamCreate";
+import FootballTypeAdd from "./components/admin/modules/football/FootballTypeAdd";
+import ClubCreate from "./components/admin/modules/football/ClubCreate";
+import TeamAdd from "./components/admin/modules/football/TeamAdd";
+import Home from "./components/client/Home";
 
 /**
  * App Class Component
@@ -118,6 +123,9 @@ class App extends BaseComponent {
                         <Routes>
                             <Route path="/" element={<ExpenseCreate/>}/>
 
+                            {/*Companies Module*/}
+                            <Route path="/:lang/admin/modules/company/company-create" element={<CompanyCreate/>}/>
+
                             {/*Settings Module*/}
                             <Route path="add-educational-grade" element={<AddEducationalGrade/>}/>
                             <Route path="continents-list" element={<ContinentsList/>}/>
@@ -137,7 +145,7 @@ class App extends BaseComponent {
 
 
                             {/*Persons Module*/}
-                            <Route path="/:lang/admin/modules/persons/add-person" element={<PersonAdd/>}/>
+                            <Route path="/:lang/admin/modules/persons/add-person" element={<PersonRegistration/>}/>
                             <Route path="/:lang/admin/modules/persons/persons-list" element={<PersonsList/>}/>
                             {/*<Route path="/:lang/admin/modules/persons/jobs/person-jobs-add/:personId" element={<PersonJobsAdd/>}/>*/}
                             <Route path="/:lang/admin/modules/persons/jobs/person-jobs-add/:personId" element={<PersonJobsAdd/>}/>
@@ -156,6 +164,10 @@ class App extends BaseComponent {
                             <Route path="/:lang/admin/modules/exams/semester-create" element={<SemesterCreate/>}/>
                             <Route path="/:lang/admin/modules/exams/exam-create" element={<ExamCreate/>}/>
 
+                            {/*Football Module*/}
+                            <Route path="/:lang/admin/modules/football/football-type-add" element={<FootballTypeAdd/>}/>
+                            <Route path="/:lang/admin/modules/football/club-create" element={<ClubCreate/>}/>
+                            <Route path="/:lang/admin/modules/football/team-add" element={<TeamAdd/>}/>
 
                             {/*Categories Module*/}
                             <Route path="/:lang/admin/modules/categories/list" element={<CategoriesList/>}/>
@@ -170,6 +182,11 @@ class App extends BaseComponent {
                 <Row>
                     <Col lg={12}>
                         <Routes>
+                            <Route path="" element={<Home/>}/>
+                            {/*<Route path="/:lang">
+                                <Route path="/" element={<Home/>}/>
+                            </Route>*/}
+
                             <Route path="/:lang/admin/">
                                 <Route path="login" element={<AuthenticateAble/>}/>
                             </Route>
@@ -242,10 +259,10 @@ class App extends BaseComponent {
         let shouldUpdate = this.state.shouldUpdate;
 
         if (shouldUpdate) {
-            console.log('should update');
+            // should update
             this.setShouldUpdate(false);
         } else {
-            console.log('not require update');
+            // not require update
         }
 
         return shouldUpdate;

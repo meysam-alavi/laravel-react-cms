@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -66,7 +67,9 @@ class UserController extends Controller
     {
         $result = ['data' => null, 'messages' => null, 'success' => false];
 
-        $tokenObj = $request->user()->currentAccessToken();
+        // $request->user('sanctum')->tokenCan('update:delete');
+
+        $tokenObj = $request->user('sanctum')->currentAccessToken();
 
         if ($tokenObj) {
             //$requestToken = $request->bearerToken();

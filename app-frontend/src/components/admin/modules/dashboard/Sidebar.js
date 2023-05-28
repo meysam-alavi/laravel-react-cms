@@ -1,12 +1,12 @@
-import React from "react";
-import {Accordion, Col, Row} from "react-bootstrap";
-import AccordionItem from "react-bootstrap/AccordionItem";
-import AccordionHeader from "react-bootstrap/AccordionHeader";
-import AccordionBody from "react-bootstrap/AccordionBody";
-import {Link} from "react-router-dom";
+import React from 'react';
+import {Accordion, Col, Row} from 'react-bootstrap';
+import AccordionItem from 'react-bootstrap/AccordionItem';
+import AccordionHeader from 'react-bootstrap/AccordionHeader';
+import AccordionBody from 'react-bootstrap/AccordionBody';
+import {Link} from 'react-router-dom';
 
-import "./Sidebar.css";
-import AuthenticateAble from "../user/AuthenticateAble";
+import './Sidebar.css';
+import AuthenticateAble from '../user/AuthenticateAble';
 
 /**
  * Sidebar Class Component
@@ -27,14 +27,23 @@ class Sidebar extends AuthenticateAble {
             activeKey: 1,
             menu: [
                 {
+                    head: {icon: 'fa fa-gears', title: 'مدیریت شرکت ها'},
+                    items: [{
+                        to: `${this.prefixModulePath}/company/company-create`,
+                        icon: 'fa fa-save',
+                        title: 'ایجاد شرکت جدید',
+                        isActive: false
+                    }]
+                },
+                {
                     head: {icon: 'fa fa-gears', title: 'تنظیمات'},
                     items: [{
-                        to: 'add-educational-grade',
+                        to: `${this.prefixModulePath}/settings/add-educational-grade`,
                         icon: 'fa fa-save',
                         title: 'درج مقطع تحصیلی',
                         isActive: false
                     }, {
-                        to: 'continents-list',
+                        to: `${this.prefixModulePath}/settings/continents-list`,
                         icon: '',
                         title: 'لیست قاره ها',
                         isActive: false
@@ -43,7 +52,7 @@ class Sidebar extends AuthenticateAble {
                 {
                     head: {icon: 'fa fa-dollar', title: 'مدیریت هزینه ها'},
                     items: [{
-                        to: 'expenses-listing',
+                        to: `${this.prefixModulePath}/expenses/expenses-listing`,
                         icon: 'fa fa-list',
                         title: 'لیست هزینه ها',
                         isActive: false
@@ -124,7 +133,7 @@ class Sidebar extends AuthenticateAble {
                         title: 'لیست مشاغل',
                         isActive: false
                     }]
-                },{
+                }, {
                     head: {icon: 'fa fa-try', title: 'مدیریت آزمون ها'},
                     items: [
                         {
@@ -138,6 +147,25 @@ class Sidebar extends AuthenticateAble {
                             title: 'ایجاد آزمون',
                             isActive: false
                         }
+                    ]
+                }, {
+                    head: {icon: '', title: 'مدیریت فوتبال'},
+                    items: [{
+                        to: `${this.prefixModulePath}/football/football-type-add`,
+                        icon: '',
+                        title: 'افزودن نوع فوتبال',
+                        isActive: false
+                    }, {
+                        to: `${this.prefixModulePath}/football/club-create`,
+                        icon: '',
+                        title: 'ایجاد باشگاه جدید',
+                        isActive: false
+                    }, {
+                        to: `${this.prefixModulePath}/football/team-add`,
+                        icon: '',
+                        title: 'افزودن تیم جدید',
+                        isActive: false
+                    }
                     ]
                 }
             ]
