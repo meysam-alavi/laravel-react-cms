@@ -1,6 +1,0 @@
-token(classic): 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
-
-$ git config credential.helper store
-
-for work with terminal
-
